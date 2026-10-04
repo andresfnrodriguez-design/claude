@@ -1,0 +1,4 @@
+node_modules/
+tools/bumpmesh/vendor/
+*_textura.stl
+texturizado/

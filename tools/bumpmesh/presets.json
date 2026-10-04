@@ -1,0 +1,38 @@
+{
+  "_nota": "Valores para boquilla de 0,4 mm. Con --nozzle, el tamaño de mosaico y la profundidad se escalan en proporción. tile = tamaño de una repetición de la imagen en mm; depth = relieve máximo en mm.",
+  "agarre": {
+    "descripcion": "Moleteado en diamante para mangos, perillas y zonas de agarre",
+    "texture": "knurling",
+    "mapping": "triplanar",
+    "tile": 20,
+    "depth": 0.5
+  },
+  "agarre-cilindro": {
+    "descripcion": "Moleteado envolvente para piezas cilíndricas (perillas, mangos redondos)",
+    "texture": "knurling",
+    "mapping": "cylindrical",
+    "tile": 20,
+    "depth": 0.5
+  },
+  "antideslizante": {
+    "descripcion": "Chapa semillada para superficies de apoyo o pisado",
+    "texture": "gripSurface",
+    "mapping": "triplanar",
+    "tile": 30,
+    "depth": 0.6
+  },
+  "ocultar-capas": {
+    "descripcion": "Arenado mate fino: disimula líneas de capa y líneas de contracción",
+    "texture": "sandMatte",
+    "mapping": "triplanar",
+    "tile": 60,
+    "depth": 0.35
+  },
+  "marca": {
+    "descripcion": "Hexágonos a varias alturas, aspecto industrial o de marca",
+    "texture": "hexagons",
+    "mapping": "triplanar",
+    "tile": 30,
+    "depth": 0.5
+  }
+}
