@@ -12,9 +12,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { leer3MF, escribir3MF } from './tresmf.mjs';
+import { laminar, prusaDisponible } from './laminar.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FINS_CLI = path.join(HERE, 'vendor', 'support-fins', 'plugins', 'cli', 'support-fins.js');
+const PERFIL = path.join(HERE, 'perfiles', 'p1s_02_006.ini');
 const BED_EPS = 0.35; // como Support Fins: una cara a menos de esto de la cama apoya en ella
 const CAMA_P1S = 250; // mm útiles por eje
 const DEG = Math.PI / 180;
@@ -24,9 +27,10 @@ const DEG = Math.PI / 180;
 const AYUDA = `orientar -- orientación de impresión para figuras, con salida para Support Fins
 
 uso: node orientar.mjs --in figura.stl [opciones]
-     node orientar.mjs --in carpeta/ [opciones]       (todas las .stl y .obj)
+     node orientar.mjs --in placa.3mf --laminar --placas   (cada objeto del 3MF es una figura)
+     node orientar.mjs --in carpeta/ [opciones]            (todas las .stl, .obj y .3mf)
 
-  --in <archivo|carpeta>    STL (binario o ASCII) u OBJ
+  --in <archivo|carpeta>    STL (binario o ASCII), OBJ o 3MF (uno o varios objetos)
   --out <carpeta>           dónde escribir (por defecto <carpeta>/orientado/ o junto al archivo)
   --criterio <c>            capas (defecto) | tiempo | soportes
                               capas: la menor cantidad de capas; entre las que están dentro
@@ -41,6 +45,10 @@ uso: node orientar.mjs --in figura.stl [opciones]
   --escala <factor>         escala el modelo antes de analizar (p. ej. 1000 si viene en metros)
   --alto <mm>               escala el modelo para que mida esto de alto tal como viene (eje Z)
   --top <n>                 opciones a mostrar, defecto 5
+  --laminar                 lamina las mejores candidatas con PrusaSlicer (soporte orgánico
+                            automático) y elige la de menor tiempo real
+  --perfil <ini>            perfil de PrusaSlicer para --laminar, defecto perfiles/p1s_02_006.ini
+  --placas                  arma placas 3MF con las figuras ya giradas y repartidas en la cama
   --exportar                guarda el STL ya girado y apoyado en la cama (<nombre>_orientado.stl)
   --fins                    aplica Support Fins con la orientación ganadora (<nombre>-fins.3mf)
   --fins-args "<args>"      opciones extra para Support Fins, p. ej. "--material petg --sway"
@@ -59,6 +67,9 @@ function leerArgs(argv) {
       umbral: { type: 'string', default: '45' },
       escala: { type: 'string' }, alto: { type: 'string' },
       top: { type: 'string', default: '5' },
+      laminar: { type: 'boolean', default: false },
+      perfil: { type: 'string' },
+      placas: { type: 'boolean', default: false },
       exportar: { type: 'boolean', default: false },
       fins: { type: 'boolean', default: false },
       'fins-args': { type: 'string', default: '' },
@@ -120,11 +131,14 @@ function leerOBJ(txt) {
   return Float64Array.from(out);
 }
 
-function leerMalla(archivo) {
+/** Figuras de un archivo: una por STL/OBJ, una por objeto en un 3MF. */
+function leerFiguras(archivo) {
+  const grupo = path.basename(archivo).replace(/\.(stl|obj|3mf)$/i, '');
+  if (/\.3mf$/i.test(archivo)) return leer3MF(archivo).map((o) => ({ nombre: o.nombre, grupo, archivo, pos: o.pos, indexada: o }));
   const buf = fs.readFileSync(archivo);
-  if (/\.stl$/i.test(archivo)) return leerSTL(buf);
-  if (/\.obj$/i.test(archivo)) return leerOBJ(buf.toString('utf8'));
-  throw new Error('solo lee .stl y .obj (exporta los .3mf como STL desde Bambu Studio)');
+  if (/\.stl$/i.test(archivo)) return [{ nombre: grupo, grupo, archivo, pos: leerSTL(buf) }];
+  if (/\.obj$/i.test(archivo)) return [{ nombre: grupo, grupo, archivo, pos: leerOBJ(buf.toString('utf8')) }];
+  throw new Error('lee .stl, .obj y .3mf');
 }
 
 function escribirSTL(archivo, pos, nombre) {
@@ -148,25 +162,32 @@ function escribirSTL(archivo, pos, nombre) {
 
 // --- preparación: soldar vértices, normales, volumen ---------------------------
 
-function preparar(pos) {
-  const mapa = new Map();
-  const V = [];
-  const F = [];
-  const q = 1e4; // soldar a 0,1 micra
-  const indice = (x, y, z) => {
-    const k = `${Math.round(x * q)},${Math.round(y * q)},${Math.round(z * q)}`;
-    let i = mapa.get(k);
-    if (i === undefined) { i = V.length / 3; mapa.set(k, i); V.push(x, y, z); }
-    return i;
-  };
-  for (let p = 0; p < pos.length; p += 9) {
-    const a = indice(pos[p], pos[p + 1], pos[p + 2]);
-    const b = indice(pos[p + 3], pos[p + 4], pos[p + 5]);
-    const c = indice(pos[p + 6], pos[p + 7], pos[p + 8]);
-    if (a !== b && b !== c && a !== c) F.push(a, b, c);
+/** `indexada` ({ verts, caras }, de un 3MF) se usa tal cual; si no, se sueldan los vértices de la sopa. */
+function preparar(pos, indexada = null, escala = 1) {
+  let verts, caras;
+  if (indexada) {
+    verts = escala === 1 ? Float64Array.from(indexada.verts) : indexada.verts.map((v) => v * escala);
+    caras = Int32Array.from(indexada.caras);
+  } else {
+    const mapa = new Map();
+    const V = [];
+    const F = [];
+    const q = 1e4; // soldar a 0,1 micra
+    const indice = (x, y, z) => {
+      const k = `${Math.round(x * q)},${Math.round(y * q)},${Math.round(z * q)}`;
+      let i = mapa.get(k);
+      if (i === undefined) { i = V.length / 3; mapa.set(k, i); V.push(x, y, z); }
+      return i;
+    };
+    for (let p = 0; p < pos.length; p += 9) {
+      const a = indice(pos[p], pos[p + 1], pos[p + 2]);
+      const b = indice(pos[p + 3], pos[p + 4], pos[p + 5]);
+      const c = indice(pos[p + 6], pos[p + 7], pos[p + 8]);
+      if (a !== b && b !== c && a !== c) F.push(a, b, c);
+    }
+    verts = Float64Array.from(V);
+    caras = Int32Array.from(F);
   }
-  const verts = Float64Array.from(V);
-  const caras = Int32Array.from(F);
   const nF = caras.length / 3;
 
   // volumen con signo y centro de masa (tetraedros contra el origen)
@@ -576,8 +597,8 @@ function vecinos(d, grados) {
 
 // --- una figura ---------------------------------------------------------------
 
-function analizar(archivo, op) {
-  let pos = leerMalla(archivo);
+function analizar(fig, op) {
+  let pos = fig.pos;
   let escala = op.escala ?? 1;
   if (op.alto) {
     let zmin = Infinity, zmax = -Infinity;
@@ -585,7 +606,7 @@ function analizar(archivo, op) {
     escala = op.alto / (zmax - zmin);
   }
   if (escala !== 1) pos = pos.map((v) => v * escala);
-  const m = preparar(pos);
+  const m = preparar(pos, fig.indexada ?? null, escala);
 
   let r2 = 0;
   for (let i = 0; i < m.verts.length; i += 3) {
@@ -624,7 +645,126 @@ function analizar(archivo, op) {
   }
   const ranking = ordenar(evaluados, op.criterio, op.tolerancia);
   const original = evaluados.find((r) => r.rot.every((a) => a === 0)) ?? evaluar(m, candidato([0, 0, -1]), cfg);
-  return { archivo, m, escala, pos, cfg, original, ranking, mejores: distintos(ranking, op.top), evaluados: evaluados.length };
+  return { fig, archivo: fig.archivo, nombre: fig.nombre, m, escala, pos, cfg, original, ranking,
+    mejores: distintos(ranking, op.top), evaluados: evaluados.length };
+}
+
+// --- laminado real ------------------------------------------------------------
+
+/** Pose: posiciones giradas con R, centradas en XY y apoyadas en z = 0. */
+function posar(pos, R) {
+  const P = new Float64Array(pos.length);
+  let zmin = Infinity, x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  for (let i = 0; i < P.length; i += 3) {
+    const x = pos[i], y = pos[i + 1], z = pos[i + 2];
+    P[i] = R[0] * x + R[1] * y + R[2] * z; P[i + 1] = R[3] * x + R[4] * y + R[5] * z; P[i + 2] = R[6] * x + R[7] * y + R[8] * z;
+    if (P[i + 2] < zmin) zmin = P[i + 2];
+    if (P[i] < x0) x0 = P[i]; if (P[i] > x1) x1 = P[i]; if (P[i + 1] < y0) y0 = P[i + 1]; if (P[i + 1] > y1) y1 = P[i + 1];
+  }
+  for (let i = 0; i < P.length; i += 3) { P[i] -= (x0 + x1) / 2; P[i + 1] -= (y0 + y1) / 2; P[i + 2] -= zmin; }
+  return P;
+}
+
+/**
+ * Lamina la original y las mejores de cada criterio, y reordena por tiempo real.
+ * Las tres listas cubren lo que la estimación puede errar: menos capas, menos
+ * tiempo estimado y menos soporte.
+ */
+async function laminarCandidatas(res, op, carpetaTmp) {
+  const elegidas = [res.original];
+  const sumar = (lista, n) => {
+    for (const r of distintos(lista, n)) if (elegidas.every((e) => dot(e.abajo, r.abajo) < Math.cos(10 * DEG))) elegidas.push(r);
+  };
+  sumar(ordenar(res.ranking, 'capas', op.tolerancia), 3);
+  sumar(ordenar(res.ranking, 'tiempo', op.tolerancia), 2);
+  sumar(ordenar(res.ranking, 'soportes', op.tolerancia), 1);
+  const stl = path.join(carpetaTmp, `${res.nombre.replace(/[^\w.-]+/g, '_')}_candidata.stl`);
+  for (const r of elegidas) {
+    escribirSTL(stl, posar(res.pos, r.R), res.nombre);
+    r.real = await laminar(stl, op.perfil, op.capa, op.boquilla);
+  }
+  fs.rmSync(stl, { force: true });
+  const ok = elegidas.filter((r) => r.real && r.real.tiempo_s);
+  if (!ok.length) throw new Error(`PrusaSlicer no pudo laminar: ${elegidas[0].real?.error ?? 'sin detalle'}`);
+  ok.sort((a, b) => a.real.tiempo_s - b.real.tiempo_s);
+  res.laminadas = elegidas;
+  res.mejores = [ok[0], ...distintos(res.ranking.filter((r) => r !== ok[0]), op.top - 1)];
+}
+
+// --- placas -------------------------------------------------------------------
+
+/** Giro en Z que deja la huella más chica (rectángulo mínimo del casco convexo). */
+function giroHuella(P) {
+  const pts = [];
+  const paso = Math.max(3, Math.floor(P.length / 3 / 20000)) * 3;
+  for (let i = 0; i < P.length; i += paso) pts.push(P[i], P[i + 1]);
+  const h = cascoConvexo(pts);
+  let mejor = { area: Infinity, ang: 0, w: 0, d: 0 };
+  for (let g = 0; g < 180; g += 1) {
+    const c = Math.cos(g * DEG), s = Math.sin(g * DEG);
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    for (const [x, y] of h) {
+      const u = c * x - s * y, v = s * x + c * y;
+      if (u < x0) x0 = u; if (u > x1) x1 = u; if (v < y0) y0 = v; if (v > y1) y1 = v;
+    }
+    const w = x1 - x0, d = y1 - y0;
+    if (w * d < mejor.area - 1e-9) mejor = { area: w * d, ang: w >= d ? g : g + 90, w: Math.max(w, d), d: Math.min(w, d) };
+  }
+  return mejor;
+}
+
+/**
+ * Reparte las figuras de un grupo en placas del P1S por filas (las más anchas
+ * primero). Devuelve las rutas de los 3MF escritos.
+ */
+function armarPlacas(grupo, figuras, carpeta, separacion = 6, margen = 8, cama = 256) {
+  const piezas = figuras.map(({ res, R }) => {
+    const P = posar(res.m.verts, R);
+    const g = giroHuella(P);
+    const c = Math.cos(g.ang * DEG), s = Math.sin(g.ang * DEG);
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    for (let i = 0; i < P.length; i += 3) {
+      const x = P[i], y = P[i + 1];
+      P[i] = c * x - s * y; P[i + 1] = s * x + c * y;
+      if (P[i] < x0) x0 = P[i]; if (P[i] > x1) x1 = P[i]; if (P[i + 1] < y0) y0 = P[i + 1]; if (P[i + 1] > y1) y1 = P[i + 1];
+    }
+    for (let i = 0; i < P.length; i += 3) { P[i] -= x0; P[i + 1] -= y0; }
+    return { nombre: res.nombre, P, caras: res.m.caras, w: x1 - x0, d: y1 - y0 };
+  }).sort((a, b) => b.d - a.d || b.w - a.w);
+
+  const util = cama - 2 * margen;
+  const placas = [];
+  for (const p of piezas) {
+    if (p.w > util || p.d > util) throw new Error(`${p.nombre} no entra en la cama (${p.w.toFixed(0)} × ${p.d.toFixed(0)} mm)`);
+    let ubicada = false;
+    for (const pl of placas) {
+      for (const fila of pl.filas) {
+        if (fila.x + p.w <= util && p.d <= fila.alto) { p.x = fila.x; p.y = fila.y; fila.x += p.w + separacion; ubicada = true; break; }
+      }
+      if (!ubicada && pl.y + p.d <= util) {
+        const fila = { y: pl.y, alto: p.d, x: p.w + separacion };
+        pl.filas.push(fila); pl.y += p.d + separacion; p.x = 0; p.y = fila.y; ubicada = true;
+      }
+      if (ubicada) { pl.piezas.push(p); break; }
+    }
+    if (!ubicada) {
+      placas.push({ filas: [{ y: 0, alto: p.d, x: p.w + separacion }], y: p.d + separacion, piezas: [p] });
+      p.x = 0; p.y = 0;
+    }
+  }
+  return placas.map((pl, k) => {
+    // centrar el conjunto en la cama
+    const ancho = Math.max(...pl.piezas.map((p) => p.x + p.w)), fondo = Math.max(...pl.piezas.map((p) => p.y + p.d));
+    const ox = (cama - ancho) / 2, oy = (cama - fondo) / 2;
+    const objetos = pl.piezas.map((p) => {
+      const pos = new Float64Array(p.P.length);
+      for (let i = 0; i < pos.length; i += 3) { pos[i] = p.P[i] + p.x + ox; pos[i + 1] = p.P[i + 1] + p.y + oy; pos[i + 2] = p.P[i + 2]; }
+      return { nombre: p.nombre, verts: pos, caras: p.caras };
+    });
+    const archivo = path.join(carpeta, placas.length > 1 ? `${grupo}_orientado_${k + 1}.3mf` : `${grupo}_orientado.3mf`);
+    escribir3MF(archivo, objetos);
+    return { archivo, figuras: pl.piezas.map((p) => p.nombre) };
+  });
 }
 
 // --- salida -------------------------------------------------------------------
@@ -643,7 +783,7 @@ function fila(etq, r) {
 function informe(res, op) {
   const { m, original, mejores } = res;
   const L = [];
-  L.push(`\n${path.basename(res.archivo)}  (${m.areas.length.toLocaleString('es-AR')} triángulos, ${cm3(m.volumen)} cm³${res.escala !== 1 ? `, escala ×${redondear(res.escala, 4)}` : ''})`);
+  L.push(`\n${res.nombre}  (${m.areas.length.toLocaleString('es-AR')} triángulos, ${cm3(m.volumen)} cm³${res.escala !== 1 ? `, escala ×${redondear(res.escala, 4)}` : ''})`);
   if (m.invertida) L.push('  aviso: las normales venían hacia adentro; se analizaron dadas vuelta (revisa el modelo)');
   if (m.bordes) L.push(`  aviso: ${m.bordes} aristas abiertas o no-manifold: repáralo en Bambu Studio antes de imprimir; el soporte medido puede fallar`);
   if (Math.max(original.ancho, original.fondo, original.alto) < 5) L.push('  aviso: mide menos de 5 mm: ¿viene en metros o centímetros? usa --escala o --alto');
@@ -655,14 +795,26 @@ function informe(res, op) {
   mejores.forEach((r, i) => L.push(fila(i === 0 ? 'MEJOR' : `#${i + 1}`, r)));
   const b = mejores[0];
   const masRapida = [...res.ranking].sort((x, y) => x.tiempo - y.tiempo)[0];
+  if (res.laminadas) {
+    L.push('');
+    L.push(`  Laminadas con PrusaSlicer (soporte orgánico automático):`);
+    L.push(`  ${'--rot X,Y,Z'.padEnd(24)} ${'capas'.padStart(6)} ${'tiempo real'.padStart(12)} ${'filamento'.padStart(10)} ${'de soporte'.padStart(11)}`);
+    for (const r of [...res.laminadas].sort((x, y) => (x.real?.tiempo_s ?? Infinity) - (y.real?.tiempo_s ?? Infinity))) {
+      const etq = r === b ? ' ←' : r === original ? ' (como viene)' : '';
+      L.push(r.real?.tiempo_s
+        ? `  ${fmtRot(r).padEnd(24)} ${String(r.capas).padStart(6)} ${hm(r.real.tiempo_s).padStart(12)} ${`${r.real.filamento_g.toFixed(1)} g`.padStart(10)} ${`${r.real.soporte_g.toFixed(1)} g`.padStart(11)}${etq}`
+        : `  ${fmtRot(r).padEnd(24)} no se pudo laminar: ${r.real?.error ?? ''}`);
+    }
+  }
   L.push('');
   L.push(`  Support Fins: --rot ${fmtRot(b)}   (en printfins.com: X ${b.rot[0]} · Y ${b.rot[1]} · Z ${b.rot[2]})`);
   const dc = original.capas - b.capas;
-  L.push(`  frente a como viene: ${dc >= 0 ? `${dc} capas menos` : `${-dc} capas más`}, tiempo ${hm(original.tiempo)} → ${hm(b.tiempo)}`);
-  if (masRapida !== b && masRapida.tiempo < b.tiempo * 0.95) {
+  const [t0, t1] = b.real && original.real?.tiempo_s ? [original.real.tiempo_s, b.real.tiempo_s] : [original.tiempo, b.tiempo];
+  L.push(`  frente a como viene: ${dc >= 0 ? `${dc} capas menos` : `${-dc} capas más`}, tiempo ${hm(t0)} → ${hm(t1)}${b.real ? ' (PrusaSlicer)' : ' (estimado)'}`);
+  if (!res.laminadas && masRapida !== b && masRapida.tiempo < b.tiempo * 0.95) {
     L.push(`  ojo: la más rápida estimada es --rot ${fmtRot(masRapida)} (${masRapida.capas} capas, ${hm(masRapida.tiempo)}); prueba --criterio tiempo`);
   }
-  if (!b.estable) L.push('  apoyo chico o centro de masa fuera del apoyo: deja el bed pad de Support Fins en Auto (o brim) para que no se despegue');
+  if (!b.estable) L.push('  apoyo chico o centro de masa fuera del apoyo: usa brim (o el bed pad de Support Fins) para que no se despegue');
   if (b.volSopFigura >= 50) L.push(`  ${cm3(b.volSopFigura)} cm³ de soporte apoyan sobre la propia figura (${b.areaSopFigura.toFixed(0)} mm² de marcas posibles)`);
   if (!b.entraEnCama) L.push('  no entra en la cama del P1S en ninguna orientación evaluada: escálalo o córtalo');
   L.push(`  (${res.evaluados} orientaciones evaluadas en detalle)`);
@@ -672,16 +824,16 @@ function informe(res, op) {
 function resumenJSON(res) {
   const limpio = (r) => ({ rot: r.rot, capas: r.capas, alto_mm: redondear(r.alto), centro_masa_mm: redondear(r.centroMasa),
     soporte_cama_mm3: Math.round(r.volSopCama), soporte_figura_mm3: Math.round(r.volSopFigura), islas: r.islas,
-    apoyo_mm2: Math.round(r.apoyo), estable: r.estable, tiempo_s: Math.round(r.tiempo), entra_en_cama: r.entraEnCama });
-  return { archivo: res.archivo, escala: res.escala, original: limpio(res.original), mejores: res.mejores.map(limpio) };
+    apoyo_mm2: Math.round(r.apoyo), estable: r.estable, tiempo_s: Math.round(r.tiempo), entra_en_cama: r.entraEnCama,
+    ...(r.real ? { prusaslicer: r.real } : {}) });
+  return { figura: res.nombre, archivo: res.archivo, escala: res.escala, original: limpio(res.original), mejores: res.mejores.map(limpio) };
 }
 
 // --- Support Fins --------------------------------------------------------------
 
-function aplicarFins(res, op, carpeta) {
+function aplicarFins(res, op, carpeta, base) {
   if (!fs.existsSync(FINS_CLI)) throw new Error('falta Support Fins: corre "bash setup.sh" en tools/orientacion');
   const b = res.mejores[0];
-  const base = path.basename(res.archivo).replace(/\.(stl|obj)$/i, '');
   let entrada = res.archivo;
   if (!/\.stl$/i.test(entrada) || res.escala !== 1) {
     // Support Fins lee STL: se le pasa el modelo escalado, sin girar, y el giro va en --rot
@@ -712,7 +864,7 @@ function cargarMaquina() {
   };
 }
 
-function main() {
+async function main() {
   let a;
   try { a = leerArgs(process.argv.slice(2)); } catch (e) { console.error(`orientar: ${e.message}`); return 2; }
   if (a.help || !a.in) { console.log(AYUDA); return a.help ? 0 : 2; }
@@ -731,10 +883,13 @@ function main() {
       top: Math.round(num('top', a.top, 1, 20)),
       direcciones: Math.round(num('direcciones', a.direcciones, 50, 20000)),
       finsArgs: a['fins-args'].split(/\s+/).filter(Boolean),
+      perfil: a.perfil ?? PERFIL,
     };
     if (op.capa > op.boquilla * 0.75 + 1e-9) {
       throw new UsoError(`capa de ${op.capa} mm con boquilla de ${op.boquilla} mm: el máximo práctico es ~${redondear(op.boquilla * 0.75)} mm (75% de la boquilla)`);
     }
+    if (a.laminar && !prusaDisponible()) throw new UsoError('--laminar necesita PrusaSlicer en el PATH (prusa-slicer); en Ubuntu/Debian: sudo apt install prusa-slicer');
+    if (a.laminar && !fs.existsSync(op.perfil)) throw new UsoError(`no existe el perfil ${op.perfil}`);
   } catch (e) { console.error(`orientar: ${e.message}`); return 2; }
 
   let archivos;
@@ -742,64 +897,78 @@ function main() {
   const st = fs.existsSync(a.in) ? fs.statSync(a.in) : null;
   if (!st) { console.error(`orientar: no existe ${a.in}`); return 2; }
   if (st.isDirectory()) {
-    archivos = fs.readdirSync(a.in).filter((f) => /\.(stl|obj)$/i.test(f) && !/_orientado\.stl$|_escalado\.stl$|_convertido\.stl$/i.test(f)).sort().map((f) => path.join(a.in, f));
+    archivos = fs.readdirSync(a.in)
+      .filter((f) => /\.(stl|obj|3mf)$/i.test(f) && !/_orientado(_\d+)?\.(stl|3mf)$|_escalado\.stl$|_convertido\.stl$|-fins\.3mf$/i.test(f))
+      .sort().map((f) => path.join(a.in, f));
     carpetaSalida = a.out ?? path.join(a.in, 'orientado');
-    if (!archivos.length) { console.error(`orientar: no hay .stl ni .obj en ${a.in}`); return 2; }
+    if (!archivos.length) { console.error(`orientar: no hay .stl, .obj ni .3mf en ${a.in}`); return 2; }
   } else {
     archivos = [a.in];
     carpetaSalida = a.out ?? path.dirname(a.in);
   }
-  if (a.exportar || a.fins || archivos.length > 1) fs.mkdirSync(carpetaSalida, { recursive: true });
+  fs.mkdirSync(carpetaSalida, { recursive: true });
 
-  const filasCSV = ['archivo,rot_x,rot_y,rot_z,capas,alto_mm,soporte_cama_cm3,soporte_figura_cm3,islas,estable,tiempo_min,capas_original,tiempo_original_min'];
+  const filasCSV = ['grupo,figura,rot_x,rot_y,rot_z,capas,alto_mm,tiempo_min,fuente_tiempo,filamento_g,soporte_g,capas_original,tiempo_original_min'];
   const salidaJSON = [];
+  const grupos = new Map();
   let fallas = 0;
+  let total = 0, totalOriginal = 0;
   for (const archivo of archivos) {
-    try {
-      const t0 = Date.now();
-      const res = analizar(archivo, op);
-      const b = res.mejores[0];
-      const extra = {};
-      if (a.exportar) {
-        const base = path.basename(archivo).replace(/\.(stl|obj)$/i, '');
-        const P = new Float64Array(res.pos.length);
-        let zmin = Infinity, x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
-        for (let i = 0; i < P.length; i += 3) {
-          const x = res.pos[i], y = res.pos[i + 1], z = res.pos[i + 2], R = b.R;
-          P[i] = R[0] * x + R[1] * y + R[2] * z; P[i + 1] = R[3] * x + R[4] * y + R[5] * z; P[i + 2] = R[6] * x + R[7] * y + R[8] * z;
-          zmin = Math.min(zmin, P[i + 2]); x0 = Math.min(x0, P[i]); x1 = Math.max(x1, P[i]); y0 = Math.min(y0, P[i + 1]); y1 = Math.max(y1, P[i + 1]);
+    let figuras;
+    try { figuras = leerFiguras(archivo); } catch (e) { fallas++; console.error(`orientar: ${archivo}: ${e.message}`); continue; }
+    for (const fig of figuras) {
+      try {
+        const t0 = Date.now();
+        const res = analizar(fig, op);
+        if (a.laminar) await laminarCandidatas(res, op, carpetaSalida);
+        const b = res.mejores[0];
+        const extra = {};
+        const base = (figuras.length > 1 ? fig.nombre : fig.grupo).replace(/[^\w.-]+/g, '_');
+        if (a.exportar) {
+          extra.stl = path.join(carpetaSalida, `${base}_orientado.stl`);
+          escribirSTL(extra.stl, posar(res.pos, b.R), fig.nombre);
         }
-        for (let i = 0; i < P.length; i += 3) { P[i] -= (x0 + x1) / 2; P[i + 1] -= (y0 + y1) / 2; P[i + 2] -= zmin; }
-        extra.stl = path.join(carpetaSalida, `${base}_orientado.stl`);
-        escribirSTL(extra.stl, P, base);
-      }
-      if (a.fins) extra.fins = aplicarFins(res, op, carpetaSalida);
-      if (a.json) {
-        salidaJSON.push({ ...resumenJSON(res), ...(extra.stl ? { stl: extra.stl } : {}), ...(extra.fins ? { fins: extra.fins } : {}) });
-      } else {
-        console.log(informe(res, op));
-        if (extra.stl) console.log(`  STL orientado: ${extra.stl}`);
-        if (extra.fins) {
-          for (const av of extra.fins.avisos) console.log(`  aviso: ${av}`);
-          console.log(`  Support Fins → ${extra.fins.salida}\n    ${extra.fins.informe}`);
-          if (extra.fins.error) console.log(`    ${extra.fins.error}`);
+        if (a.fins) extra.fins = aplicarFins(res, op, carpetaSalida, base);
+        if (a.placas) {
+          if (!grupos.has(fig.grupo)) grupos.set(fig.grupo, []);
+          grupos.get(fig.grupo).push({ res, R: b.R });
         }
-        console.log(`  (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+        if (a.json) {
+          salidaJSON.push({ ...resumenJSON(res), ...(extra.stl ? { stl: extra.stl } : {}), ...(extra.fins ? { fins: extra.fins } : {}) });
+        } else {
+          console.log(informe(res, op));
+          if (extra.stl) console.log(`  STL orientado: ${extra.stl}`);
+          if (extra.fins) {
+            for (const av of extra.fins.avisos) console.log(`  aviso: ${av}`);
+            console.log(`  Support Fins → ${extra.fins.salida}\n    ${extra.fins.informe}`);
+            if (extra.fins.error) console.log(`    ${extra.fins.error}`);
+          }
+          console.log(`  (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+        }
+        const tb = b.real?.tiempo_s ?? b.tiempo, to = res.original.real?.tiempo_s ?? res.original.tiempo;
+        total += tb; totalOriginal += to;
+        filasCSV.push([fig.grupo, fig.nombre, ...b.rot, b.capas, redondear(b.alto), Math.round(tb / 60), b.real ? 'prusaslicer' : 'estimado',
+          b.real?.filamento_g ?? '', b.real ? redondear(b.real.soporte_g) : '', res.original.capas, Math.round(to / 60)].join(','));
+      } catch (e) {
+        fallas++;
+        console.error(`orientar: ${archivo} (${fig.nombre}): ${e.message}`);
       }
-      filasCSV.push([path.basename(archivo), ...b.rot, b.capas, redondear(b.alto), cm3(b.volSopCama), cm3(b.volSopFigura), b.islas,
-        b.estable ? 'si' : 'no', Math.round(b.tiempo / 60), res.original.capas, Math.round(res.original.tiempo / 60)].join(','));
-    } catch (e) {
-      fallas++;
-      console.error(`orientar: ${archivo}: ${e.message}`);
     }
   }
   if (a.json) console.log(JSON.stringify(salidaJSON.length === 1 ? salidaJSON[0] : salidaJSON, null, 1));
-  if (archivos.length > 1) {
+  if (filasCSV.length > 2) {
     const csv = path.join(carpetaSalida, 'orientaciones.csv');
     fs.writeFileSync(csv, filasCSV.join('\n') + '\n');
-    if (!a.json) console.log(`\nResumen: ${csv}`);
+    if (!a.json) console.log(`\nResumen: ${csv}\nTotal: ${hm(totalOriginal)} como vienen → ${hm(total)} orientadas${a.laminar ? ' (tiempos de PrusaSlicer)' : ' (estimado)'}`);
+  }
+  for (const [grupo, figs] of grupos) {
+    try {
+      for (const pl of armarPlacas(grupo, figs, carpetaSalida)) {
+        if (!a.json) console.log(`Placa: ${pl.archivo}  (${pl.figuras.length} figuras: ${pl.figuras.join(', ')})`);
+      }
+    } catch (e) { fallas++; console.error(`orientar: placa ${grupo}: ${e.message}`); }
   }
   return fallas ? 1 : 0;
 }
 
-process.exitCode = main();
+process.exitCode = await main();
