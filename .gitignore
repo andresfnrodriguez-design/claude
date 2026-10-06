@@ -2,3 +2,9 @@ node_modules/
 tools/bumpmesh/vendor/
 *_textura.stl
 texturizado/
+tools/orientacion/vendor/
+orientado/
+*_orientado.stl
+*_escalado.stl
+*_convertido.stl
+*-fins.3mf

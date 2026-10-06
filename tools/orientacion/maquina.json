@@ -1,0 +1,15 @@
+{
+  "_nota": "Parámetros del estimador de tiempo. No es el tiempo de Bambu Studio: sirve para comparar orientaciones entre sí. Para acercarlo al real, lamina una figura, compara y ajusta 'factor'. Velocidades = velocidad media efectiva (con aceleraciones), no la del perfil.",
+  "boquilla": 0.2,
+  "capa": 0.06,
+  "paredes": 2,
+  "relleno": 0.15,
+  "densidad_soporte": 0.15,
+  "espesor_tapas_mm": 0.6,
+  "vel_paredes": 60,
+  "vel_relleno": 100,
+  "vel_soporte": 80,
+  "tiempo_min_capa_s": 4,
+  "cambio_capa_s": 0.7,
+  "factor": 1.0
+}
