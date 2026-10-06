@@ -48,6 +48,8 @@ uso: node orientar.mjs --in figura.stl [opciones]
   --laminar                 lamina las mejores candidatas con PrusaSlicer (soporte orgánico
                             automático) y elige la de menor tiempo real
   --perfil <ini>            perfil de PrusaSlicer para --laminar, defecto perfiles/p1s_02_006.ini
+  --sin-invertir            descarta poses cabeza abajo (más de 120° respecto de como viene),
+                            para que la cara no quede contra la cama ni sobre soporte
   --placas                  arma placas 3MF con las figuras ya giradas y repartidas en la cama
   --exportar                guarda el STL ya girado y apoyado en la cama (<nombre>_orientado.stl)
   --fins                    aplica Support Fins con la orientación ganadora (<nombre>-fins.3mf)
@@ -70,6 +72,7 @@ function leerArgs(argv) {
       laminar: { type: 'boolean', default: false },
       perfil: { type: 'string' },
       placas: { type: 'boolean', default: false },
+      'sin-invertir': { type: 'boolean', default: false },
       exportar: { type: 'boolean', default: false },
       fins: { type: 'boolean', default: false },
       'fins-args': { type: 'string', default: '' },
@@ -633,6 +636,8 @@ function analizar(fig, op) {
   const evaluados = [];
   const probar = (d) => {
     const cand = candidato(d);
+    // R[8] = cuánto del "arriba" original sigue apuntando arriba; < -0,5 es más de 120°
+    if (op.sinInvertir && cand.R[8] < -0.5) return;
     if (vistos.some((v) => dot(v, cand.abajo) > 0.99999)) return;
     vistos.push(cand.abajo);
     evaluados.push(evaluar(m, cand, cfg));
@@ -884,6 +889,7 @@ async function main() {
       direcciones: Math.round(num('direcciones', a.direcciones, 50, 20000)),
       finsArgs: a['fins-args'].split(/\s+/).filter(Boolean),
       perfil: a.perfil ?? PERFIL,
+      sinInvertir: a['sin-invertir'],
     };
     if (op.capa > op.boquilla * 0.75 + 1e-9) {
       throw new UsoError(`capa de ${op.capa} mm con boquilla de ${op.boquilla} mm: el máximo práctico es ~${redondear(op.boquilla * 0.75)} mm (75% de la boquilla)`);

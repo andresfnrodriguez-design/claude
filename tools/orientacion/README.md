@@ -83,6 +83,7 @@ En una figura chica, muchas capas quedan frenadas por el **tiempo mínimo de cap
 
 - **Dónde quedan las líneas de capa.** Acostada, la cara y el pecho se imprimen de costado y el lado de la cama queda con marcas. Para pintar está bien. Para vitrina conviene parada.
 - **La resistencia.** Lanzas y espadas finas aguantan más si quedan paralelas a la cama.
+- **Cabeza abajo.** A veces lo más rápido es dar vuelta la figura (la cabeza contra la cama). Si no lo quieres, usa `--sin-invertir`: descarta las poses giradas más de 120° respecto de como viene.
 
 ## Support Fins en figuras
 
