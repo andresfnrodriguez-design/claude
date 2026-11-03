@@ -17,6 +17,6 @@
     "productName": "Taller de Mapas Elyria",
     "files": ["main.js", "editor.html", "catalogo.js"],
     "directories": { "output": "dist" },
-    "win": { "target": "portable" }
+    "win": { "target": "portable", "signAndEditExecutable": false }
   }
 }
