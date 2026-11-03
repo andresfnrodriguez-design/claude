@@ -45,3 +45,9 @@ La carpeta `app` empaqueta el editor como programa de escritorio con Electron. N
 En una terminal dentro de `tools\mapas\app` corre `npm install` una sola vez y después `npm run build`. El ejecutable portable queda en `app\dist\`. Se abre con doble clic y no se instala. Para probarlo sin empaquetar usa `npm start`.
 
 Cada build copia `editor.html` y `catalogo.js` de la carpeta de arriba, así que la app siempre sale con la última versión.
+
+## Mapas estimados desde imágenes
+
+`bajar_wod.py` recorre las guías de fireemblemwod.com, baja la imagen de cada mapa a `imagenes/` y estima su terreno con `estimar_mapas.py`. El estimador aprende de capturas de FE8 cuyo terreno exacto se conoce. Con mapas de FE8 que no vio acierta en promedio el 75% de las casillas. En otros juegos acierta menos, y las casillas tapadas por unidades salen mal. Al abrir un mapa estimado, la imagen original aparece de fondo para corregirlo.
+
+Estado: FE7 con 45 mapas estimados.

@@ -174,6 +174,7 @@ label{display:flex;gap:6px;align-items:center;font-size:13px}
 
 <script src="catalogo.js"></script>
 <script src="datos_fe8.js"></script>
+<script src="mapas_estimados.js"></script>
 <script>
 "use strict";
 // ---------- Terrenos FE8 (IDs del enum de terreno de fireemblem8u; los marcados con ? hay que verificarlos) ----------
@@ -311,7 +312,7 @@ function casilla(e){ const r=cv.getBoundingClientRect(); const x=Math.floor((e.c
   return (x>=0&&y>=0&&x<M.w&&y<M.h)?{x,y}:null; }
 const unidadEn = (x,y) => M.u.findIndex(u=>u.x===x&&u.y===y);
 cv.addEventListener("pointerdown", e => { const c=casilla(e); if(!c) return;
-  if(herr==="pintar" && e.shiftKey && IMG){ if(c.y<IMG.h&&c.x<IMG.w){ PROTO[pincel]=IMG.col[c.y][c.x]; estimar(); } }
+  if(herr==="pintar" && e.shiftKey && IMG && IMG.col){ if(c.y<IMG.h&&c.x<IMG.w){ PROTO[pincel]=IMG.col[c.y][c.x]; estimar(); } }
   else if(herr==="pintar"){ pintando=true; M.t[c.y][c.x]=pincel; rango=null; }
   else if(herr==="unidad"){ const i=unidadEn(c.x,c.y);
     if(i>=0) M.u.splice(i,1);
@@ -502,14 +503,26 @@ function armarCat(){ const extra = leerLS("fe-cat-extra") || []; const m = new M
   if(window.FE8) for(const mp of window.FE8.mapas){
     const k = ["FE8",mp.cap,null,mp.ruta]; let hit = [...m.values()].find(c=>c.juego==="FE8"&&c.cap===mp.cap&&c.ruta===mp.ruta);
     if(!hit){ hit = {juego:"FE8",cap:mp.cap,nombre:mp.nombre,ruta:mp.ruta,m:2,d:3,j:4,v:false,rasgo:mp.ruta==="postgame"?"Mapa postgame.":"Segunda parte del final.",leccion:""}; m.set(clave(hit),hit); }
-    hit.ids = mp.ids; hit.niebla = mp.niebla; }
+    hit.ids = mp.ids; hit.niebla = mp.niebla; hit.exacto = true; }
+  if(window.MAPAS_EST) for(const mp of window.MAPAS_EST){
+    let cap = mp.cap.replace(/\s+/g,""), ruta = "común";
+    if(mp.juego==="FE7"){ const mm = cap.match(/^(.*?)([EH])$/); if(mm){ cap=mm[1]; ruta = mm[2]==="E"?"Eliwood":"Hector"; } else ruta="Lyn"; }
+    let hit = [...m.values()].find(c=>c.juego===mp.juego&&c.cap===cap&&c.ruta===ruta);
+    if(!hit){ hit = {juego:mp.juego,cap,nombre:mp.nombre,ruta,m:3,d:3,j:3,v:false,rasgo:"Pendiente de ficha.",leccion:""}; m.set(clave(hit),hit); }
+    else if(hit.nombre!==mp.nombre) hit.nombreEs = mp.nombre;
+    hit.ids = mp.ids; hit.imagen = mp.imagen; hit.fuente = mp.fuente; hit.exacto = false; }
   CAT = [...m.values()]; }
 armarCat();
 let filas = [];
 function abrirGrilla(c){
   if(c.ids){ const m = vacio(Math.max(15,c.ids[0].length), Math.max(10,c.ids.length), `${c.juego} ${c.cap} · ${c.nombre}`);
     c.ids.forEach((f,y)=>f.forEach((id,x)=>{ m.t[y][x] = PORID[id] || "none"; }));
-    M = m; rango = null; sincForm(); vista(true); dibujar(); return; }
+    M = m; rango = null; IMG = null; sincForm(); vista(true); dibujar();
+    if(c.imagen){ const el = new Image(); const w=c.ids[0].length, h=c.ids.length;
+      el.onload = () => { IMG = {el, ts: el.naturalWidth / w, w, h, col: null}; dibujar();
+        document.getElementById("msgImg").textContent = "Mapa estimado desde imagen. Corrige sobre la imagen de fondo las casillas que no coincidan."; };
+      el.src = c.imagen; }
+    return; }
   const g = c.grilla, h = g.length, w = Math.max(...g.map(f=>f.length));
   const m = vacio(Math.max(15,w), Math.max(10,h), `${c.juego} ${c.cap} · ${c.nombre}`);
   g.forEach((f,y)=>[...f].forEach((ch,x)=>{ m.t[y][x] = SIM[ch] || "plains"; }));
@@ -540,11 +553,11 @@ function tabla(){
   const rows=filas=CAT.filter(c=>(!fJ.value||c.juego===fJ.value)&&(!t||(c.nombre+c.rasgo+c.leccion).toLowerCase().includes(t)))
     .map(c=>({...c,idx:idx(c)}))
     .sort((a,b)=>{ const x=a[orden.k], y=b[orden.k]; const r = typeof x==="number"?x-y:String(x).localeCompare(String(y),"es",{numeric:true}); return orden.asc?r:-r; });
-  document.getElementById("tRef").innerHTML=rows.map(c=>`<tr><td>${c.juego}</td><td class="n">${esc(c.cap)}</td><td>${esc(c.nombre)}${c.v?"":" <span class='small'>?</span>"}</td><td>${c.ruta}</td>
+  document.getElementById("tRef").innerHTML=rows.map(c=>`<tr><td>${c.juego}</td><td class="n">${esc(c.cap)}</td><td>${esc(c.nombre)}${c.v?"":" <span class='small'>?</span>"}${c.nombreEs?`<div class="small">${esc(c.nombreEs)}</div>`:""}</td><td>${c.ruta}</td>
     <td class="n">${c.m}</td><td class="n">${c.d}</td><td class="n">${c.j}</td>
     <td class="mono"><span class="bar" style="width:${c.idx*10}px"></span> ${c.idx.toFixed(1)}</td>
     <td><div>${esc(c.rasgo)}</div><div class="small">${esc(c.leccion)}</div></td>
-    <td>${(c.grilla||c.ids)?`<button data-abrir="${filas.indexOf(c)}">Abrir</button>`:"<span class='small'>sin grilla</span>"}</td></tr>`).join("");
+    <td>${(c.grilla||c.ids)?`<button data-abrir="${filas.indexOf(c)}">Abrir</button> <span class="small">${c.exacto?"exacto":c.imagen?"estimado":""}</span>`:"<span class='small'>sin grilla</span>"}</td></tr>`).join("");
   document.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>abrirGrilla(filas[+b.dataset.abrir]));
 }
 document.querySelectorAll("th[data-k]").forEach(th=>th.onclick=()=>{ const k=th.dataset.k; orden={k,asc:orden.k===k?!orden.asc:["juego","cap","nombre","ruta"].includes(k)}; tabla(); });
