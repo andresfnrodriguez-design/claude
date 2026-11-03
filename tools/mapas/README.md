@@ -37,3 +37,11 @@ Los costos son aproximados. Reemplazalos con los valores de `src/data_terrains.c
 `catalogo.js` asigna a cada mapa tres puntajes de 1 a 5 (memorable, dificultad y justicia) y la lección que deja para Fisuras. Los puntajes son estimaciones y no datos oficiales. Las fichas marcadas con `?` todavía no están verificadas. Para agregar juegos, sumá entradas con el mismo formato.
 
 Estado: FE8, FE7 y FE6 cargados. Falta el resto de la serie. En FE7 los números de capítulo marcados con ? no están confirmados.
+
+## App de Windows
+
+La carpeta `app` empaqueta el editor como programa de escritorio con Electron. Necesitás [Node.js LTS](https://nodejs.org) instalado.
+
+En una terminal dentro de `tools\mapas\app` corré `npm install` una sola vez y después `npm run build`. El ejecutable portable queda en `app\dist\`. Se abre con doble clic y no se instala. Para probarlo sin empaquetar usá `npm start`.
+
+Cada build copia `editor.html` y `catalogo.js` de la carpeta de arriba, así que la app siempre sale con la última versión.
