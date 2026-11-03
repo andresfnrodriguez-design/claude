@@ -64,6 +64,13 @@ label{display:flex;gap:6px;align-items:center;font-size:13px}
         <label>Alto <input id="alto" type="number" min="10" max="60"></label>
       </div>
       <div class="row" style="margin-top:6px"><button id="redim">Aplicar tamaño</button><button id="nuevo">Nuevo</button></div>
+      <div class="chk" style="margin-top:8px">
+        <label for="fImg">Desde imagen de un mapa</label>
+        <input id="fImg" type="file" accept="image/*">
+        <label>Píxeles por casilla <input id="imgTs" type="number" min="4" max="64" value="16"></label>
+        <label><input id="vImg" type="checkbox" checked> Ver imagen de fondo</label>
+        <span class="small" id="msgImg">Carga la captura de un mapa. Para calibrar, elige un terreno y haz Mayús + clic sobre una casilla que lo muestre. Calibra antes de corregir a mano, porque calibrar vuelve a estimar todo.</span>
+      </div>
     </div>
     <div>
       <h2>Herramienta</h2>
@@ -265,9 +272,12 @@ function dibujar(){
   for(let x=0;x<M.w;x++) cx.fillText(String(x).padStart(2,"0"), MARG+x*CELL+CELL/2, MARG/2);
   for(let y=0;y<M.h;y++) cx.fillText(String(y).padStart(2,"0"), MARG/2, MARG+y*CELL+CELL/2);
   const sim = document.getElementById("vSim").checked;
+  const conImg = IMG && document.getElementById("vImg").checked;
+  if(conImg){ cx.imageSmoothingEnabled=false; cx.drawImage(IMG.el,0,0,IMG.w*IMG.ts,IMG.h*IMG.ts,MARG,MARG,IMG.w*CELL,IMG.h*CELL); }
   for(let y=0;y<M.h;y++) for(let x=0;x<M.w;x++){
     const t = TK[M.t[y][x]], px=MARG+x*CELL, py=MARG+y*CELL;
-    cx.fillStyle=t.col; cx.fillRect(px,py,CELL,CELL);
+    cx.globalAlpha = conImg && y<IMG.h && x<IMG.w ? 0.45 : 1;
+    cx.fillStyle=t.col; cx.fillRect(px,py,CELL,CELL); cx.globalAlpha=1;
     cx.strokeStyle="rgba(0,0,0,.25)"; cx.strokeRect(px+.5,py+.5,CELL-1,CELL-1);
     if(sim){ cx.fillStyle="rgba(0,0,0,.55)"; cx.font="11px 'IBM Plex Mono', monospace"; cx.fillText(t.sim, px+CELL/2, py+CELL/2); }
   }
@@ -301,7 +311,8 @@ function casilla(e){ const r=cv.getBoundingClientRect(); const x=Math.floor((e.c
   return (x>=0&&y>=0&&x<M.w&&y<M.h)?{x,y}:null; }
 const unidadEn = (x,y) => M.u.findIndex(u=>u.x===x&&u.y===y);
 cv.addEventListener("pointerdown", e => { const c=casilla(e); if(!c) return;
-  if(herr==="pintar"){ pintando=true; M.t[c.y][c.x]=pincel; rango=null; }
+  if(herr==="pintar" && e.shiftKey && IMG){ if(c.y<IMG.h&&c.x<IMG.w){ PROTO[pincel]=IMG.col[c.y][c.x]; estimar(); } }
+  else if(herr==="pintar"){ pintando=true; M.t[c.y][c.x]=pincel; rango=null; }
   else if(herr==="unidad"){ const i=unidadEn(c.x,c.y);
     if(i>=0) M.u.splice(i,1);
     else { const v=id=>document.getElementById(id);
@@ -440,7 +451,42 @@ document.querySelectorAll("#herr button").forEach(b=>b.onclick=()=>{ herr=b.data
   document.querySelectorAll("#herr button").forEach(o=>o.classList.toggle("on",o===b));
   document.getElementById("opPintar").hidden=herr!=="pintar"; document.getElementById("opUnidad").hidden=herr!=="unidad"; document.getElementById("opRango").hidden=herr!=="rango";
   if(herr!=="rango") rango=null; dibujar(); });
-["vPant","vSim"].forEach(id=>document.getElementById(id).onchange=dibujar);
+// ---------- Estimar terreno desde una imagen ----------
+let IMG = null;
+// Colores típicos de los tilesets de GBA. Se reemplazan al calibrar.
+const PROTO = { plains:[128,184,88], forest:[56,112,56], thicket:[36,76,40], mountain:[168,128,80], peak:[112,92,76],
+  river:[80,144,208], sea:[48,96,176], lake:[64,120,192], sand:[232,216,152], desert:[216,192,112], road:[200,176,120],
+  floor:[176,168,152], wall:[84,78,72], village:[208,136,88], fort:[152,136,112], cliff:[120,100,84], bridge:[176,140,96] };
+function estimar(){
+  if(!IMG) return;
+  const ks = Object.keys(PROTO);
+  for(let y=0;y<IMG.h;y++) for(let x=0;x<IMG.w;x++){
+    const [r,g,b] = IMG.col[y][x]; let mejor=ks[0], dm=1e9;
+    for(const k of ks){ const p=PROTO[k]; const d=(r-p[0])**2+(g-p[1])**2+(b-p[2])**2; if(d<dm){dm=d;mejor=k;} }
+    M.t[y][x]=mejor;
+  }
+  dibujar();
+}
+function cargarImagen(el){
+  const ts = Math.max(4, +document.getElementById("imgTs").value || 16);
+  const w = Math.floor(el.naturalWidth/ts), h = Math.floor(el.naturalHeight/ts);
+  if(w<1||h<1){ document.getElementById("msgImg").textContent="La imagen es más chica que una casilla. Revisa los píxeles por casilla."; return; }
+  const c = document.createElement("canvas"); c.width=el.naturalWidth; c.height=el.naturalHeight;
+  const g = c.getContext("2d"); g.drawImage(el,0,0); const d = g.getImageData(0,0,c.width,c.height).data;
+  const col = [];
+  for(let y=0;y<h;y++){ col.push([]); for(let x=0;x<w;x++){ let r=0,gg=0,b=0,n=0;
+    for(let yy=y*ts+1; yy<(y+1)*ts-1; yy++) for(let xx=x*ts+1; xx<(x+1)*ts-1; xx++){ const i=(yy*c.width+xx)*4; r+=d[i]; gg+=d[i+1]; b+=d[i+2]; n++; }
+    col[y].push([r/n,gg/n,b/n]); } }
+  IMG = {el, ts, w, h, col};
+  M = vacio(Math.max(15,w), Math.max(10,h), document.getElementById("nombre").value || "Desde imagen");
+  rango=null; sincForm(); estimar();
+  document.getElementById("msgImg").textContent = `${w}×${h} casillas estimadas. Calibra con Mayús + clic y corrige a mano lo que falle.`;
+}
+document.getElementById("fImg").onchange = e => { const f=e.target.files[0]; if(!f) return;
+  const el = new Image(); el.onload = () => cargarImagen(el); el.src = URL.createObjectURL(f); e.target.value=""; };
+document.getElementById("imgTs").onchange = () => { if(IMG) cargarImagen(IMG.el); };
+document.getElementById("nuevo").addEventListener("click", ()=>{ IMG=null; });
+["vPant","vSim","vImg"].forEach(id=>document.getElementById(id).onchange=dibujar);
 function llenarClases(){ const h=Object.entries(CLASES).map(([k,v])=>`<option value="${k}">${v.nom||k}</option>`).join("");
   document.getElementById("uCl").innerHTML=h; document.getElementById("rCl").innerHTML=h; }
 const pal=document.getElementById("paleta");
