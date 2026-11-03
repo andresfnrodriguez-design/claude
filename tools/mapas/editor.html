@@ -1,0 +1,444 @@
+<title>Taller de Mapas Elyria</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: barra de herramientas a la izquierda, tablero en el centro, análisis a la derecha. Un solo look oscuro tipo pantalla de consola portátil. */
+:root{
+  --bg:#14161c; --panel:#1d2029; --line:#323746; --fg:#e6e2d6; --mute:#9a9caa;
+  --accent:#d8a341; --azul:#4c8ee8; --rojo:#e25a4c; --verde:#58b26a; --aviso:#e0b23c;
+  --f-disp:"Silkscreen",ui-monospace,monospace; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px}
+h1{font-family:var(--f-disp);font-size:20px;font-weight:400;margin:0;color:var(--accent);letter-spacing:.04em}
+h2{font-family:var(--f-disp);font-size:12px;font-weight:400;letter-spacing:.08em;color:var(--mute);margin:0 0 6px;text-transform:uppercase}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.tabs{display:flex;gap:4px}
+button,select,input,textarea{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:4px}
+button{padding:5px 10px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button.on{background:var(--accent);color:#14161c;border-color:var(--accent)}
+input,select{padding:4px 6px}
+input[type=number]{width:64px}
+.app{display:grid;grid-template-columns:230px minmax(0,1fr) 300px;gap:12px;align-items:start}
+@media (max-width:1100px){.app{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.paleta{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:4px}
+.paleta button{display:flex;gap:6px;align-items:center;padding:3px 6px;font-size:12px;text-align:left}
+.sw{width:14px;height:14px;border-radius:2px;flex:none;font-family:var(--f-mono);font-size:10px;line-height:14px;text-align:center;color:#000}
+.tablero{overflow:auto;max-height:78vh;background:#0c0d11;border:1px solid var(--line);border-radius:6px}
+canvas{display:block;image-rendering:pixelated;cursor:crosshair}
+.mono{font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums}
+.chk{display:flex;flex-direction:column;gap:4px}
+.chk div{display:flex;gap:8px;align-items:baseline}
+.pill{font-family:var(--f-mono);font-size:11px;padding:1px 6px;border-radius:9px;flex:none}
+.ok{background:#22412b;color:#9fe0ae}.warn{background:#4a3c16;color:#f0d27a}.bad{background:#4d1f1c;color:#f4a49b}
+textarea{width:100%;min-height:150px;white-space:pre;overflow:auto;font-family:var(--f-mono);font-size:11px;padding:6px;box-sizing:border-box}
+.small{font-size:12px;color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}
+th{font-family:var(--f-disp);font-weight:400;font-size:11px;color:var(--mute);cursor:pointer;white-space:nowrap}
+td.n{font-family:var(--f-mono);text-align:center}
+.bar{display:inline-block;height:6px;background:var(--accent);border-radius:3px;vertical-align:middle}
+.tablawrap{overflow-x:auto}
+label{display:flex;gap:6px;align-items:center;font-size:13px}
+</style>
+
+<header>
+  <h1>TALLER DE MAPAS · FISURAS DE ELYRIA</h1>
+  <div class="tabs">
+    <button id="tabEd" class="on">Editor</button>
+    <button id="tabRef">Referencia FE</button>
+  </div>
+</header>
+
+<section id="vistaEd" class="app">
+  <div class="panel">
+    <div>
+      <h2>Mapa</h2>
+      <div class="row"><input id="nombre" placeholder="Nombre" style="flex:1;min-width:0"></div>
+      <div class="row" style="margin-top:6px">
+        <label>Ancho <input id="ancho" type="number" min="15" max="60"></label>
+        <label>Alto <input id="alto" type="number" min="10" max="60"></label>
+      </div>
+      <div class="row" style="margin-top:6px"><button id="redim">Aplicar tamaño</button><button id="nuevo">Nuevo</button></div>
+    </div>
+    <div>
+      <h2>Herramienta</h2>
+      <div class="row" id="herr">
+        <button data-h="pintar" class="on">Pintar</button>
+        <button data-h="unidad">Unidad</button>
+        <button data-h="objetivo">Objetivo</button>
+        <button data-h="rango">Rango</button>
+      </div>
+    </div>
+    <div id="opPintar">
+      <h2>Terreno</h2>
+      <div class="paleta" id="paleta"></div>
+    </div>
+    <div id="opUnidad" hidden>
+      <h2>Nueva unidad</h2>
+      <div class="chk">
+        <label>Equipo <select id="uEq"><option value="P">Jugador</option><option value="E">Enemigo</option><option value="A">Aliado</option></select></label>
+        <label>Nombre <input id="uNom" style="flex:1;min-width:0" value="Mercenario"></label>
+        <label>Movimiento <select id="uCl"></select></label>
+        <label><input id="uJefe" type="checkbox"> Jefe</label>
+        <label>Refuerzo en turno <input id="uTurno" type="number" min="0" value="0"></label>
+        <label><input id="uAviso" type="checkbox" checked> Avisado un turno antes</label>
+        <span class="small">Clic en casilla vacía para poner. Clic en una unidad para borrarla.</span>
+      </div>
+    </div>
+    <div id="opRango" hidden>
+      <h2>Rango de movimiento</h2>
+      <label>Clase <select id="rCl"></select></label>
+      <span class="small">Clic en una casilla para ver hasta dónde llega en un turno. Clic sobre una unidad usa su clase.</span>
+    </div>
+    <div>
+      <h2>Vista</h2>
+      <label><input id="vPant" type="checkbox" checked> Marco de pantalla 15×10</label>
+      <label><input id="vSim" type="checkbox" checked> Símbolos</label>
+    </div>
+    <div>
+      <h2>Guardados</h2>
+      <div class="row"><button id="guardar">Guardar</button><select id="lista" style="flex:1;min-width:0"></select></div>
+      <div class="row" style="margin-top:6px"><button id="cargar">Cargar</button><button id="borrar">Borrar</button></div>
+      <span class="small" id="msgGuard"></span>
+    </div>
+  </div>
+
+  <div class="panel" style="padding:8px">
+    <div class="row mono" id="estado">—</div>
+    <div class="tablero"><canvas id="cv"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <div>
+      <h2>Autochequeo</h2>
+      <div class="chk" id="chequeo"></div>
+    </div>
+    <div>
+      <h2>Exportar e importar</h2>
+      <div class="row">
+        <button id="exTxt">Grilla de texto</button>
+        <button id="exHex">IDs FE8</button>
+        <button id="exJson">JSON</button>
+      </div>
+      <textarea id="io" style="margin-top:6px" placeholder="Acá aparece lo exportado. Pegá un JSON o una grilla de texto y apretá Importar."></textarea>
+      <div class="row" style="margin-top:6px"><button id="copiar">Copiar</button><button id="importar">Importar</button><span class="small" id="msgIo"></span></div>
+    </div>
+    <div>
+      <h2>Costos de movimiento</h2>
+      <span class="small">Valores aproximados de FE8. Reemplazalos con los de src/data_terrains.c y apretá Aplicar. 99 = intransitable.</span>
+      <textarea id="costos" style="margin-top:6px"></textarea>
+      <div class="row" style="margin-top:6px"><button id="apCostos">Aplicar</button><button id="resCostos">Restaurar</button><span class="small" id="msgCostos"></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="vistaRef" hidden>
+  <div class="panel">
+    <div class="row">
+      <label>Juego <select id="fJuego"><option value="">Todos</option></select></label>
+      <label>Buscar <input id="fTexto" placeholder="nombre, rasgo, lección"></label>
+      <label>Peso memorable <input id="wM" type="range" min="0" max="3" value="2"></label>
+      <label>Peso dificultad <input id="wD" type="range" min="0" max="3" value="1"></label>
+      <label>Peso justicia <input id="wJ" type="range" min="0" max="3" value="2"></label>
+    </div>
+    <span class="small">Puntajes de 1 a 5 estimados por Claude a partir del consenso de la comunidad. Las fichas sin verificar están marcadas con ?. El índice pondera los tres ejes con los pesos de arriba.</span>
+    <div class="tablawrap">
+      <table>
+        <thead><tr>
+          <th data-k="juego">Juego</th><th data-k="cap">Cap.</th><th data-k="nombre">Mapa</th><th data-k="ruta">Ruta</th>
+          <th data-k="m">Mem.</th><th data-k="d">Dif.</th><th data-k="j">Just.</th><th data-k="idx">Índice</th><th>Rasgo y lección para Fisuras</th>
+        </tr></thead>
+        <tbody id="tRef"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script src="catalogo.js"></script>
+<script>
+"use strict";
+// ---------- Terrenos FE8 (IDs del enum de terreno de fireemblem8u; los marcados con ? hay que verificarlos) ----------
+const TER = [
+  ["plains",0x01,"Llanura",".","#7fb069"],["road",0x02,"Camino","=","#cdb57e"],["village",0x03,"Aldea","V","#e0a35a"],
+  ["house",0x05,"Casa","h","#b98b5e"],["armory",0x06,"Armería","a","#a87c50"],["vendor",0x07,"Tienda","t","#a87c50"],
+  ["fort",0x0A,"Fuerte","F","#a39580"],["gate",0x0B,"Portón","G","#8d8275"],["forest",0x0C,"Bosque","f","#2f6b3a"],
+  ["thicket",0x0D,"Matorral","#","#1d4426"],["sand",0x0E,"Arena","s","#e6d394"],["desert",0x0F,"Desierto","d","#d6b867"],
+  ["river",0x10,"Río","~","#4f8fc0"],["mountain",0x11,"Montaña","^","#8d6e53"],["peak",0x12,"Pico","A","#5c4838"],
+  ["bridge",0x13,"Puente","b","#a9895f"],["sea",0x15,"Mar","w","#2b5c8c"],["lake",0x16,"Lago","l","#3b74a4"],
+  ["floor",0x17,"Suelo","_","#a8a39a"],["fence",0x19,"Valla","|","#6e5a45"],["wall",0x1A,"Muro","X","#46433f"],
+  ["wallb",0x1B,"Muro rompible","x","#6b6259"],["rubble",0x1C,"Escombros","r","#90867a"],["pillar",0x1D,"Pilar","I","#78726b"],
+  ["door",0x1E,"Puerta","D","#7a4f2e"],["throne",0x1F,"Trono","T","#a8433b"],["chest",0x20,"Cofre","c","#c99a2e"],
+  ["church",0x24,"Iglesia","+","#d2c9bb"],["ruins",0x25,"Ruinas?","R","#8c8a7c"],["cliff",0x26,"Acantilado?","/","#5a4b40"]
+];
+const TK = {}; TER.forEach(t => TK[t[0]] = {k:t[0], id:t[1], nom:t[2], sim:t[3], col:t[4]});
+const SIM = {}; TER.forEach(t => SIM[t[3]] = t[0]);
+
+// ---------- Clases de movimiento (aproximadas, editables) ----------
+const X = 99;
+const BASE = {
+  infanteria: {mov:5, nom:"Infantería (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:3,river:X,mountain:4,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
+  acorazado:  {mov:4, nom:"Acorazado (4)", c:{fort:2,forest:2,thicket:X,sand:3,desert:4,river:X,mountain:X,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
+  caballeria: {mov:7, nom:"Caballería (7)", c:{fort:2,forest:3,thicket:X,sand:4,desert:5,river:X,mountain:X,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:3,pillar:3,door:X,cliff:X,ruins:3}},
+  mago:       {mov:5, nom:"Mago (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:2,river:X,mountain:4,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
+  hacha:      {mov:5, nom:"Guerrero/Bandido (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:3,river:X,mountain:3,peak:4,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
+  pirata:     {mov:5, nom:"Pirata (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:3,river:2,mountain:3,peak:X,sea:2,lake:2,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
+  volador:    {mov:7, nom:"Volador (7)", c:{wall:X,wallb:X,door:X}}
+};
+let CLASES = JSON.parse(JSON.stringify(BASE));
+const costo = (cl, k) => { const v = CLASES[cl].c[k]; return v === undefined ? 1 : v; };
+
+// ---------- Estado ----------
+const CELL = 26, MARG = 22;
+let M = ejemplo();
+let herr = "pintar", pincel = "forest", rango = null, pintando = false;
+
+function vacio(w,h,n){ return {nombre:n||"Sin nombre", w, h, t:Array.from({length:h},()=>Array(w).fill("plains")), u:[], obj:null}; }
+function ejemplo(){
+  // Ejemplo de trabajo, no es una misión de Fisuras.
+  const m = vacio(18,14,"Ejemplo · cruce del río");
+  const pon=(x,y,k)=>{ if(x>=0&&y>=0&&x<m.w&&y<m.h) m.t[y][x]=k; };
+  for(let y=0;y<14;y++){ pon(9,y,"river"); }
+  pon(9,3,"bridge"); pon(9,10,"bridge");
+  [[2,2],[3,2],[2,3],[13,5],[14,5],[13,6],[5,8],[6,8],[15,11],[16,11],[11,1],[4,12]].forEach(p=>pon(p[0],p[1],"forest"));
+  [[16,1],[17,1],[17,2],[0,7],[0,8]].forEach(p=>pon(p[0],p[1],"mountain"));
+  pon(3,6,"village"); pon(12,12,"village"); pon(15,7,"fort");
+  for(let x=10;x<18;x++) pon(x,3,"road"); for(let x=0;x<9;x++) pon(x,10,"road");
+  m.u = [
+    {x:1,y:11,eq:"P",nom:"Kairon",cl:"infanteria",jefe:false,turno:0,aviso:true},
+    {x:2,y:12,eq:"P",nom:"Jinete",cl:"caballeria",jefe:false,turno:0,aviso:true},
+    {x:1,y:12,eq:"P",nom:"Volador",cl:"volador",jefe:false,turno:0,aviso:true},
+    {x:12,y:5,eq:"E",nom:"Mercenario",cl:"infanteria",jefe:false,turno:0,aviso:true},
+    {x:11,y:9,eq:"E",nom:"Lancero",cl:"infanteria",jefe:false,turno:0,aviso:true},
+    {x:16,y:3,eq:"E",nom:"Jefe",cl:"hacha",jefe:true,turno:0,aviso:true},
+    {x:17,y:12,eq:"E",nom:"Refuerzo",cl:"caballeria",jefe:false,turno:4,aviso:true}
+  ];
+  m.obj = {x:16,y:3,tipo:"jefe"};
+  return m;
+}
+
+// ---------- Dibujo ----------
+const cv = document.getElementById("cv"), cx = cv.getContext("2d");
+function dibujar(){
+  cv.width = MARG + M.w*CELL; cv.height = MARG + M.h*CELL;
+  cx.fillStyle="#0c0d11"; cx.fillRect(0,0,cv.width,cv.height);
+  cx.font = "10px 'IBM Plex Mono', monospace"; cx.textAlign="center"; cx.textBaseline="middle";
+  cx.fillStyle="#9a9caa";
+  for(let x=0;x<M.w;x++) cx.fillText(String(x).padStart(2,"0"), MARG+x*CELL+CELL/2, MARG/2);
+  for(let y=0;y<M.h;y++) cx.fillText(String(y).padStart(2,"0"), MARG/2, MARG+y*CELL+CELL/2);
+  const sim = document.getElementById("vSim").checked;
+  for(let y=0;y<M.h;y++) for(let x=0;x<M.w;x++){
+    const t = TK[M.t[y][x]], px=MARG+x*CELL, py=MARG+y*CELL;
+    cx.fillStyle=t.col; cx.fillRect(px,py,CELL,CELL);
+    cx.strokeStyle="rgba(0,0,0,.25)"; cx.strokeRect(px+.5,py+.5,CELL-1,CELL-1);
+    if(sim){ cx.fillStyle="rgba(0,0,0,.55)"; cx.font="11px 'IBM Plex Mono', monospace"; cx.fillText(t.sim, px+CELL/2, py+CELL/2); }
+  }
+  if(rango){
+    for(const [k,c] of rango.alc){ const [x,y]=k.split(",").map(Number);
+      cx.fillStyle="rgba(76,142,232,.45)"; cx.fillRect(MARG+x*CELL+1,MARG+y*CELL+1,CELL-2,CELL-2); }
+  }
+  if(M.obj){ const px=MARG+M.obj.x*CELL, py=MARG+M.obj.y*CELL;
+    cx.strokeStyle="#d8a341"; cx.lineWidth=3; cx.strokeRect(px+2,py+2,CELL-4,CELL-4); cx.lineWidth=1; }
+  for(const u of M.u){
+    const px=MARG+u.x*CELL+CELL/2, py=MARG+u.y*CELL+CELL/2;
+    cx.fillStyle = u.eq==="P"?"#4c8ee8":u.eq==="E"?"#e25a4c":"#58b26a";
+    cx.beginPath();
+    if(u.jefe){ cx.moveTo(px,py-10); cx.lineTo(px+10,py); cx.lineTo(px,py+10); cx.lineTo(px-10,py); cx.closePath(); }
+    else cx.arc(px,py,9,0,Math.PI*2);
+    cx.fill();
+    if(u.turno>0){ cx.setLineDash([3,2]); cx.strokeStyle = u.aviso?"#e0b23c":"#ffffff"; cx.lineWidth=2; cx.stroke(); cx.setLineDash([]); cx.lineWidth=1; }
+    cx.fillStyle="#fff"; cx.font="600 10px 'IBM Plex Mono', monospace";
+    cx.fillText(u.turno>0?("T"+u.turno):u.nom.slice(0,2), px, py+1);
+  }
+  if(document.getElementById("vPant").checked){
+    cx.strokeStyle="rgba(216,163,65,.8)"; cx.setLineDash([6,4]); cx.lineWidth=2;
+    cx.strokeRect(MARG+1, MARG+1, Math.min(15,M.w)*CELL-2, Math.min(10,M.h)*CELL-2);
+    cx.setLineDash([]); cx.lineWidth=1;
+  }
+  chequear();
+}
+
+// ---------- Interacción ----------
+function casilla(e){ const r=cv.getBoundingClientRect(); const x=Math.floor((e.clientX-r.left-MARG)/CELL), y=Math.floor((e.clientY-r.top-MARG)/CELL);
+  return (x>=0&&y>=0&&x<M.w&&y<M.h)?{x,y}:null; }
+const unidadEn = (x,y) => M.u.findIndex(u=>u.x===x&&u.y===y);
+cv.addEventListener("pointerdown", e => { const c=casilla(e); if(!c) return;
+  if(herr==="pintar"){ pintando=true; M.t[c.y][c.x]=pincel; rango=null; }
+  else if(herr==="unidad"){ const i=unidadEn(c.x,c.y);
+    if(i>=0) M.u.splice(i,1);
+    else { const v=id=>document.getElementById(id);
+      M.u.push({x:c.x,y:c.y,eq:v("uEq").value,nom:v("uNom").value||"?",cl:v("uCl").value,jefe:v("uJefe").checked,turno:+v("uTurno").value||0,aviso:v("uAviso").checked});
+      if(v("uJefe").checked && !M.obj) M.obj={x:c.x,y:c.y,tipo:"jefe"}; } }
+  else if(herr==="objetivo"){ M.obj = (M.obj&&M.obj.x===c.x&&M.obj.y===c.y)?null:{x:c.x,y:c.y,tipo:"casilla"}; }
+  else if(herr==="rango"){ const i=unidadEn(c.x,c.y); const cl = i>=0?M.u[i].cl:document.getElementById("rCl").value;
+    rango = {alc: alcance(c.x,c.y,cl,CLASES[cl].mov)}; }
+  dibujar(); });
+cv.addEventListener("pointermove", e => { const c=casilla(e);
+  document.getElementById("estado").textContent = c ? `(${c.x},${c.y}) ${TK[M.t[c.y][c.x]].nom} · 0x${TK[M.t[c.y][c.x]].id.toString(16).toUpperCase().padStart(2,"0")}` : "—";
+  if(pintando && c && M.t[c.y][c.x]!==pincel){ M.t[c.y][c.x]=pincel; dibujar(); } });
+window.addEventListener("pointerup", ()=>pintando=false);
+
+// ---------- Movimiento ----------
+function dijkstra(sx,sy,cl,lim){
+  const d=new Map(), q=[[0,sx,sy]]; d.set(sx+","+sy,0);
+  while(q.length){ q.sort((a,b)=>a[0]-b[0]); const [c,x,y]=q.shift(); if(c>(d.get(x+","+y)??1e9)) continue;
+    for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const nx=x+dx, ny=y+dy; if(nx<0||ny<0||nx>=M.w||ny>=M.h) continue;
+      const k=costo(cl,M.t[ny][nx]); if(k>=X) continue; const nc=c+k; if(nc>lim) continue;
+      if(nc < (d.get(nx+","+ny)??1e9)){ d.set(nx+","+ny,nc); q.push([nc,nx,ny]); } } }
+  return d;
+}
+const alcance=(x,y,cl,mov)=>dijkstra(x,y,cl,mov);
+
+// ---------- Autochequeo ----------
+function linea(nivel, txt){ return `<div><span class="pill ${nivel}">${nivel==="ok"?"bien":nivel==="warn"?"ojo":"mal"}</span><span>${txt}</span></div>`; }
+function chequear(){
+  const out=[]; const tot=M.w*M.h;
+  const noLlano = M.t.flat().filter(k=>!["plains","road","floor","bridge"].includes(k)).length;
+  const pct = Math.round(100*noLlano/tot);
+  out.push(linea(pct>45?"bad":pct>30?"warn":"ok", `Terreno especial ${pct}% de las casillas.${pct>30?" Revisá exceso de terreno.":""}`));
+  const jug = M.u.filter(u=>u.eq==="P");
+  if(!M.obj) out.push(linea("warn","Sin objetivo marcado. Usá la herramienta Objetivo o marcá un jefe."));
+  else if(!jug.length) out.push(linea("warn","Sin unidades del jugador para medir el camino."));
+  else {
+    const res = {};
+    for(const cl of new Set([...jug.map(u=>u.cl),"infanteria","volador"])){
+      let mejor=Infinity;
+      for(const u of jug.filter(u=>u.cl===cl).concat(jug.some(u=>u.cl===cl)?[]:[jug[0]])){
+        const d=dijkstra(u.x,u.y,cl,1e6); const v=d.get(M.obj.x+","+M.obj.y); if(v!==undefined&&v<mejor) mejor=v; }
+      res[cl]={c:mejor, t:mejor===Infinity?Infinity:Math.ceil(mejor/CLASES[cl].mov)};
+    }
+    const inf=res.infanteria;
+    if(inf.c===Infinity) out.push(linea("bad","La infantería no puede llegar al objetivo."));
+    else {
+      out.push(linea(inf.c<25?"warn":inf.c>45?"warn":"ok", `Infantería ${inf.c} de costo hasta el objetivo, ${inf.t} turnos de marcha. Referencia temprana 30-40 casillas y 4-6 turnos.`));
+      const fl=res.volador;
+      if(fl.t < inf.t-2) out.push(linea("warn", `Fly-skipping posible. Un volador llega en ${fl.t} turnos contra ${inf.t} de la infantería.`));
+      else out.push(linea("ok", `Volador ${fl.t} turnos. Sin atajo aéreo grave.`));
+      for(const cl of Object.keys(res)) if(!["infanteria","volador"].includes(cl))
+        out.push(linea(res[cl].c===Infinity?"bad":"ok", `${CLASES[cl].nom} ${res[cl].c===Infinity?"no llega":res[cl].t+" turnos"}.`));
+    }
+  }
+  // Pasillos de una casilla y one-tiling diagonal (para infantería)
+  const pas=(x,y)=>x>=0&&y>=0&&x<M.w&&y<M.h&&costo("infanteria",M.t[y][x])<X;
+  let pasillos=0, diag=0;
+  for(let y=0;y<M.h;y++) for(let x=0;x<M.w;x++){
+    if(pas(x,y) && ((!pas(x-1,y)&&!pas(x+1,y)&&x>0&&x<M.w-1) || (!pas(x,y-1)&&!pas(x,y+1)&&y>0&&y<M.h-1))) pasillos++;
+    if(x<M.w-1&&y<M.h-1){ const a=pas(x,y),b=pas(x+1,y),c=pas(x,y+1),d=pas(x+1,y+1);
+      if((a&&d&&!b&&!c)||(b&&c&&!a&&!d)) diag++; }
+  }
+  out.push(linea(pasillos>8?"warn":"ok", `${pasillos} casillas de pasillo de ancho 1. Que sean cuellos de botella opcionales.`));
+  out.push(linea(diag>0?"warn":"ok", diag>0?`${diag} cruces diagonales de una casilla. Riesgo de one-tiling en diagonal.`:"Sin one-tiling diagonal."));
+  const ref = M.u.filter(u=>u.turno>0);
+  const sinAviso = ref.filter(u=>!u.aviso).length;
+  out.push(linea(sinAviso?"bad":"ok", ref.length?`${ref.length} refuerzos, ${sinAviso} sin aviso.`:"Sin refuerzos."));
+  const ocup = new Set(); let choque=0, malPuesta=0;
+  for(const u of M.u){ const k=u.x+","+u.y; if(ocup.has(k)) choque++; ocup.add(k); if(costo(u.cl,M.t[u.y][u.x])>=X) malPuesta++; }
+  out.push(linea(malPuesta?"bad":"ok", malPuesta?`${malPuesta} unidades sobre terreno intransitable para su clase.`:"Todas las unidades pisan terreno válido."));
+  if(choque) out.push(linea("bad",`${choque} unidades superpuestas.`));
+  const pant = M.w*M.h/(15*10);
+  out.push(linea("ok", `${M.w}×${M.h}, ${pant.toFixed(1)} pantallas.`));
+  document.getElementById("chequeo").innerHTML = out.join("");
+}
+
+// ---------- Exportar / importar ----------
+const io = document.getElementById("io"), msgIo=document.getElementById("msgIo");
+function aTexto(){
+  const cab = "    " + Array.from({length:M.w},(_,x)=>String(x).padStart(2,"0")).join(" ");
+  const fil = M.t.map((r,y)=>String(y).padStart(2,"0")+"  "+r.map((k,x)=>{
+    const u=M.u.find(u=>u.x===x&&u.y===y); const s = u ? (u.jefe?"B":u.eq==="P"?"P":u.eq==="E"?(u.turno>0?"!":"E"):"N") : TK[k].sim;
+    return " "+s; }).join(" "));
+  const usados=[...new Set(M.t.flat())].map(k=>`${TK[k].sim} ${TK[k].nom} (0x${TK[k].id.toString(16).toUpperCase().padStart(2,"0")})`);
+  const uni = M.u.map(u=>`- ${u.eq==="P"?"Jugador":u.eq==="E"?"Enemigo":"Aliado"} ${u.nom} (${u.x},${u.y}) ${CLASES[u.cl]?.nom||u.cl}${u.jefe?" JEFE":""}${u.turno>0?` refuerzo T${u.turno}${u.aviso?" con aviso":" SIN AVISO"}`:""}`);
+  return `# ${M.nombre} (${M.w}x${M.h})\n${cab}\n${fil.join("\n")}\n\nLeyenda: ${usados.join(" · ")}\nUnidades: P jugador, E enemigo, B jefe, ! refuerzo, N aliado\n${M.obj?`Objetivo: (${M.obj.x},${M.obj.y}) ${M.obj.tipo}\n`:""}${uni.join("\n")}\n`;
+}
+document.getElementById("exTxt").onclick=()=>{ io.value=aTexto(); msgIo.textContent=""; };
+document.getElementById("exHex").onclick=()=>{ io.value=M.t.map(r=>r.map(k=>"0x"+TK[k].id.toString(16).toUpperCase().padStart(2,"0")).join(",")).join("\n"); msgIo.textContent="IDs de terreno, no tiles. Para el mapa real usá Tiled o FEBuilder."; };
+document.getElementById("exJson").onclick=()=>{ io.value=JSON.stringify(M); msgIo.textContent=""; };
+document.getElementById("copiar").onclick=()=>{ navigator.clipboard.writeText(io.value).then(()=>msgIo.textContent="Copiado.",()=>{ io.select(); msgIo.textContent="Seleccionado. Copiá con Ctrl+C."; }); };
+document.getElementById("importar").onclick=()=>{
+  const s=io.value.trim();
+  try{
+    if(s.startsWith("{")){ const m=JSON.parse(s); if(!m.t||!m.w) throw 0; M=m; }
+    else { // grilla de texto: filas que empiezan con número
+      const filas=s.split("\n").map(l=>l.trim().split(/\s+/))
+        .filter(p=>/^\d+$/.test(p[0])&&p.length>1&&!p.slice(1).every(x=>/^\d+$/.test(x))).map(p=>p.slice(1));
+      if(!filas.length) throw 0;
+      const w=Math.max(...filas.map(f=>f.length)), m=vacio(w,filas.length,"Importado");
+      filas.forEach((f,y)=>f.forEach((s,x)=>{ m.t[y][x]=SIM[s]||"plains"; }));
+      M=m;
+    }
+    rango=null; sincForm(); dibujar(); msgIo.textContent="Importado.";
+  }catch(e){ msgIo.textContent="No pude leerlo. Pegá un JSON exportado o una grilla con filas numeradas."; }
+};
+
+// ---------- Costos editables ----------
+const taC=document.getElementById("costos");
+const mostrarCostos=()=>taC.value=JSON.stringify(Object.fromEntries(Object.entries(CLASES).map(([k,v])=>[k,{mov:v.mov,c:v.c}])),null,1);
+document.getElementById("apCostos").onclick=()=>{ try{ const o=JSON.parse(taC.value);
+  for(const k in o){ CLASES[k]={nom:CLASES[k]?.nom||k, mov:o[k].mov, c:o[k].c}; }
+  guardarLS("fe-costos",o); llenarClases(); dibujar(); document.getElementById("msgCostos").textContent="Aplicado."; }
+  catch(e){ document.getElementById("msgCostos").textContent="JSON inválido."; } };
+document.getElementById("resCostos").onclick=()=>{ CLASES=JSON.parse(JSON.stringify(BASE)); guardarLS("fe-costos",null); mostrarCostos(); llenarClases(); dibujar(); };
+
+// ---------- Guardado local ----------
+function leerLS(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
+function guardarLS(k,v){ try{ v===null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ return false; } }
+function refrescarLista(){ const g=leerLS("fe-mapas")||{}; const s=document.getElementById("lista");
+  s.innerHTML=Object.keys(g).map(n=>`<option>${n.replace(/</g,"&lt;")}</option>`).join("")||"<option value=''>(vacío)</option>"; }
+document.getElementById("guardar").onclick=()=>{ M.nombre=document.getElementById("nombre").value||M.nombre; const g=leerLS("fe-mapas")||{}; g[M.nombre]=M;
+  document.getElementById("msgGuard").textContent = guardarLS("fe-mapas",g)?"Guardado en este navegador. Exportá JSON para respaldo.":"Este navegador no permite guardar. Exportá JSON.";
+  refrescarLista(); };
+document.getElementById("cargar").onclick=()=>{ const n=document.getElementById("lista").value, g=leerLS("fe-mapas")||{}; if(g[n]){ M=g[n]; rango=null; sincForm(); dibujar(); } };
+document.getElementById("borrar").onclick=()=>{ const n=document.getElementById("lista").value, g=leerLS("fe-mapas")||{}; delete g[n]; guardarLS("fe-mapas",g); refrescarLista(); };
+
+// ---------- Formularios ----------
+function sincForm(){ document.getElementById("nombre").value=M.nombre; document.getElementById("ancho").value=M.w; document.getElementById("alto").value=M.h; }
+document.getElementById("nombre").oninput=e=>M.nombre=e.target.value;
+document.getElementById("redim").onclick=()=>{ const w=Math.max(15,Math.min(60,+document.getElementById("ancho").value)), h=Math.max(10,Math.min(60,+document.getElementById("alto").value));
+  const n=vacio(w,h,M.nombre); for(let y=0;y<Math.min(h,M.h);y++) for(let x=0;x<Math.min(w,M.w);x++) n.t[y][x]=M.t[y][x];
+  n.u=M.u.filter(u=>u.x<w&&u.y<h); n.obj=M.obj&&M.obj.x<w&&M.obj.y<h?M.obj:null; M=n; rango=null; sincForm(); dibujar(); };
+document.getElementById("nuevo").onclick=()=>{ M=vacio(15,10,"Nuevo mapa"); rango=null; sincForm(); dibujar(); };
+document.querySelectorAll("#herr button").forEach(b=>b.onclick=()=>{ herr=b.dataset.h;
+  document.querySelectorAll("#herr button").forEach(o=>o.classList.toggle("on",o===b));
+  document.getElementById("opPintar").hidden=herr!=="pintar"; document.getElementById("opUnidad").hidden=herr!=="unidad"; document.getElementById("opRango").hidden=herr!=="rango";
+  if(herr!=="rango") rango=null; dibujar(); });
+["vPant","vSim"].forEach(id=>document.getElementById(id).onchange=dibujar);
+function llenarClases(){ const h=Object.entries(CLASES).map(([k,v])=>`<option value="${k}">${v.nom||k}</option>`).join("");
+  document.getElementById("uCl").innerHTML=h; document.getElementById("rCl").innerHTML=h; }
+const pal=document.getElementById("paleta");
+pal.innerHTML=TER.map(t=>`<button data-k="${t[0]}" class="${t[0]===pincel?"on":""}"><span class="sw" style="background:${t[4]}">${t[3]}</span>${t[2]}</button>`).join("");
+pal.querySelectorAll("button").forEach(b=>b.onclick=()=>{ pincel=b.dataset.k; pal.querySelectorAll("button").forEach(o=>o.classList.toggle("on",o===b)); });
+
+// ---------- Referencia ----------
+const CAT = window.CATALOGO || [];
+let orden={k:"idx",asc:false};
+const fJ=document.getElementById("fJuego");
+[...new Set(CAT.map(c=>c.juego))].forEach(j=>fJ.insertAdjacentHTML("beforeend",`<option>${j}</option>`));
+function idx(c){ const wm=+wM.value, wd=+wD.value, wj=+wJ.value, s=wm+wd+wj||1; return (wm*c.m+wd*c.d+wj*c.j)/s; }
+const wM=document.getElementById("wM"), wD=document.getElementById("wD"), wJ=document.getElementById("wJ");
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function tabla(){
+  const t=document.getElementById("fTexto").value.toLowerCase();
+  const rows=CAT.filter(c=>(!fJ.value||c.juego===fJ.value)&&(!t||(c.nombre+c.rasgo+c.leccion).toLowerCase().includes(t)))
+    .map(c=>({...c,idx:idx(c)}))
+    .sort((a,b)=>{ const x=a[orden.k], y=b[orden.k]; const r = typeof x==="number"?x-y:String(x).localeCompare(String(y),"es",{numeric:true}); return orden.asc?r:-r; });
+  document.getElementById("tRef").innerHTML=rows.map(c=>`<tr><td>${c.juego}</td><td class="n">${esc(c.cap)}</td><td>${esc(c.nombre)}${c.v?"":" <span class='small'>?</span>"}</td><td>${c.ruta}</td>
+    <td class="n">${c.m}</td><td class="n">${c.d}</td><td class="n">${c.j}</td>
+    <td class="mono"><span class="bar" style="width:${c.idx*10}px"></span> ${c.idx.toFixed(1)}</td>
+    <td><div>${esc(c.rasgo)}</div><div class="small">${esc(c.leccion)}</div></td></tr>`).join("");
+}
+document.querySelectorAll("th[data-k]").forEach(th=>th.onclick=()=>{ const k=th.dataset.k; orden={k,asc:orden.k===k?!orden.asc:["juego","cap","nombre","ruta"].includes(k)}; tabla(); });
+[fJ,document.getElementById("fTexto"),wM,wD,wJ].forEach(el=>el.oninput=tabla);
+document.getElementById("tabEd").onclick=()=>vista(true); document.getElementById("tabRef").onclick=()=>vista(false);
+function vista(ed){ document.getElementById("vistaEd").hidden=!ed; document.getElementById("vistaRef").hidden=ed;
+  document.getElementById("tabEd").classList.toggle("on",ed); document.getElementById("tabRef").classList.toggle("on",!ed); if(!ed) tabla(); }
+
+// ---------- Inicio ----------
+const cc=leerLS("fe-costos"); if(cc) for(const k in cc) CLASES[k]={nom:CLASES[k]?.nom||k, mov:cc[k].mov, c:cc[k].c};
+llenarClases(); mostrarCostos(); refrescarLista(); sincForm(); dibujar();
+document.fonts && document.fonts.ready.then(dibujar);
+</script>
