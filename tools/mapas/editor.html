@@ -125,12 +125,12 @@ label{display:flex;gap:6px;align-items:center;font-size:13px}
         <button id="exHex">IDs FE8</button>
         <button id="exJson">JSON</button>
       </div>
-      <textarea id="io" style="margin-top:6px" placeholder="Acá aparece lo exportado. Pegá un JSON o una grilla de texto y apretá Importar."></textarea>
+      <textarea id="io" style="margin-top:6px" placeholder="Acá aparece lo exportado. Pega un JSON o una grilla de texto y aprieta Importar."></textarea>
       <div class="row" style="margin-top:6px"><button id="copiar">Copiar</button><button id="importar">Importar</button><span class="small" id="msgIo"></span></div>
     </div>
     <div>
       <h2>Costos de movimiento</h2>
-      <span class="small">Valores aproximados de FE8. Reemplazalos con los de src/data_terrains.c y apretá Aplicar. 99 = intransitable.</span>
+      <span class="small" id="fuenteCostos">Costos reales de FE8 extraídos de src/data_terrains.c. Puedes ajustarlos y apretar Aplicar. 99 = intransitable.</span>
       <textarea id="costos" style="margin-top:6px"></textarea>
       <div class="row" style="margin-top:6px"><button id="apCostos">Aplicar</button><button id="resCostos">Restaurar</button><span class="small" id="msgCostos"></span></div>
     </div>
@@ -166,37 +166,65 @@ label{display:flex;gap:6px;align-items:center;font-size:13px}
 </section>
 
 <script src="catalogo.js"></script>
+<script src="datos_fe8.js"></script>
 <script>
 "use strict";
 // ---------- Terrenos FE8 (IDs del enum de terreno de fireemblem8u; los marcados con ? hay que verificarlos) ----------
+// Los 65 terrenos de FE8 con su ID real (include/constants/terrains.h).
 const TER = [
-  ["plains",0x01,"Llanura",".","#7fb069"],["road",0x02,"Camino","=","#cdb57e"],["village",0x03,"Aldea","V","#e0a35a"],
-  ["house",0x05,"Casa","h","#b98b5e"],["armory",0x06,"Armería","a","#a87c50"],["vendor",0x07,"Tienda","t","#a87c50"],
-  ["fort",0x0A,"Fuerte","F","#a39580"],["gate",0x0B,"Portón","G","#8d8275"],["forest",0x0C,"Bosque","f","#2f6b3a"],
-  ["thicket",0x0D,"Matorral","#","#1d4426"],["sand",0x0E,"Arena","s","#e6d394"],["desert",0x0F,"Desierto","d","#d6b867"],
-  ["river",0x10,"Río","~","#4f8fc0"],["mountain",0x11,"Montaña","^","#8d6e53"],["peak",0x12,"Pico","A","#5c4838"],
-  ["bridge",0x13,"Puente","b","#a9895f"],["sea",0x15,"Mar","w","#2b5c8c"],["lake",0x16,"Lago","l","#3b74a4"],
-  ["floor",0x17,"Suelo","_","#a8a39a"],["fence",0x19,"Valla","|","#6e5a45"],["wall",0x1A,"Muro","X","#46433f"],
-  ["wallb",0x1B,"Muro rompible","x","#6b6259"],["rubble",0x1C,"Escombros","r","#90867a"],["pillar",0x1D,"Pilar","I","#78726b"],
-  ["door",0x1E,"Puerta","D","#7a4f2e"],["throne",0x1F,"Trono","T","#a8433b"],["chest",0x20,"Cofre","c","#c99a2e"],
-  ["church",0x24,"Iglesia","+","#d2c9bb"],["ruins",0x25,"Ruinas?","R","#8c8a7c"],["cliff",0x26,"Acantilado?","/","#5a4b40"]
+  ["none",0x00,"Nada","0","#000000"],["plains",0x01,"Llanura",".","#7fb069"],["road",0x02,"Camino","=","#cdb57e"],
+  ["village",0x03,"Aldea","V","#e0a35a"],["villagec",0x04,"Aldea cerrada","v","#a07850"],["house",0x05,"Casa","h","#b98b5e"],
+  ["armory",0x06,"Armería","a","#a87c50"],["vendor",0x07,"Tienda","t","#a87c50"],["arena",0x08,"Arena de combate","Y","#c4704a"],
+  ["croom",0x09,"Sala C","k","#9a8f86"],["fort",0x0A,"Fuerte","F","#a39580"],["gatec",0x0B,"Portón de castillo","G","#8d8275"],
+  ["forest",0x0C,"Bosque","f","#2f6b3a"],["thicket",0x0D,"Matorral","#","#1d4426"],["sand",0x0E,"Arena","s","#e6d394"],
+  ["desert",0x0F,"Desierto","d","#d6b867"],["river",0x10,"Río","~","#4f8fc0"],["mountain",0x11,"Montaña","^","#8d6e53"],
+  ["peak",0x12,"Pico","A","#5c4838"],["bridge",0x13,"Puente","b","#a9895f"],["bridge14",0x14,"Puente 14","q","#8f7552"],
+  ["sea",0x15,"Mar","w","#2b5c8c"],["lake",0x16,"Lago","l","#3b74a4"],["floor",0x17,"Suelo","_","#a8a39a"],
+  ["floorm",0x18,"Suelo mágico",",","#9b93b0"],["fence",0x19,"Valla","|","#6e5a45"],["wall",0x1A,"Muro","X","#46433f"],
+  ["wallb",0x1B,"Muro dañado","x","#6b6259"],["rubble",0x1C,"Escombros","r","#90867a"],["pillar",0x1D,"Pilar","I","#78726b"],
+  ["door",0x1E,"Puerta","D","#7a4f2e"],["throne",0x1F,"Trono","T","#a8433b"],["chesto",0x20,"Cofre vacío","o","#8a6a2a"],
+  ["chest",0x21,"Cofre","c","#c99a2e"],["roof",0x22,"Techo","H","#6d4a3a"],["gate",0x23,"Portón","g","#7f766a"],
+  ["church",0x24,"Iglesia","+","#d2c9bb"],["ruins",0x25,"Ruinas","R","#8c8a7c"],["cliff",0x26,"Acantilado","/","#5a4b40"],
+  ["ballista",0x27,"Balista","L","#9a7d55"],["ballistal",0x28,"Balista larga","M","#9a7d55"],["ballistak",0x29,"Balista asesina","K","#9a7d55"],
+  ["ship",0x2A,"Barco","S","#8a6b47"],["wreck",0x2B,"Naufragio","W","#6f5a45"],["t2c",0x2C,"Casilla 2C","2","#3a3a3a"],
+  ["stairs",0x2D,"Escaleras","Z","#b0a898"],["t2e",0x2E,"Casilla 2E","3","#3a3a3a"],["glacier",0x2F,"Glaciar","*","#cfe3ee"],
+  ["arena30",0x30,"Arena 30","y","#c4704a"],["valley",0x31,"Valle","U","#4b3f3a"],["fence32",0x32,"Valla 32",":","#6e5a45"],
+  ["snag",0x33,"Tronco","j","#6b5236"],["bridges",0x34,"Puente con tronco","J","#a9895f"],["sky",0x35,"Cielo","u","#8fb8de"],
+  ["deeps",0x36,"Abismo","O","#1c3550"],["ruinsv",0x37,"Aldea en ruinas","Q","#8c8a7c"],["inn",0x38,"Posada","i","#b98b5e"],
+  ["barrel",0x39,"Barril","n","#7a5a3a"],["bone",0x3A,"Hueso","z","#d8d2c0"],["dark",0x3B,"Oscuridad","%","#2a2238"],
+  ["water",0x3C,"Agua","m","#3d6f9a"],["gunnels",0x3D,"Borda","[","#6f5238"],["deck",0x3E,"Cubierta","]","#9c7a52"],
+  ["brace",0x3F,"Refuerzo de muro","{","#5f5a54"],["mast",0x40,"Mástil","}","#5a4430"]
 ];
 const TK = {}; TER.forEach(t => TK[t[0]] = {k:t[0], id:t[1], nom:t[2], sim:t[3], col:t[4]});
 const SIM = {}; TER.forEach(t => SIM[t[3]] = t[0]);
+const PORID = []; TER.forEach(t => PORID[t[1]] = t[0]);
 
-// ---------- Clases de movimiento (aproximadas, editables) ----------
+// Grupos de movimiento. Con datos_fe8.js usan las tablas reales de src/data_terrains.c.
 const X = 99;
-const BASE = {
-  infanteria: {mov:5, nom:"Infantería (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:3,river:X,mountain:4,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
-  acorazado:  {mov:4, nom:"Acorazado (4)", c:{fort:2,forest:2,thicket:X,sand:3,desert:4,river:X,mountain:X,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
-  caballeria: {mov:7, nom:"Caballería (7)", c:{fort:2,forest:3,thicket:X,sand:4,desert:5,river:X,mountain:X,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:3,pillar:3,door:X,cliff:X,ruins:3}},
-  mago:       {mov:5, nom:"Mago (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:2,river:X,mountain:4,peak:X,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
-  hacha:      {mov:5, nom:"Guerrero/Bandido (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:3,river:X,mountain:3,peak:4,sea:X,lake:X,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
-  pirata:     {mov:5, nom:"Pirata (5)", c:{fort:2,forest:2,thicket:X,sand:2,desert:3,river:2,mountain:3,peak:X,sea:2,lake:2,fence:X,wall:X,wallb:X,rubble:2,pillar:2,door:X,cliff:X,ruins:2}},
-  volador:    {mov:7, nom:"Volador (7)", c:{wall:X,wallb:X,door:X}}
+const GRUPOS = {
+  infanteria:["CommonT1",5,"Infantería (5) · mercenario, mirmidón, arquero"],
+  infanteria2:["CommonT2",6,"Infantería promovida (6) · héroe, espadachín"],
+  acorazado:["Armor",4,"Acorazado (4)"], caballeria:["HorseT1",7,"Caballería (7) · jinete"],
+  caballeria2:["HorseT2",8,"Caballería promovida (8) · paladín"], mago:["Magic",5,"Magia (5) · mago, monje, clérigo"],
+  hacha:["Fighter",5,"Guerrero (5) · luchador, guerrero"], bandido:["Brigand",5,"Bandido (5)"],
+  berserker:["Berserker",6,"Berserker (6)"], pirata:["Pirate",5,"Pirata (5)"], ladron:["Thief",6,"Ladrón (6)"],
+  volador:["Fly",7,"Volador (7) · pegaso, wyvern"], bestia:["AnimalT1",7,"Bestia (7) · monstruos"],
+  bestia2:["AnimalT2",7,"Montado en bestia (7) · ranger"], civil:["Civilian",5,"Civil (5)"]
 };
+function construirClases(){
+  const o = {};
+  for(const [k,[tabla,mov,nom]] of Object.entries(GRUPOS)){
+    const c = {};
+    const fila = window.FE8 && window.FE8.tablas[tabla];
+    if(fila) TER.forEach(t => { const v = fila[t[1]]; c[t[0]] = (v===undefined||v<0) ? X : v; });
+    else TER.forEach(t => { c[t[0]] = ["plains","road","bridge","floor","village","house","armory","vendor","throne","chest","chesto","gate","gatec","stairs","church","inn"].includes(t[0]) ? 1 : (k==="volador" && !["wall","wallb","door","none"].includes(t[0])) ? 1 : ["forest","fort","sand","desert","rubble","pillar","ruins"].includes(t[0]) ? 2 : X; });
+    o[k] = {mov, nom, c};
+  }
+  return o;
+}
+const BASE = construirClases();
 let CLASES = JSON.parse(JSON.stringify(BASE));
-const costo = (cl, k) => { const v = CLASES[cl].c[k]; return v === undefined ? 1 : v; };
+const costo = (cl, k) => { const v = (CLASES[cl]||CLASES.infanteria).c[k]; return v === undefined ? X : v; };
 
 // ---------- Estado ----------
 const CELL = 26, MARG = 22;
@@ -305,9 +333,9 @@ function chequear(){
   const out=[]; const tot=M.w*M.h;
   const noLlano = M.t.flat().filter(k=>!["plains","road","floor","bridge"].includes(k)).length;
   const pct = Math.round(100*noLlano/tot);
-  out.push(linea(pct>45?"bad":pct>30?"warn":"ok", `Terreno especial ${pct}% de las casillas.${pct>30?" Revisá exceso de terreno.":""}`));
+  out.push(linea(pct>45?"bad":pct>30?"warn":"ok", `Terreno especial ${pct}% de las casillas.${pct>30?" Revisa exceso de terreno.":""}`));
   const jug = M.u.filter(u=>u.eq==="P");
-  if(!M.obj) out.push(linea("warn","Sin objetivo marcado. Usá la herramienta Objetivo o marcá un jefe."));
+  if(!M.obj) out.push(linea("warn","Sin objetivo marcado. Usa la herramienta Objetivo o marca un jefe."));
   else if(!jug.length) out.push(linea("warn","Sin unidades del jugador para medir el camino."));
   else {
     const res = {};
@@ -362,9 +390,9 @@ function aTexto(){
   return `# ${M.nombre} (${M.w}x${M.h})\n${cab}\n${fil.join("\n")}\n\nLeyenda: ${usados.join(" · ")}\nUnidades: P jugador, E enemigo, B jefe, ! refuerzo, N aliado\n${M.obj?`Objetivo: (${M.obj.x},${M.obj.y}) ${M.obj.tipo}\n`:""}${uni.join("\n")}\n`;
 }
 document.getElementById("exTxt").onclick=()=>{ io.value=aTexto(); msgIo.textContent=""; };
-document.getElementById("exHex").onclick=()=>{ io.value=M.t.map(r=>r.map(k=>"0x"+TK[k].id.toString(16).toUpperCase().padStart(2,"0")).join(",")).join("\n"); msgIo.textContent="IDs de terreno, no tiles. Para el mapa real usá Tiled o FEBuilder."; };
+document.getElementById("exHex").onclick=()=>{ io.value=M.t.map(r=>r.map(k=>"0x"+TK[k].id.toString(16).toUpperCase().padStart(2,"0")).join(",")).join("\n"); msgIo.textContent="IDs de terreno, no tiles. Para el mapa real usa Tiled o FEBuilder."; };
 document.getElementById("exJson").onclick=()=>{ io.value=JSON.stringify(M); msgIo.textContent=""; };
-document.getElementById("copiar").onclick=()=>{ navigator.clipboard.writeText(io.value).then(()=>msgIo.textContent="Copiado.",()=>{ io.select(); msgIo.textContent="Seleccionado. Copiá con Ctrl+C."; }); };
+document.getElementById("copiar").onclick=()=>{ navigator.clipboard.writeText(io.value).then(()=>msgIo.textContent="Copiado.",()=>{ io.select(); msgIo.textContent="Seleccionado. Copia con Ctrl+C."; }); };
 document.getElementById("importar").onclick=()=>{
   const s=io.value.trim();
   try{
@@ -378,7 +406,7 @@ document.getElementById("importar").onclick=()=>{
       M=m;
     }
     rango=null; sincForm(); dibujar(); msgIo.textContent="Importado.";
-  }catch(e){ msgIo.textContent="No pude leerlo. Pegá un JSON exportado o una grilla con filas numeradas."; }
+  }catch(e){ msgIo.textContent="No pude leerlo. Pega un JSON exportado o una grilla con filas numeradas."; }
 };
 
 // ---------- Costos editables ----------
@@ -386,9 +414,9 @@ const taC=document.getElementById("costos");
 const mostrarCostos=()=>taC.value=JSON.stringify(Object.fromEntries(Object.entries(CLASES).map(([k,v])=>[k,{mov:v.mov,c:v.c}])),null,1);
 document.getElementById("apCostos").onclick=()=>{ try{ const o=JSON.parse(taC.value);
   for(const k in o){ CLASES[k]={nom:CLASES[k]?.nom||k, mov:o[k].mov, c:o[k].c}; }
-  guardarLS("fe-costos",o); llenarClases(); dibujar(); document.getElementById("msgCostos").textContent="Aplicado."; }
+  guardarLS("fe-costos2",o); llenarClases(); dibujar(); document.getElementById("msgCostos").textContent="Aplicado."; }
   catch(e){ document.getElementById("msgCostos").textContent="JSON inválido."; } };
-document.getElementById("resCostos").onclick=()=>{ CLASES=JSON.parse(JSON.stringify(BASE)); guardarLS("fe-costos",null); mostrarCostos(); llenarClases(); dibujar(); };
+document.getElementById("resCostos").onclick=()=>{ CLASES=JSON.parse(JSON.stringify(BASE)); guardarLS("fe-costos2",null); mostrarCostos(); llenarClases(); dibujar(); };
 
 // ---------- Guardado local ----------
 function leerLS(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
@@ -396,7 +424,7 @@ function guardarLS(k,v){ try{ v===null?localStorage.removeItem(k):localStorage.s
 function refrescarLista(){ const g=leerLS("fe-mapas")||{}; const s=document.getElementById("lista");
   s.innerHTML=Object.keys(g).map(n=>`<option>${n.replace(/</g,"&lt;")}</option>`).join("")||"<option value=''>(vacío)</option>"; }
 document.getElementById("guardar").onclick=()=>{ M.nombre=document.getElementById("nombre").value||M.nombre; const g=leerLS("fe-mapas")||{}; g[M.nombre]=M;
-  document.getElementById("msgGuard").textContent = guardarLS("fe-mapas",g)?"Guardado en este navegador. Exportá JSON para respaldo.":"Este navegador no permite guardar. Exportá JSON.";
+  document.getElementById("msgGuard").textContent = guardarLS("fe-mapas",g)?"Guardado en este navegador. Exporta JSON para respaldo.":"Este navegador no permite guardar. Exporta JSON.";
   refrescarLista(); };
 document.getElementById("cargar").onclick=()=>{ const n=document.getElementById("lista").value, g=leerLS("fe-mapas")||{}; if(g[n]){ M=g[n]; rango=null; sincForm(); dibujar(); } };
 document.getElementById("borrar").onclick=()=>{ const n=document.getElementById("lista").value, g=leerLS("fe-mapas")||{}; delete g[n]; guardarLS("fe-mapas",g); refrescarLista(); };
@@ -425,10 +453,17 @@ let CAT = [];
 const clave = c => [c.juego,c.cap,c.nombre,c.ruta].join("|");
 function armarCat(){ const extra = leerLS("fe-cat-extra") || []; const m = new Map();
   for(const c of CAT_BASE.concat(extra)) m.set(clave(c), {...(m.get(clave(c))||{}), ...c});
+  if(window.FE8) for(const mp of window.FE8.mapas){
+    const k = ["FE8",mp.cap,null,mp.ruta]; let hit = [...m.values()].find(c=>c.juego==="FE8"&&c.cap===mp.cap&&c.ruta===mp.ruta);
+    if(!hit){ hit = {juego:"FE8",cap:mp.cap,nombre:mp.nombre,ruta:mp.ruta,m:2,d:3,j:4,v:false,rasgo:mp.ruta==="postgame"?"Mapa postgame.":"Segunda parte del final.",leccion:""}; m.set(clave(hit),hit); }
+    hit.ids = mp.ids; hit.niebla = mp.niebla; }
   CAT = [...m.values()]; }
 armarCat();
 let filas = [];
 function abrirGrilla(c){
+  if(c.ids){ const m = vacio(Math.max(15,c.ids[0].length), Math.max(10,c.ids.length), `${c.juego} ${c.cap} · ${c.nombre}`);
+    c.ids.forEach((f,y)=>f.forEach((id,x)=>{ m.t[y][x] = PORID[id] || "none"; }));
+    M = m; rango = null; sincForm(); vista(true); dibujar(); return; }
   const g = c.grilla, h = g.length, w = Math.max(...g.map(f=>f.length));
   const m = vacio(Math.max(15,w), Math.max(10,h), `${c.juego} ${c.cap} · ${c.nombre}`);
   g.forEach((f,y)=>[...f].forEach((ch,x)=>{ m.t[y][x] = SIM[ch] || "plains"; }));
@@ -463,7 +498,7 @@ function tabla(){
     <td class="n">${c.m}</td><td class="n">${c.d}</td><td class="n">${c.j}</td>
     <td class="mono"><span class="bar" style="width:${c.idx*10}px"></span> ${c.idx.toFixed(1)}</td>
     <td><div>${esc(c.rasgo)}</div><div class="small">${esc(c.leccion)}</div></td>
-    <td>${c.grilla?`<button data-abrir="${filas.indexOf(c)}">Abrir</button>`:"<span class='small'>sin grilla</span>"}</td></tr>`).join("");
+    <td>${(c.grilla||c.ids)?`<button data-abrir="${filas.indexOf(c)}">Abrir</button>`:"<span class='small'>sin grilla</span>"}</td></tr>`).join("");
   document.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>abrirGrilla(filas[+b.dataset.abrir]));
 }
 document.querySelectorAll("th[data-k]").forEach(th=>th.onclick=()=>{ const k=th.dataset.k; orden={k,asc:orden.k===k?!orden.asc:["juego","cap","nombre","ruta"].includes(k)}; tabla(); });
@@ -473,7 +508,7 @@ function vista(ed){ document.getElementById("vistaEd").hidden=!ed; document.getE
   document.getElementById("tabEd").classList.toggle("on",ed); document.getElementById("tabRef").classList.toggle("on",!ed); if(!ed) tabla(); }
 
 // ---------- Inicio ----------
-const cc=leerLS("fe-costos"); if(cc) for(const k in cc) CLASES[k]={nom:CLASES[k]?.nom||k, mov:cc[k].mov, c:cc[k].c};
+const cc=leerLS("fe-costos2"); if(cc) for(const k in cc) CLASES[k]={nom:CLASES[k]?.nom||k, mov:cc[k].mov, c:cc[k].c};
 llenarClases(); llenarJuegos(); mostrarCostos(); refrescarLista(); sincForm(); dibujar();
 document.fonts && document.fonts.ready.then(dibujar);
 </script>

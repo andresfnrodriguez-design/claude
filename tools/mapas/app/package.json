@@ -15,7 +15,7 @@
   "build": {
     "appId": "elyria.taller.mapas",
     "productName": "Taller de Mapas Elyria",
-    "files": ["main.js", "editor.html", "catalogo.js"],
+    "files": ["main.js", "editor.html", "catalogo.js", "datos_fe8.js"],
     "directories": { "output": "dist" },
     "win": { "target": "portable", "signAndEditExecutable": false }
   }
