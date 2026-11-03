@@ -55,6 +55,26 @@ Tope 40 misiones. 4 Partes sobre 3 actos.
 Elenco: 22-24 jugables · ~28-30 enemigos con nombre · 12-18 no jugables.
 Mecánica: despliegue obligatorio, nadie se queda en el banco.
 
+## 4b. Decisiones de revisión (CANON, 2026-11-03)
+
+- **Orestion tiene razón en parte.** No es un hipócrita: es la otra respuesta a "¿se puede salvar a todos?". Abandonó a la mayoría porque creyó que no se podía salvar a todos, y cree que va a volver a pasar.
+- **No hay amenaza sobrenatural.** Se eliminan Érebos, Tálos y la "sombra imposible". Las fisuras son un fenómeno físico sin voluntad. El clímax es una decisión humana.
+- **Pregunta dramática:** ¿se puede salvar a todos?
+
+## 4c. Problemas detectados en el boceto de novela (pendiente de reescritura)
+
+Revisión completa: https://claude.ai/artifact/GbwYWvgJSkFC65ZdvcyZvU
+
+- Nunca se dice *qué* ocultaba Orestion; tampoco quién mató a Nemira ni cómo.
+- Entre M20 y M29 Kairon sabe la verdad y no actúa.
+- Halvard entra en M21 y traiciona en M30: muy poco tiempo para que pese.
+- Selene, Fenn, Tálos, Kallion e Ilarion aparecen tarde y sin construcción previa.
+- 18 de 40 misiones no tienen combate.
+- "Nadie se abandona" no aparece nunca en el texto; Cassaria tampoco.
+- Nombres que se confunden: Vask/Voss, Kairon/Kallion, Ilarion repetido.
+- El clímax (olvidar a Nemira con magia) contradice el arco de Kairon.
+- Conservar: cold open M1/M30, M2 y M9–M10, mapas separados M14 y M32, Kallion, cartas Brandt–Halvard, epílogo.
+
 ## 5. Propuestas (sin confirmar)
 
 - **Motivo de Orestion:** el liderazgo supo del colapso y evacuó en secreto a una élite. El lema "nadie se abandona" nació después para taparlo. Hoy repite el trato con Ferannor (datos de fisuras a cambio de hogar garantizado).
@@ -67,7 +87,6 @@ Mecánica: despliegue obligatorio, nadie se queda en el banco.
 
 ## 6. Abierto
 
-- Qué se filtra por las fisuras: entidad/jefe final o fuerza impersonal.
 - Sistema de magia del aether.
 - Casting de traidores.
 - Desglose misión por misión.
@@ -95,3 +114,4 @@ Bocetos: minera elíria en Cassaria · hijo de la élite evacuada (candidato a t
 | Fecha | Decisión |
 |---|---|
 | 2026-11-03 | Biblia creada a partir del Google Doc "FE". |
+| 2026-11-03 | Orestion con postura defendible; se elimina la capa sobrenatural. Revisión del boceto de novela. |
