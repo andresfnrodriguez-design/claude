@@ -146,12 +146,18 @@ label{display:flex;gap:6px;align-items:center;font-size:13px}
       <label>Peso dificultad <input id="wD" type="range" min="0" max="3" value="1"></label>
       <label>Peso justicia <input id="wJ" type="range" min="0" max="3" value="2"></label>
     </div>
+    <div class="row">
+      <label for="fCat">Agregar mapas al catálogo</label>
+      <input id="fCat" type="file" accept=".json,application/json" multiple>
+      <button id="limpCat">Quitar mapas agregados</button>
+      <span class="small" id="msgCat"></span>
+    </div>
     <span class="small">Puntajes de 1 a 5 estimados por Claude a partir del consenso de la comunidad. Las fichas sin verificar están marcadas con ?. El índice pondera los tres ejes con los pesos de arriba.</span>
     <div class="tablawrap">
       <table>
         <thead><tr>
           <th data-k="juego">Juego</th><th data-k="cap">Cap.</th><th data-k="nombre">Mapa</th><th data-k="ruta">Ruta</th>
-          <th data-k="m">Mem.</th><th data-k="d">Dif.</th><th data-k="j">Just.</th><th data-k="idx">Índice</th><th>Rasgo y lección para Fisuras</th>
+          <th data-k="m">Mem.</th><th data-k="d">Dif.</th><th data-k="j">Just.</th><th data-k="idx">Índice</th><th>Rasgo y lección para Fisuras</th><th>Mapa</th>
         </tr></thead>
         <tbody id="tRef"></tbody>
       </table>
@@ -414,22 +420,51 @@ pal.innerHTML=TER.map(t=>`<button data-k="${t[0]}" class="${t[0]===pincel?"on":"
 pal.querySelectorAll("button").forEach(b=>b.onclick=()=>{ pincel=b.dataset.k; pal.querySelectorAll("button").forEach(o=>o.classList.toggle("on",o===b)); });
 
 // ---------- Referencia ----------
-const CAT = window.CATALOGO || [];
+const CAT_BASE = window.CATALOGO || [];
+let CAT = [];
+const clave = c => [c.juego,c.cap,c.nombre,c.ruta].join("|");
+function armarCat(){ const extra = leerLS("fe-cat-extra") || []; const m = new Map();
+  for(const c of CAT_BASE.concat(extra)) m.set(clave(c), {...(m.get(clave(c))||{}), ...c});
+  CAT = [...m.values()]; }
+armarCat();
+let filas = [];
+function abrirGrilla(c){
+  const g = c.grilla, h = g.length, w = Math.max(...g.map(f=>f.length));
+  const m = vacio(Math.max(15,w), Math.max(10,h), `${c.juego} ${c.cap} · ${c.nombre}`);
+  g.forEach((f,y)=>[...f].forEach((ch,x)=>{ m.t[y][x] = SIM[ch] || "plains"; }));
+  m.u = (c.u||[]).map(u=>({x:u.x,y:u.y,eq:u.eq||"E",nom:u.nom||"?",cl:CLASES[u.cl]?u.cl:"infanteria",jefe:!!u.jefe,turno:u.turno||0,aviso:u.aviso!==false}));
+  m.obj = c.obj || null;
+  M = m; rango = null; sincForm(); vista(true); dibujar();
+}
+document.getElementById("fCat").onchange = async e => {
+  const msg = document.getElementById("msgCat"); let n = 0;
+  try{
+    const extra = leerLS("fe-cat-extra") || [];
+    for(const f of e.target.files){ let d = JSON.parse(await f.text()); if(!Array.isArray(d)) d = d.mapas || [d];
+      for(const c of d){ if(c && c.juego && c.nombre){ extra.push(c); n++; } } }
+    guardarLS("fe-cat-extra", extra); armarCat(); llenarJuegos(); tabla();
+    msg.textContent = `${n} mapas agregados.`;
+  }catch(err){ msg.textContent = "No pude leer el archivo. Tiene que ser un JSON de mapas del catálogo."; }
+  e.target.value = "";
+};
+document.getElementById("limpCat").onclick = () => { guardarLS("fe-cat-extra", null); armarCat(); llenarJuegos(); tabla(); document.getElementById("msgCat").textContent = "Quitados."; };
 let orden={k:"idx",asc:false};
 const fJ=document.getElementById("fJuego");
-[...new Set(CAT.map(c=>c.juego))].forEach(j=>fJ.insertAdjacentHTML("beforeend",`<option>${j}</option>`));
+function llenarJuegos(){ const v=fJ.value; fJ.innerHTML='<option value="">Todos</option>'+[...new Set(CAT.map(c=>c.juego))].map(j=>`<option>${esc(j)}</option>`).join(""); fJ.value=v; }
 function idx(c){ const wm=+wM.value, wd=+wD.value, wj=+wJ.value, s=wm+wd+wj||1; return (wm*c.m+wd*c.d+wj*c.j)/s; }
 const wM=document.getElementById("wM"), wD=document.getElementById("wD"), wJ=document.getElementById("wJ");
 const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 function tabla(){
   const t=document.getElementById("fTexto").value.toLowerCase();
-  const rows=CAT.filter(c=>(!fJ.value||c.juego===fJ.value)&&(!t||(c.nombre+c.rasgo+c.leccion).toLowerCase().includes(t)))
+  const rows=filas=CAT.filter(c=>(!fJ.value||c.juego===fJ.value)&&(!t||(c.nombre+c.rasgo+c.leccion).toLowerCase().includes(t)))
     .map(c=>({...c,idx:idx(c)}))
     .sort((a,b)=>{ const x=a[orden.k], y=b[orden.k]; const r = typeof x==="number"?x-y:String(x).localeCompare(String(y),"es",{numeric:true}); return orden.asc?r:-r; });
   document.getElementById("tRef").innerHTML=rows.map(c=>`<tr><td>${c.juego}</td><td class="n">${esc(c.cap)}</td><td>${esc(c.nombre)}${c.v?"":" <span class='small'>?</span>"}</td><td>${c.ruta}</td>
     <td class="n">${c.m}</td><td class="n">${c.d}</td><td class="n">${c.j}</td>
     <td class="mono"><span class="bar" style="width:${c.idx*10}px"></span> ${c.idx.toFixed(1)}</td>
-    <td><div>${esc(c.rasgo)}</div><div class="small">${esc(c.leccion)}</div></td></tr>`).join("");
+    <td><div>${esc(c.rasgo)}</div><div class="small">${esc(c.leccion)}</div></td>
+    <td>${c.grilla?`<button data-abrir="${filas.indexOf(c)}">Abrir</button>`:"<span class='small'>sin grilla</span>"}</td></tr>`).join("");
+  document.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>abrirGrilla(filas[+b.dataset.abrir]));
 }
 document.querySelectorAll("th[data-k]").forEach(th=>th.onclick=()=>{ const k=th.dataset.k; orden={k,asc:orden.k===k?!orden.asc:["juego","cap","nombre","ruta"].includes(k)}; tabla(); });
 [fJ,document.getElementById("fTexto"),wM,wD,wJ].forEach(el=>el.oninput=tabla);
@@ -439,6 +474,6 @@ function vista(ed){ document.getElementById("vistaEd").hidden=!ed; document.getE
 
 // ---------- Inicio ----------
 const cc=leerLS("fe-costos"); if(cc) for(const k in cc) CLASES[k]={nom:CLASES[k]?.nom||k, mov:cc[k].mov, c:cc[k].c};
-llenarClases(); mostrarCostos(); refrescarLista(); sincForm(); dibujar();
+llenarClases(); llenarJuegos(); mostrarCostos(); refrescarLista(); sincForm(); dibujar();
 document.fonts && document.fonts.ready.then(dibujar);
 </script>
