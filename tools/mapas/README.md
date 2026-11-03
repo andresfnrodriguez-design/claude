@@ -36,4 +36,4 @@ Los costos son aproximados. Reemplazalos con los valores de `src/data_terrains.c
 
 `catalogo.js` asigna a cada mapa tres puntajes de 1 a 5 (memorable, dificultad y justicia) y la lección que deja para Fisuras. Los puntajes son estimaciones y no datos oficiales. Las fichas marcadas con `?` todavía no están verificadas. Para agregar juegos, sumá entradas con el mismo formato.
 
-Estado: lote 1 con FE8 completo. Faltan FE7, FE6 y el resto de la serie.
+Estado: FE8, FE7 y FE6 cargados. Falta el resto de la serie. En FE7 los números de capítulo marcados con ? no están confirmados.
