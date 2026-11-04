@@ -149,6 +149,11 @@ my = (BY0 + BY1) / 2
 d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
 d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
 
+def _tinta(txt):
+    m_ = Image.new("L", (80, 20), 0); md = ImageDraw.Draw(m_); md.fontmode = "1"
+    md.text((10, 0), txt, font=f, fill=255); return m_.getbbox()
+def tinta_izq(x, y, txt, col): b_ = _tinta(txt); t(x - (b_[0] - 10), y, txt, col)
+def tinta_der(x, y, txt, col=TXT): b_ = _tinta(txt); t(x - (b_[2] - 1 - 10), y, txt, col)
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
 for x in range(35): smd.line([(x, 62), (x, 136)], fill=int(170 - x * 3))  # translucido, se desvanece
@@ -157,7 +162,7 @@ stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
          ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
 for i, (k, v) in enumerate(stats):
     y = 62 + round(i * 10.5)
-    t(4, y, k, LBL); tr(42, y, v)
+    tinta_izq(4, y, k, LBL); tinta_der(41, y, v)  # alineado por tinta real
 d.polygon([(44, 109), (47, 106), (56, 106), (56, 112), (47, 112)], fill=TXT)
 mini(48, 107, "+3", DARK)
 
@@ -204,7 +209,8 @@ for i, ic in enumerate(ICONOS):
     x = 4 + i * 23.5; x = int(x)
     boton(x, 139, x + 21, 158)
     # icono en blanco sobre el degradado, centrado en el boton (22x20)
-    img.paste(Image.new("RGB", ic.size, TXT), (x + (22 - ic.width) // 2, 139 + (20 - ic.height) // 2), ic)
+    ib_ = ic.getbbox(); iw, ih = ib_[2] - ib_[0], ib_[3] - ib_[1]  # centrar por la silueta real
+    img.paste(Image.new("RGB", ic.size, TXT), (x + 1 + (20 - iw) // 2 - ib_[0], 140 + (18 - ih) // 2 - ib_[1]), ic)
 boton(193, 139, 236, 158)
 d.ellipse([197, 142, 210, 155], outline=TXT); d.ellipse([201, 146, 206, 151], fill=TXT)
 d.text((218, 140), "3", font=fb, fill=TXT)
