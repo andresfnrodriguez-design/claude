@@ -45,11 +45,12 @@ Misión de rescate en los escombros después del clímax: combate fácil, presi�
 | Stacks | Daño por turno |
 |---|---|
 | 1 | 1 |
-| 2 | 2 o 3 (decidir un valor fijo) |
+| 2 | 3 |
 | 3 | 5 |
 
 - La curva crece más rápido que lineal: el jugador tiene que curar antes del tercer stack.
-- ABIERTO: tope de stacks (¿3?), si puede matar o deja en 1 PV, cómo se quita (antídoto, bastón, desaparece solo) y si baja un stack por turno.
+- **Puede matar** (decidido por ahora).
+- ABIERTO: tope de stacks (¿3?), cómo se quita (antídoto, bastón, desaparece solo) y si baja un stack por turno.
 - Encaje temático: un estado que persiste le da peso a curar, es decir, a no dejar a nadie atrás.
 
 ## 4. Música dinámica (PROPUESTA)
