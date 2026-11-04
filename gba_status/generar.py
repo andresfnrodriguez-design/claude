@@ -187,16 +187,23 @@ def boton(x0, y0, x1, y1, rad=5):  # caja redondeada con degradado vertical
     d.rounded_rectangle([x0, y0, x1, y1], rad, outline=FR)
 # iconos de habilidad: 4 del negativo (fila de abajo de iconos_skills.webp)
 hoja = Image.open("iconos_skills.webp").convert("L")
-def icono(n, lado=16):
+def icono(n, lado=12):
+    # silueta = lo negro del cuadro negativo; se recorta a su caja y se ajusta a lado x lado
     x0 = round(18 + n * 141.7)
-    t_ = hoja.crop((x0, 326, x0 + 118, 448)).resize((lado, lado), Image.LANCZOS)
-    return t_.point(lambda v: 255 if v > 128 else 0)  # 2 colores
+    t_ = hoja.crop((x0 + 6, 332, x0 + 112, 442)).point(lambda v: 255 if v < 110 else 0)
+    t_ = t_.crop(t_.getbbox())
+    k = lado / max(t_.size)
+    t_ = t_.resize((max(1, round(t_.width * k)), max(1, round(t_.height * k))), Image.LANCZOS)
+    t_ = t_.point(lambda v: 255 if v > 110 else 0)
+    m_ = Image.new("L", (lado, lado), 0)
+    m_.paste(t_, ((lado - t_.width) // 2, (lado - t_.height) // 2))
+    return m_
 ICONOS = [icono(n) for n in (0, 1, 4, 9)]  # fuego, frasco, espadas, gota
 for i, ic in enumerate(ICONOS):
     x = 4 + i * 23.5; x = int(x)
     boton(x, 139, x + 21, 158)
-    img.paste(Image.new("RGB", (16, 16), c(232, 216, 216)), (x + 3, 141))       # cuadro claro
-    img.paste(Image.new("RGB", (16, 16), c(48, 8, 20)), (x + 3, 141), ic.point(lambda v: 255 - v))  # icono oscuro
+    # icono en blanco sobre el degradado, centrado en el boton (22x20)
+    img.paste(Image.new("RGB", ic.size, TXT), (x + (22 - ic.width) // 2, 139 + (20 - ic.height) // 2), ic)
 boton(193, 139, 236, 158)
 d.ellipse([197, 142, 210, 155], outline=TXT); d.ellipse([201, 146, 206, 151], fill=TXT)
 d.text((218, 140), "3", font=fb, fill=TXT)
