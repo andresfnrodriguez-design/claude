@@ -119,7 +119,12 @@ tinta(48, 19, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuS
 for i in range(4): d.line([(45 - i, 19 + 2 * i), (45 - i, 20 + 2 * i)], fill=TXT)  # "/" recta 1:2
 d.rectangle([65, 19, 87, 24], fill=TXT)  # barra 100% blanca
 tr(213, 18, "Artifice")
-for x in (218, 227):
+# PLACEHOLDERS de iconos (tienen su propia paleta; con SIN_ICONOS=1 no se dibujan):
+#  - 2 libritos junto a la clase = tipos de arma que puede usar la clase
+#  - circulo del banner = arma/objeto equipado
+#  - cuadraditos en curva = magias/habilidades de la unidad
+ICONOS_ON = not os.environ.get("SIN_ICONOS")
+for x in ((218, 227) if ICONOS_ON else ()):
     d.rectangle([x, 20, x + 6, 27], fill=c(232, 224, 184), outline=c(88, 72, 40))
     d.line([(x + 2, 22), (x + 4, 22)], fill=c(88, 72, 40))
 
@@ -157,7 +162,7 @@ FX0, FX1 = 64, 176                                   # extremos reales de la fig
 blk = 10 + 4 + tw
 bx = FX0 + (FX1 - FX0 + 1 - blk) // 2                 # margen izq == margen der (+-0.5)
 my = (BY0 + BY1) / 2
-d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
+if ICONOS_ON: d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
 d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
@@ -184,7 +189,7 @@ for i, (s_, col) in enumerate(skills):
     x = ARCX[y + 2] + DIST  # esquina superior izquierda sobre la linea blanca corrida DIST px
     x += {2: -1, 4: 1}.get(i, 0)  # compensacion optica
     xc = x + 3
-    d.rectangle([x, y + 2, x + 6, y + 8], fill=c(*col), outline=c(88, 72, 40))
+    if ICONOS_ON: d.rectangle([x, y + 2, x + 6, y + 8], fill=c(*col), outline=c(88, 72, 40))
     GUIAS.append((xc, ym))
     d.text((x + 10, y), s_, font=fs, fill=TXT)
 
@@ -223,6 +228,7 @@ d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
 suf = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ""
+if not ICONOS_ON: suf += "_sin_iconos"
 img.save(f"estado_gba{suf}.png")
 img.resize((W * 4, H * 4), Image.NEAREST).save(f"estado_gba{suf}_x4.png")
 print(len(img.getcolors(4096)), "colores")
