@@ -111,19 +111,24 @@ for x in (218, 227):
     d.rectangle([x, 20, x + 6, 27], fill=c(232, 224, 184), outline=c(88, 72, 40))
     d.line([(x + 2, 22), (x + 4, 22)], fill=c(88, 72, 40))
 
-# banner del objeto: placa oscura redondeada + lente roja (elipse recortada)
-# que es mas alta en el centro que en los extremos, como en la guia
-BX0, BY0, BX1, BY1 = 66, 32, 174, 42
-d.rounded_rectangle([BX0, BY0, BX1, BY1], 3, fill=c(40, 6, 14), outline=c(120, 20, 40))
-lente = Image.new("L", (W, H), 0)
-ImageDraw.Draw(lente).ellipse([60, 28, 172, 46], fill=255)
-ImageDraw.Draw(lente).rectangle([0, 0, BX0 + 4, H], fill=0)
-ImageDraw.Draw(lente).rectangle([BX1 - 3, 0, W, H], fill=0)
-rojo = Image.new("RGB", (W, H))
-for y in range(28, 47):
-    ImageDraw.Draw(rojo).line([(0, y), (W, y)], fill=lerp((184, 30, 52), (112, 12, 28), (y - 28) / 18))
-img.paste(rojo, (0, 0), lente)
-d.line([(70, 43), (79, 43)], fill=c(232, 168, 184))  # subrayado bajo el escudo
+# banner del objeto: placa oscura con extremos redondeados + lente roja encima.
+# La lente es una elipse (mas alta al centro) que se funde con la placa en los extremos.
+BX0, BY0, BX1, BY1 = 64, 32, 176, 42
+d.rounded_rectangle([BX0, BY0, BX1, BY1], 5, fill=c(34, 4, 12), outline=c(110, 18, 36))
+EL = (66, 28, 174, 46)                      # caja de la elipse roja
+ecx, ecy = (EL[0] + EL[2]) / 2, (EL[1] + EL[3]) / 2
+ea, eb = (EL[2] - EL[0]) / 2, (EL[3] - EL[1]) / 2
+for y in range(EL[1], EL[3] + 1):
+    for x in range(EL[0], EL[2] + 1):
+        e = ((x - ecx) / ea) ** 2 + ((y - ecy) / eb) ** 2
+        if e > 0.9: continue                   # 0.9 evita puntas de 1 px arriba y abajo
+        u = abs(x - ecx) / ea                  # 0 centro, 1 extremos
+        base = lerp((190, 32, 56), (116, 12, 30), (y - EL[1]) / (EL[3] - EL[1]))
+        k = max(0, (u - 0.6) / 0.4)            # funde a oscuro en el ultimo 40%
+        if e > 0.7 and k < 0.5:                # borde fino mas claro de la lente
+            base = lerp(base, (224, 72, 96), 0.5)
+        d.point((x, y), fill=lerp(base, (34, 4, 12), k))
+d.line([(76, 43), (85, 43)], fill=c(232, 168, 184))  # subrayado bajo el escudo
 BY0, BY1 = 28, 46
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
 bb = d.textbbox((0, 0), "Leather Shield", font=fs); tw, th = bb[2] - bb[0], bb[3] - bb[1]
@@ -146,16 +151,18 @@ d.polygon([(44, 109), (47, 106), (56, 106), (56, 112), (47, 112)], fill=TXT)
 mini(48, 107, "+3", DARK)
 
 # libro de comandos: interlineado fijo, inicio sigue la curva del arco con separacion fija
-DIST, PASO, Y0 = 9, 12, 48  # DIST: del centro del cuadrado a la linea blanca
+DIST, PASO, Y0 = 14, 12, 48  # DIST: del centro del cuadrado a la linea blanca
 GUIAS = []
 skills = [("Nosferatu", (216, 200, 72)), ("Recover", (176, 224, 176)),
           ("Physic", (176, 224, 176)), ("Invoke", (176, 224, 176)), ("????", (216, 176, 96))]
 for i, (s_, col) in enumerate(skills):
     y = Y0 + i * PASO; ym = y + 5                 # fila del centro del cuadrado (7x7)
-    xc = ARCX[ym] + DIST                          # centro a distancia fija de la linea
+    # centro sobre un circulo concentrico a la linea blanca: distancia perpendicular
+    # (por la normal) siempre igual a DIST; se redondea hacia arriba
+    xc = math.ceil(cx - math.sqrt((r - DIST) ** 2 - (ym - cy) ** 2))
     x = xc - 3
     d.rectangle([x, y + 2, x + 6, y + 8], fill=c(*col), outline=c(88, 72, 40))
-    GUIAS.append((ARCX[ym], ym, xc))
+    GUIAS.append((xc, ym))
     d.text((x + 10, y), s_, font=fs, fill=TXT)
 
 # barra inferior
@@ -184,5 +191,6 @@ g = Image.open("guia.png").convert("RGB").resize((W, H), Image.LANCZOS)
 Image.blend(g, img, 0.5).resize((W * 4, H * 4), Image.NEAREST).save("comparacion_x4.png")
 
 dbg = img.copy(); dd = ImageDraw.Draw(dbg)
-for xa, ym, xc in GUIAS: dd.line([(xa, ym), (xc, ym)], fill=(0, 255, 0))
+for xc, ym in GUIAS:  # linea por la normal hasta la linea blanca
+    ang = math.atan2(ym - cy, xc - cx); dd.line([(xc, ym), (cx + r * math.cos(ang), cy + r * math.sin(ang))], fill=(0, 255, 0))
 dbg.crop((140, 40, 240, 110)).resize((600, 420), Image.NEAREST).save("guias_hechizos_x6.png")
