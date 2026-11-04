@@ -91,9 +91,9 @@ tr(182, 1, "8"); tr(236, 1, "99")
 
 # HP: franja vinotinto translucida bajo el HP, con extremo derecho curvo
 fr = Image.new("L", (W, H), 0); fd = ImageDraw.Draw(fr)
-fd.rectangle([0, 14, 150, 30], fill=150); fd.ellipse([130, -10, 170, 30], fill=0)
-fd.pieslice([120, 14, 152, 46], 270, 360, fill=150)
-img.paste(Image.new("RGB", (W, H), c(40, 4, 14)), (0, 0), fr)
+fd.rectangle([0, 14, 150, 30], fill=220); fd.ellipse([130, -10, 170, 30], fill=0)
+fd.pieslice([120, 14, 152, 46], 270, 360, fill=220)
+img.paste(Image.new("RGB", (W, H), c(28, 2, 8)), (0, 0), fr)
 # HP
 fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
 mini(4, 18, "HP", LBL)  # fuente 3x5, la mas chica legible
@@ -109,7 +109,9 @@ for x in (218, 227):
     d.line([(x + 2, 22), (x + 4, 22)], fill=c(88, 72, 40))
 
 # banner del objeto
-d.rounded_rectangle([65, 32, 175, 43], 6, fill=c(48, 6, 16), outline=c(176, 40, 64))
+d.rounded_rectangle([65, 32, 175, 43], 6, fill=c(30, 4, 10), outline=c(176, 40, 64))
+for x in range(100, 172):  # oscuro a la izquierda, se aclara a tinto hacia la derecha
+    d.line([(x, 34), (x, 41)], fill=lerp((30, 4, 10), (110, 18, 36), (x - 100) / 72))
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
 d.ellipse([69, 34, 76, 41], fill=c(168, 112, 72), outline=c(88, 56, 32))
 d.text((80, 33), "Leather Shield", font=fs, fill=TXT)
