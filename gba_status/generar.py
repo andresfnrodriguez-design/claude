@@ -22,6 +22,7 @@ for y in range(H):
         img.putpixel((x, y), lerp((128, 32, 48), (40, 6, 14), k))
 
 # retrato (arte del usuario, fondo morado transparente)
+RX, RY = -12, 22
 art = Image.open("retrato_busto.png").convert("RGB")
 bgc = (77, 26, 77)
 # quitar fondo morado y marco gris conectado al borde (flood fill)
@@ -37,10 +38,13 @@ for y in range(art.height):
     for x in range(art.width):
         if art.getpixel((x, y)) == bgc: mask.putpixel((x, y), 0)
         art.putpixel((x, y), c(*art.getpixel((x, y))))
-img.paste(art, (44, 26), mask)
+ESC = 2.0  # cabeza grande, cortada bajo los hombros
+art = art.resize((int(art.width * ESC), int(art.height * ESC)), Image.NEAREST)
+mask = mask.resize(art.size, Image.NEAREST)
+img.paste(art, (RX, RY), mask)
 
 # semicirculo negro translucido (centro fuera de pantalla a la derecha)
-cx, cy, r = 343, 85, 200
+cx, cy, r = 337, 85, 180
 m = Image.new("L", (W, H), 0)
 ImageDraw.Draw(m).ellipse([cx - r, cy - r, cx + r, cy + r], fill=150)
 img = Image.composite(Image.new("RGB", (W, H)), img, m)
@@ -62,61 +66,72 @@ def big(x, y, s, col=TXT):
     tmp = tmp.resize((80, 24), Image.NEAREST)
     img.paste(Image.new("RGB", tmp.size, col), (x, y), tmp)
 
-# barra superior con degradado horizontal
-grad_rect(0, 0, 239, 11, (176, 56, 80), (96, 16, 32), vertical=False)
-d.line([(0, 12), (239, 12)], fill=c(32, 4, 10))
-t(3, 0, "Genny")
-for x0, x1, lab in [(86, 100, "LV"), (122, 141, "EXP"), (166, 203, "Rating")]:
-    d.rectangle([x0, 1, x1, 10], fill=DARK); t(x0 + 2, 0, lab, LBL)
-tr(116, 0, "8"); tr(160, 0, "99"); tr(237, 0, "71")
+# mini fuente 3x5 para la etiqueta +3
+MINI = {"+": ["000","010","111","010","000"], "3": ["111","001","011","001","111"]}
+def mini(x, y, s, col):
+    for ch in s:
+        for j, fila in enumerate(MINI[ch]):
+            for i, b in enumerate(fila):
+                if b == "1": d.point((x + i, y + j), fill=col)
+        x += 4
+
+# barra superior
+grad_rect(0, 0, 239, 12, (176, 56, 80), (96, 16, 32), vertical=False)
+d.line([(0, 13), (239, 13)], fill=c(32, 4, 10))
+t(3, 1, "Genny")
+for x0, x1, lab in [(93, 113, "LV"), (143, 164, "EXP"), (183, 218, "Rating")]:
+    d.rectangle([x0, 2, x1, 11], fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
+tr(138, 1, "8"); tr(182, 1, "99"); tr(236, 1, "71")
 
 # HP
-t(3, 14, "HP", LBL); big(14, 12, "19"); t(40, 17, "/19")
-d.rectangle([62, 20, 80, 24], fill=TXT)
-d.ellipse([82, 18, 89, 25], outline=TXT); d.point([(84, 21), (87, 21)], fill=TXT)
-t(178, 14, "Cleric")
+t(3, 15, "HP", LBL); fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
+d.text((18, 12), "19", font=fb, fill=TXT); t(42, 16, "/19")
+d.rectangle([65, 19, 87, 24], fill=c(248, 224, 232))
+d.ellipse([89, 17, 97, 25], outline=TXT); d.point([(91, 20), (95, 20)], fill=TXT)
+tr(214, 16, "Cleric")
 for x in (217, 226):
-    d.rectangle([x, 16, x + 6, 23], fill=c(232, 224, 184), outline=c(88, 72, 40))
-    d.line([(x + 2, 18), (x + 4, 18)], fill=c(88, 72, 40))
+    d.rectangle([x, 18, x + 6, 25], fill=c(232, 224, 184), outline=c(88, 72, 40))
+    d.line([(x + 2, 20), (x + 4, 20)], fill=c(88, 72, 40))
 
 # banner del objeto
-d.rounded_rectangle([65, 31, 175, 42], 3, fill=c(96, 16, 32), outline=FR)
-d.ellipse([70, 33, 77, 40], fill=c(168, 112, 72), outline=c(88, 56, 32))
-t(82, 31, "Leather Shield")
+d.rounded_rectangle([65, 32, 175, 43], 3, fill=c(96, 16, 32), outline=FR)
+d.ellipse([79, 34, 87, 42], fill=c(168, 112, 72), outline=c(88, 56, 32))
+t(92, 32, "Leather Shield")
 
-# columna de stats con degradado horizontal oscuro
-grad_rect(0, 62, 27, 134, (40, 6, 14), (96, 20, 36), vertical=False)
-stats = [("ATK", "11"), ("SKILL", "6"), ("SPD", "7"), ("LCK", "10"),
+# stats: etiquetas alineadas a la izquierda, valores a la derecha
+grad_rect(0, 62, 34, 136, (40, 6, 14), (88, 18, 32), vertical=False)
+stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
          ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
 for i, (k, v) in enumerate(stats):
-    y = 62 + i * 10
-    tr(28, y, k, LBL); tr(42, y, v)
-y0 = 62 + 40
-d.polygon([(45, y0 + 5), (48, y0 + 2), (62, y0 + 2), (62, y0 + 9), (48, y0 + 9)], fill=TXT)
-t(49, y0, "+3", DARK)
+    y = 62 + round(i * 10.5)
+    t(4, y, k, LBL); tr(42, y, v)
+d.polygon([(44, 109), (47, 106), (56, 106), (56, 112), (47, 112)], fill=TXT)
+mini(48, 107, "+3", DARK)
 
 # libro de comandos
-skills = [("Nosferatu", 170, 50, (216, 200, 72)), ("Recover", 166, 62, (176, 224, 176)),
-          ("Physic", 162, 73, (176, 224, 176)), ("Invoke", 162, 84, (176, 224, 176)),
-          ("????", 160, 95, (216, 176, 96))]
-for s, x, y, col in skills:
-    d.rectangle([x - 9, y + 3, x - 3, y + 9], fill=c(*col), outline=c(88, 72, 40))
-    t(x, y, s)
+skills = [("Nosferatu", 176, 47, (216, 200, 72)), ("Recover", 171, 59, (176, 224, 176)),
+          ("Physic", 168, 71, (176, 224, 176)), ("Invoke", 168, 83, (176, 224, 176)),
+          ("????", 169, 94, (216, 176, 96))]
+for s_, x, y, col in skills:
+    d.rectangle([x - 10, y + 2, x - 3, y + 9], fill=c(*col), outline=c(88, 72, 40))
+    t(x, y, s_)
 
-# barra inferior con degradado vertical
-grad_rect(0, 138, 239, 159, (64, 10, 22), (24, 4, 8))
-icons = ["+", "o", "#", "="]
-for i, ic in enumerate(icons):
-    x = 3 + i * 23
-    grad_rect(x, 140, x + 18, 157, (200, 64, 88) if i == 2 else (176, 40, 64), (96, 16, 32))
-    d.rectangle([x, 140, x + 18, 157], outline=FR)
-    t(x + 7, 143, ic)
-grad_rect(192, 140, 236, 157, (176, 40, 64), (96, 16, 32))
-d.rectangle([192, 140, 236, 157], outline=FR)
-d.ellipse([197, 143, 208, 154], outline=TXT); d.ellipse([200, 146, 205, 151], fill=TXT)
-big(219, 137, "3")
+# barra inferior
+grad_rect(0, 137, 239, 159, (64, 10, 22), (24, 4, 8))
+for i, ic in enumerate(["+", "o", "#", "="]):
+    x = 4 + i * 23.5; x = int(x)
+    grad_rect(x, 139, x + 21, 158, (200, 64, 88) if i == 0 else (120, 24, 44), (72, 12, 26))
+    d.rectangle([x, 139, x + 21, 158], outline=FR)
+    t(x + 8, 143, ic)
+grad_rect(193, 139, 236, 158, (120, 24, 44), (72, 12, 26))
+d.rectangle([193, 139, 236, 158], outline=FR)
+d.ellipse([197, 142, 210, 155], outline=TXT); d.ellipse([201, 146, 206, 151], fill=TXT)
+d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
 img.save("estado_gba.png")
 img.resize((W * 4, H * 4), Image.NEAREST).save("estado_gba_x4.png")
 print(len(img.getcolors(4096)), "colores")
+
+g = Image.open("guia.png").convert("RGB").resize((W, H), Image.LANCZOS)
+Image.blend(g, img, 0.5).resize((W * 4, H * 4), Image.NEAREST).save("comparacion_x4.png")
