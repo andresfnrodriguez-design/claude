@@ -80,7 +80,7 @@ Misión de rescate en los escombros después del clímax: combate fácil, presi�
 ## Abierto
 
 - Muerte permanente: ¿sí o no? Afecta casi todo lo anterior.
-- Motor: ¿hack de FE8 o motor propio? Define la viabilidad de las barras múltiples y la dificultad dinámica.
+- **Motor (CANON):** proyecto propio en C que compila para GBA. Las barras múltiples, la dificultad dinámica y los diálogos variables son programación normal, no parches. Vigilar los límites de memoria de la GBA.
 
 ## 7. Identidad de unidad (CANON como principio)
 
@@ -143,10 +143,10 @@ Ya definido ahí (vigente salvo choque con decisiones nuevas):
 Pendiente: qué pasa mecánicamente cuando se pierde el recuerdo (el documento no lo define). Ver propuesta en la sección 11.
 
 **Choques con decisiones nuevas (revisar):**
-- "Su Nombre" de Kairon (olvidar a Nemira) ya no puede resolver el clímax.
-- Orestion figura como jugable desde M35; ahora es el jefe final.
-- Halvard se une en M21 y traiciona en M30; la nueva estructura lo adelanta.
-- Las habilidades de rango S (sección 8) deben usar Filo/Asta/Peso, no espada/lanza/hacha.
+- "Su Nombre" de Kairon deja de ser el ataque del clímax (aceptado).
+- **Orestion (resuelto):** jugable al principio como unidad aliada poderosa (estilo Seth). Cuando deja el grupo, lo reemplaza un personaje nuevo de la misma clase que hereda su inventario y estadísticas. Al final es el jefe.
+- **Halvard (resuelto, propuesta):** rival no jugable en la Parte II; jugable en su Parte III (condición de derrota en esa Parte); traiciona en la misión 23; vuelve al grupo en la Parte IV si sobrevivió.
+- Las habilidades de rango S (sección 8) deben usar Filo/Asta/Peso. Se define más adelante.
 
 ## 11. Costo del Olvido (PROPUESTA)
 
