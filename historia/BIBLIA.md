@@ -62,16 +62,21 @@ Regla: ningún deuteragonista es sirviente de Kairon; cada uno tiene su Parte.
 
 ## 4. Estructura (CANON)
 
-**En revisión:** bajar de 40 a 25-30 misiones principales, más capítulos paralelos (paralogue) opcionales para personajes secundarios y exposición del mundo. La tabla de abajo es la versión de 40 y hay que recalcularla.
+**28 misiones principales + ~8 capítulos paralelos** (CANON). 4 Partes con cambio de punto de vista; la Parte IV es la corta. Si cuatro Partes no funcionan, se fusionan en tres.
 
-4 Partes sobre 3 actos.
+Reparto propuesto (PROPUESTA):
 
-| Parte | Acto | POV | Misiones | Beat clave |
-|---|---|---|---|---|
-| I | 1 | Kairon | ~9 | Orestion reaparece → cruce del umbral |
-| II | 2A | Vask + convergencia | ~11 | Punto medio (~20): el misterio pasa a trama central |
-| III | 2B | Halvard | ~10 | "Todo está perdido" (~28-30): un jugable se vuelve enemigo |
-| IV | 3 | Convoy unificado | ~9 | Clímax y resolución |
+| Parte | Acto | POV | Misiones | Paralelos | Beat clave |
+|---|---|---|---|---|---|
+| I | 1 | Kairon | 8 (1-8) | 2 | Orestion reaparece; muerte de Feron; cruce del umbral |
+| II | 2A | Vask + convergencia | 8 (9-16) | 2-3 | Halvard aparece como oficial rival. Punto medio (~14): existe una lista y la familia de Kairon estaba en ella |
+| III | 2B | Halvard | 7 (17-23) | 2-3 | ¿Quién hizo la lista? Evacuación dividida. Cierra con la traición de Halvard, ejecutada por el jugador |
+| IV | 3 | Convoy unificado | 5 (24-28) | 0-1 | Confrontación; puerto de Ferannor; Orestion con la fisura cediendo; rescate en los escombros |
+
+- Halvard aparece en la Parte II (rival, no aliado) para que su traición pese.
+- El jugador controla a Halvard cuando traiciona.
+- La Parte IV corta mantiene la tensión: tres capítulos seguidos cuentan una sola historia.
+- Paralelos: casi todos en Partes I-III; ninguno en la recta final.
 
 Elenco: 22-24 jugables · ~28-30 enemigos con nombre · 12-18 no jugables.
 Mecánica: despliegue obligatorio, nadie se queda en el banco.
@@ -149,3 +154,4 @@ Bocetos: minera elíria en Cassaria · hijo de la élite evacuada (candidato a t
 | 2026-11-03 | Orestion con postura defendible; se elimina la capa sobrenatural. Revisión del boceto de novela. |
 | 2026-11-04 | Principio "nunca subestimar al jugador". Dirección: la lista, revelación dividida, final interno, Ferannor como cálculo. Estructura en revisión (25-30 + paralelos). |
 | 2026-11-04 | Lema: "Volveremos por la orilla". Ideas de mecánicas en DISENO.md. |
+| 2026-11-04 | Estructura: 28 misiones + ~8 paralelos, 4 Partes, la IV corta. |
