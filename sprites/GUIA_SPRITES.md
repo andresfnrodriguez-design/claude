@@ -56,6 +56,24 @@ con índices y se cambia de bando cambiando la paleta.
 - Piel (4–6), metal (13), blanco (14) y contorno (15) casi no cambian entre bandos.
 - "Usado" = unidad que ya actuó en el turno: todo en grises.
 
+## Cuerpo de clase + cabeza de personaje
+
+Técnica para ahorrar trabajo: se dibuja un cuerpo genérico por clase
+(con sus 22 cuadros) y los personajes con nombre solo cambian la cabeza.
+
+- **Capas en Aseprite:** `cuerpo` (de la clase) y `cabeza` (del personaje), separadas.
+- **Zona de cabeza fija:** definir en cada clase la caja donde va la cabeza
+  (ej. 8 × 7 px arriba al centro) y un punto de anclaje (píxel del cuello).
+- **Anclaje por cuadro:** en idle, seleccionado y caminar, la cabeza sube/baja
+  con el cuerpo; guardar el desplazamiento (x, y) del cuello en cada cuadro.
+- **Cabezas por dirección:** cada personaje necesita 3 cabezas (frente, espalda,
+  perfil izquierdo; el derecho es espejo).
+- **Paleta:** pelo en slots 1–3 o en slots propios del personaje; el cuerpo usa
+  los slots de bando (7–10) para que el cambio de bando siga funcionando.
+- **Casco:** si la clase lleva casco, la cabeza del personaje solo cambia la
+  cara y el pelo que asoma, o la clase se dibuja sin casco.
+- **Coste:** 1 clase = 18 cuadros; cada personaje nuevo = 3 cabezas en vez de 18 cuadros.
+
 ## Reglas de legibilidad (16 × 16)
 
 1. Cabeza grande: ~6–7 px, casi la mitad del alto.
