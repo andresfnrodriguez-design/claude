@@ -157,8 +157,8 @@ for i, (s_, col) in enumerate(skills):
     y = Y0 + i * PASO; ym = y + 5                 # fila del centro del cuadrado (7x7)
     # centro sobre un circulo concentrico a la linea blanca: distancia perpendicular
     # (por la normal) siempre igual a DIST; se redondea hacia arriba
-    xc = ARCX[ym] + DIST  # la linea blanca corrida DIST px a la derecha
-    x = xc - 3
+    x = ARCX[y + 2] + DIST  # esquina superior izquierda sobre la linea blanca corrida DIST px
+    xc = x + 3
     d.rectangle([x, y + 2, x + 6, y + 8], fill=c(*col), outline=c(88, 72, 40))
     GUIAS.append((xc, ym))
     d.text((x + 10, y), s_, font=fs, fill=TXT)
