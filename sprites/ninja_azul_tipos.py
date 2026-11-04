@@ -1,7 +1,9 @@
 # Ninja azul sin la fila de sombra (19x17) y mapa de tipos de color por posición de paleta.
 from PIL import Image,ImageDraw
 import recolor_ninja as rn
-idx=[r for j,r in enumerate(rn.idx) if j!=16]  # quita la fila completa de sombra -> 17 de alto
+idx=[r[:] for r in rn.idx]
+# quita solo el píxel de sombra más a la izquierda
+j,i=min(((j,i) for j,r in enumerate(idx) for i,k in enumerate(r) if k==13),key=lambda t:t[1]);idx[j][i]=0;print('quitado',i,j)
 H,W=len(idx),len(idx[0]);print(W,H)
 from rampas_corregidas import R,slots
 p=rn.base[:];sl=slots(R['Azul']);p[1:4]=sl['secundaria_1_3'];p[7:11]=sl['principal_7_10']
