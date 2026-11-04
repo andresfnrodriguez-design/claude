@@ -10,6 +10,8 @@ Quiero agregar al mapa **tres sistemas visuales** que conviven en pantalla y com
 
 Evalúalos **juntos**, como un solo presupuesto de recursos, no por separado.
 
+**Todo lo visual es provisional (placeholder) y se genera con código.** No hay arte final todavía y no voy a entregar archivos de imagen. Los tiles y paletas de las barras, los íconos (bolsa y `!`) y los puntos de las líneas los defines tú en el código: arreglos `const` de tiles 4bpp y paletas en formato GBA, o funciones que los dibujan píxel a píxel al cargar el mapa. Mantenlos en un archivo o sección separada y bien comentada, para que después pueda reemplazarlos por arte real (PNG convertido con gbagfx) sin tocar la lógica. Indícame en el plan dónde quedarán y cómo se haría ese reemplazo.
+
 ---
 
 ## ANTES DE ESCRIBIR CÓDIGO: dame feedback
@@ -132,7 +134,7 @@ El estado alterado (silencio, sueño, berserk, veneno) arriba de la unidad, el �
 ### Gráficos
 - 8x8 (o el tamaño que propongas), 16 colores, en una paleta de OBJ compartida o la de los íconos vanilla si alcanza.
 - **Bolsa:** verde con borde oscuro. **`!` crítico:** amarillo con borde oscuro. **`!` efectividad:** `!` rojo sobre cuadro blanco con borde oscuro.
-- Si hace falta, genera arte provisional. Indica el formato, la ruta (`graphics/...png`) y cómo se convierte en el build (gbagfx o equivalente).
+- Los tres íconos se generan con código como placeholder (ver la nota del inicio), con esos colores y formas simples. No uses archivos PNG por ahora.
 
 ### Configuración
 En `#define`: umbral de crítico, inclusión de arcos, ritmo del parpadeo, posiciones (x, y) de cada ícono y prioridad cuando se superponen.
@@ -199,3 +201,25 @@ Adjunto `aggro-a-sel-x4.png` y `aggro-b-sel-x4.png` (ampliadas x4) y sus version
    - Elegir un paladín cerca de un enemigo con matajinetes: aparece el `!` blanco y su aggro line, y ambos desaparecen al cancelar.
    - Mapa con muchos enemigos en pantalla: que no falten sprites ni haya lag al seleccionar.
    - Enemigos cerca y lejos, en recto y en diagonal, fuera de pantalla y con niebla de guerra.
+
+---
+
+## Prueba final: escenario de pruebas en el mapa de debug o en el prólogo
+
+Cuando los tres sistemas estén implementados (y solo después de que yo apruebe el plan), prepara un escenario para probarlos todos en mGBA sin tener que jugar varios capítulos.
+
+1. **Dónde:** usa el mapa de debug si el proyecto tiene uno accesible; si no, el capítulo del prólogo. Dime cuál elegiste y por qué, y cómo se llega a él desde el inicio del juego. Los cambios de prueba deben quedar aislados (por ejemplo detrás de un `#define AGGRO_TEST_MAP` o en un archivo de eventos aparte), para poder quitarlos sin tocar la lógica de los sistemas.
+2. **Unidades del jugador:** al menos un jinete (paladín o caballero), un volador (pegaso o wyvern) y una unidad de infantería con espada.
+3. **Enemigos**, colocados para cubrir todos los casos:
+   - Cerca y lejos de las unidades del jugador, en línea recta y en diagonal.
+   - Al menos uno fuera de la pantalla inicial, para probar el recorte de la línea.
+   - Uno con matajinetes, uno con arco y uno con martillo (efectividad).
+   - Uno con Espada asesina u otra arma de crítico alto, y uno con un arma que sea a la vez de crítico alto y efectiva (alternancia de los `!`).
+   - Uno o dos con objeto para soltar (bolsa de botín), y uno que además lleve a alguien rescatado (alternancia con el ícono de rescate).
+   - Uno dormido o petrificado (no debe generar línea).
+   - Uno fuera de alcance (no debe generar línea).
+   - Suficientes enemigos en pantalla para probar el peor caso de sprites (OAM).
+4. **Otros bandos:** al menos un aliado verde y una unidad del 4.º bando, para verificar los colores de las barras y que las aliadas no generen línea ni `!`.
+5. **Vida variada:** unidades con vida máxima en cada tramo (hasta 39, 40-59, 60-79 y 80 o más) y con la vida actual en distintos porcentajes, para ver todos los colores de la barra.
+6. **Niebla de guerra:** si el mapa elegido no la tiene, indica cómo activarla para probar que los enemigos ocultos no generan línea.
+7. **Lista de comprobación:** entrégame una lista paso a paso de qué hacer en mGBA y qué debería verse en cada paso (por ejemplo: "selecciona al paladín → aparecen 3 líneas y el `!` blanco sobre el enemigo con matajinetes; presiona B → desaparecen").
