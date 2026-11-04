@@ -117,7 +117,7 @@ for s_, x, y, col in skills:
     t(x, y, s_)
 
 # barra inferior
-grad_rect(0, 137, 239, 159, (64, 10, 22), (24, 4, 8))
+# (sin franja inferior: los botones flotan sobre el retrato)
 for i, ic in enumerate(["+", "o", "#", "="]):
     x = 4 + i * 23.5; x = int(x)
     grad_rect(x, 139, x + 21, 158, (200, 64, 88) if i == 0 else (120, 24, 44), (72, 12, 26))
