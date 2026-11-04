@@ -7,14 +7,18 @@ j,i=min(((j,i) for j,r in enumerate(idx) for i,k in enumerate(r) if k==13),key=l
 H,W=len(idx),len(idx[0])
 # 1) acento rojo: un adorno en la capucha
 idx[1][8]=11
-# 2) posición 1 -> 7 donde toca el contorno (sombras más profundas del cuerpo)
+# 2) azul más oscuro de la ropa (posición 8 junto al contorno) -> 7, para dar volumen
 src=[r[:] for r in idx]
 for y in range(H):
     for x in range(W):
-        if src[y][x]==1 and any(0<=y+dy<H and 0<=x+dx<W and src[y+dy][x+dx]==15 for dy,dx in((1,0),(-1,0),(0,1),(0,-1))):
+        if src[y][x]==8 and any(0<=y+dy<H and 0<=x+dx<W and src[y+dy][x+dx]==15 for dy,dx in((1,0),(-1,0),(0,1),(0,-1))):
             idx[y][x]=7
 # 3) sombra de piel en la mano izquierda (lado izquierdo de la imagen)
 for x,y in((4,8),(5,8)):idx[y][x]=4
+# 4) sombra de piel en el lado derecho de la cara y el cuello
+for y in range(2,7):
+    xs=[x for x in range(W) if idx[y][x] in(5,6)]
+    if xs:idx[y][max(xs)]=4
 print('posiciones usadas:',sorted({k for r in idx for k in r if k}))
 GBA={'Aliado':'80a080 584878 90b8e8 d8e8f0 706060 b09058 f8f8d0 383890 3850e0 28a0f8 18f0f8 e81018 f8f840 808870 f8f8f8 403838',
      'Enemigo':'80a080 684860 c0a8b8 e0e0e0 706060 b09058 f8f8d0 602820 a83028 e01010 f85048 38d030 f8f840 808870 f8f8f8 403838',
