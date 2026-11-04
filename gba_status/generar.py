@@ -133,7 +133,7 @@ for y in range(H):
         borde = any(not fm.getpixel((x + i, y + j)) for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)))
         u = abs(x - ecx) / (BX1 - ecx)       # 0 centro, 1 extremos (simetrico)
         # mismos tonos y degradado vertical que los botones de abajo, mismo borde
-        col = FR if borde else lerp((120, 24, 44), (72, 12, 26), (y - EL[1]) / (EL[3] - EL[1]))
+        col = FR if borde else lerp((120, 24, 44), (72, 12, 26), 1 - u)  # sale de ambos extremos y se junta al medio
         d.point((x, y), fill=col)
 BY0, BY1 = 28, 46
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
@@ -146,7 +146,7 @@ blk = 10 + 4 + tw
 bx = FX0 + (FX1 - FX0 + 1 - blk) // 2                 # margen izq == margen der (+-0.5)
 my = (BY0 + BY1) / 2
 d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
-d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1] + 1), "Leather Shield", font=fs, fill=c(248, 224, 232))  # +1: texto 1 px mas abajo
+d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
