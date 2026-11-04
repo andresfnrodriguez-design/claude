@@ -18,6 +18,11 @@ Regla: al confirmar algo, se mueve a CANON y se anota en el registro de decision
 3. Pocas pistas y bien hechas: dos pistas justas del misterio alcanzan.
 4. **No sobreusar el tema.** "No dejar a nadie atrás" vive en pocos lugares clave (la evacuación dividida, el último capítulo, el final de Kairon). No justificar mecánicas genéricas del género (curar, rescatar) con el tema: eso lo hace cualquier RPG.
 5. **No todo tiene que encajar.** Evitar el mundo donde cada detalle está conectado a la trama (shonen genérico). Hay personajes con preocupaciones propias que no tocan el misterio, cosas que quedan sin explicar y coincidencias que no significan nada.
+6. **Cada personaje o grupo tiene una postura ante los conflictos del mundo** (migración, pérdida del hogar, no encajar, xenofobia, el aether). La indiferencia también es una postura. Objetivo: que el jugador vea las muchas aristas sociales y psicológicas de la migración en situaciones cotidianas y creíbles.
+   - Tiene que ser orgánico: la postura es una parte del personaje, no toda su personalidad.
+   - Los secundarios no tienen que resolver ni cambiar su postura durante la historia.
+   - No todos la muestran por igual: algunos mucho, otros apenas.
+   - Mostrar antes que decir, dentro de lo que permite un juego (diálogo breve, gestos, mapas, objetos).
 
 ## 1. Núcleo (CANON)
 
