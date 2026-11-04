@@ -8,6 +8,14 @@
 2. **Los datos no dependen de la plataforma.** Unidades, clases, mapas y textos viven en formatos propios, separados del código de hardware.
 3. **La versión más chica manda.** Se diseña para los límites de la GBA: ROM 32 MB, EWRAM 256 KB, IWRAM 32 KB, VRAM 96 KB, guardado de 32 a 128 KB. El estado de la partida (muertes, recuerdos gastados, rescatados, datos de New Game+) se guarda de forma compacta.
 4. No depender de trucos de cartucho (cambio de bancos, ROM de más de 32 MB) ni de tolerancias de un emulador concreto.
+5. **Reglas de RAM:**
+   - Todo lo que no cambia es `const` y vive en la ROM: tablas de clases, armas, objetos, mapas, textos, diálogos. En RAM solo va el estado que cambia.
+   - Sin memoria dinámica (`malloc`). Arreglos estáticos con tamaño máximo fijo (por ejemplo, `MAX_UNIDADES`).
+   - Estructuras compactas: `u8`/`u16`, índices en lugar de punteros, campos de bits para banderas. Verificar el tamaño con `_Static_assert(sizeof(Unidad) <= N, ...)`.
+   - La pila vive en IWRAM (32 KB): nada de arreglos locales grandes ni recursión profunda.
+   - Textos y gráficos comprimidos en ROM; se descomprimen en un búfer chico solo cuando se usan.
+   - El guardado usa su propio formato compacto, separado de las estructuras en memoria.
+   - Presupuesto por sistema y medición en cada compilación (archivo de mapa del enlazador, `arm-none-eabi-size`). Si se pasa del presupuesto, la compilación falla.
 
 ## 1. Último capítulo y epílogo dinámico (PROPUESTA)
 
