@@ -111,23 +111,32 @@ for x in (218, 227):
     d.rectangle([x, 20, x + 6, 27], fill=c(232, 224, 184), outline=c(88, 72, 40))
     d.line([(x + 2, 22), (x + 4, 22)], fill=c(88, 72, 40))
 
-# banner del objeto: placa oscura con extremos redondeados + lente roja encima.
-# La lente es una elipse (mas alta al centro) que se funde con la placa en los extremos.
+# banner del objeto: una sola figura (placa redondeada + lente eliptica), simetrica
+# en ambos ejes. Dos variantes de color (argumento A o B):
+#  A: rojo al centro -> gris a los extremos, contorno vinotinto
+#  B: vinotinto oscuro al centro -> rojo claro a los extremos, contorno negro
+import sys
+VAR = sys.argv[1] if len(sys.argv) > 1 else "A"
 BX0, BY0, BX1, BY1 = 64, 32, 176, 42
-d.rounded_rectangle([BX0, BY0, BX1, BY1], 5, fill=c(34, 4, 12), outline=c(110, 18, 36))
-EL = (66, 28, 174, 46)                      # caja de la elipse roja
+EL = (66, 28, 174, 46)
 ecx, ecy = (EL[0] + EL[2]) / 2, (EL[1] + EL[3]) / 2
 ea, eb = (EL[2] - EL[0]) / 2, (EL[3] - EL[1]) / 2
+fm = Image.new("L", (W, H), 0); fmd = ImageDraw.Draw(fm)
+fmd.rounded_rectangle([BX0, BY0, BX1, BY1], 5, fill=255)
 for y in range(EL[1], EL[3] + 1):
     for x in range(EL[0], EL[2] + 1):
-        e = ((x - ecx) / ea) ** 2 + ((y - ecy) / eb) ** 2
-        if e > 0.9: continue                   # 0.9 evita puntas de 1 px arriba y abajo
-        u = abs(x - ecx) / ea                  # 0 centro, 1 extremos
-        base = lerp((190, 32, 56), (130, 14, 34), abs(y - ecy) / eb)  # simetrico arriba/abajo
-        k = max(0, (u - 0.6) / 0.4)            # funde a oscuro en el ultimo 40%
-        if e > 0.7 and k < 0.5:                # borde fino mas claro de la lente
-            base = lerp(base, (224, 72, 96), 0.5)
-        d.point((x, y), fill=lerp(base, (34, 4, 12), k))
+        if ((x - ecx) / ea) ** 2 + ((y - ecy) / eb) ** 2 <= 0.9: fm.putpixel((x, y), 255)
+VINO, ROJO, GRIS, NEGRO = (130, 14, 34), (190, 32, 56), (110, 100, 106), (16, 2, 6)
+for y in range(H):
+    for x in range(W):
+        if not fm.getpixel((x, y)): continue
+        borde = any(not fm.getpixel((x + i, y + j)) for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+        u = abs(x - ecx) / (BX1 - ecx)       # 0 centro, 1 extremos (simetrico)
+        if VAR == "A":
+            col = VINO if borde else lerp(ROJO, GRIS, u ** 1.5)
+        else:
+            col = NEGRO if borde else lerp((70, 6, 20), ROJO, u ** 1.5)
+        d.point((x, y), fill=col)
 BY0, BY1 = 28, 46
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
 bb = d.textbbox((0, 0), "Leather Shield", font=fs); tw, th = bb[2] - bb[0], bb[3] - bb[1]
@@ -158,6 +167,7 @@ for i, (s_, col) in enumerate(skills):
     # centro sobre un circulo concentrico a la linea blanca: distancia perpendicular
     # (por la normal) siempre igual a DIST; se redondea hacia arriba
     x = ARCX[y + 2] + DIST  # esquina superior izquierda sobre la linea blanca corrida DIST px
+    x += {2: -1, 4: 1}.get(i, 0)  # compensacion optica
     xc = x + 3
     d.rectangle([x, y + 2, x + 6, y + 8], fill=c(*col), outline=c(88, 72, 40))
     GUIAS.append((xc, ym))
@@ -181,8 +191,9 @@ d.ellipse([197, 142, 210, 155], outline=TXT); d.ellipse([201, 146, 206, 151], fi
 d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
-img.save("estado_gba.png")
-img.resize((W * 4, H * 4), Image.NEAREST).save("estado_gba_x4.png")
+suf = "" if VAR == "A" else "_B"
+img.save(f"estado_gba{suf}.png")
+img.resize((W * 4, H * 4), Image.NEAREST).save(f"estado_gba{suf}_x4.png")
 print(len(img.getcolors(4096)), "colores")
 
 g = Image.open("guia.png").convert("RGB").resize((W, H), Image.LANCZOS)
