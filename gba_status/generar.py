@@ -132,18 +132,21 @@ for y in range(H):
         if not fm.getpixel((x, y)): continue
         borde = any(not fm.getpixel((x + i, y + j)) for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)))
         u = abs(x - ecx) / (BX1 - ecx)       # 0 centro, 1 extremos (simetrico)
-        if VAR == "A":
-            col = VINO if borde else lerp(ROJO, GRIS, u ** 1.5)
-        else:
-            col = NEGRO if borde else lerp((70, 6, 20), ROJO, u ** 1.5)
+        # mismos tonos y degradado vertical que los botones de abajo, mismo borde
+        col = FR if borde else lerp((120, 24, 44), (72, 12, 26), (y - EL[1]) / (EL[3] - EL[1]))
         d.point((x, y), fill=col)
 BY0, BY1 = 28, 46
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
-bb = d.textbbox((0, 0), "Leather Shield", font=fs); tw, th = bb[2] - bb[0], bb[3] - bb[1]
+# tinta real del texto (medida en pixeles) para centrar el bloque escudo+texto
+tm = Image.new("L", (200, 30), 0); tmd = ImageDraw.Draw(tm); tmd.fontmode = "1"
+tmd.text((0, 0), "Leather Shield", font=fs, fill=255); ib = tm.getbbox()
+tw, th = ib[2] - ib[0], ib[3] - ib[1]
+FX0, FX1 = 64, 176                                   # extremos reales de la figura
+blk = 10 + 4 + tw
+bx = FX0 + (FX1 - FX0 + 1 - blk) // 2                 # margen izq == margen der (+-0.5)
 my = (BY0 + BY1) / 2
-bx = (BX0 + BX1 - (10 + 4 + tw)) // 2
 d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
-d.text((bx + 14 - bb[0], round(my - th / 2) - bb[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
+d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1] + 1), "Leather Shield", font=fs, fill=c(248, 224, 232))  # +1: texto 1 px mas abajo
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
@@ -191,7 +194,7 @@ d.ellipse([197, 142, 210, 155], outline=TXT); d.ellipse([201, 146, 206, 151], fi
 d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
-suf = "" if VAR == "A" else "_B"
+suf = ""
 img.save(f"estado_gba{suf}.png")
 img.resize((W * 4, H * 4), Image.NEAREST).save(f"estado_gba{suf}_x4.png")
 print(len(img.getcolors(4096)), "colores")
