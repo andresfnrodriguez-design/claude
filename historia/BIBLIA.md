@@ -16,6 +16,7 @@ Regla: al confirmar algo, se mueve a CANON y se anota en el registro de decision
 1. **Nunca subestimar la inteligencia del jugador/lector.** No explicar el tema en voz alta, no señalar qué decisión es la buena y cuál la mala. Si una escena necesita un personaje que la explique, la escena no funciona.
 2. La historia tiene que seguir siendo buena después del giro: la segunda partida debe leerse distinto, no peor.
 3. Pocas pistas y bien hechas: dos pistas justas del misterio alcanzan.
+4. **No sobreusar el tema.** "No dejar a nadie atrás" vive en pocos lugares clave (la evacuación dividida, el último capítulo, el final de Kairon). No justificar mecánicas genéricas del género (curar, rescatar) con el tema: eso lo hace cualquier RPG.
 
 ## 1. Núcleo (CANON)
 
