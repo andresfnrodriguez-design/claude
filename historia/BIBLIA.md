@@ -50,6 +50,8 @@ Regla: al confirmar algo, se mueve a CANON y se anota en el registro de decision
 - No es la solución del clímax.
 
 **Nemira (CANON):** nunca puede ser un caso de "mujer en el refrigerador" (personaje femenino que sufre o muere para motivar al protagonista). Tiene metas propias, su propia búsqueda y puede estar en desacuerdo con Kairon. Si muere, es por la muerte permanente del jugador, no por el guion.
+- **Si muere (PROPUESTA):** casi ningún efecto en la trama, pero cambian algunos diálogos de Kairon y la lectura de su personaje. Su papel en la trama no es indispensable (la lista la explica la anciana del sur). Escenas con variante: la revelación de que su familia quedó en la orilla (la recibe Kairon solo, con culpa hacia alguien que ya no puede responder), la escena espejo, el epílogo (Kairon va al sur a buscar a la familia de ella). Unas 4-6 escenas.
+- Cuidado: la versión con Nemira muerta no debe ser más rica que la otra, o el jugador la dejará morir a propósito.
 
 ## 3. Personajes principales (CANON)
 
