@@ -51,7 +51,10 @@ m = Image.new("L", (W, H), 0)
 ImageDraw.Draw(m).ellipse([cx - r, cy - r, cx + r, cy + r], fill=115)
 img = Image.composite(Image.new("RGB", (W, H)), img, m)
 d = ImageDraw.Draw(img); d.fontmode = "1"
-d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=c(232, 216, 216))
+ARC = c(232, 216, 216)
+d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=ARC)
+# x real de la linea blanca en cada fila (medida en pixeles, no por formula)
+ARCX = {y: min((x for x in range(100, W) if img.getpixel((x, y)) == ARC), default=None) for y in range(H)}
 d.ellipse([cx - r - 3, cy - r - 3, cx + r + 3, cy + r + 3], outline=c(120, 32, 48))
 
 def t(x, y, s, col=TXT): d.text((x, y), s, font=f, fill=col)
@@ -113,8 +116,11 @@ d.rounded_rectangle([65, 32, 175, 43], 6, fill=c(30, 4, 10), outline=c(176, 40, 
 for x in range(100, 172):  # oscuro a la izquierda, se aclara a tinto hacia la derecha
     d.line([(x, 34), (x, 41)], fill=lerp((30, 4, 10), (110, 18, 36), (x - 100) / 72))
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
-d.ellipse([69, 34, 76, 41], fill=c(168, 112, 72), outline=c(88, 56, 32))
-d.text((80, 33), "Leather Shield", font=fs, fill=TXT)
+# icono + texto centrados como bloque en el recuadro (65..175, 32..43)
+bb = d.textbbox((0, 0), "Leather Shield", font=fs); tw, th = bb[2] - bb[0], bb[3] - bb[1]
+bx = (65 + 175 - (8 + 4 + tw)) // 2; my = (32 + 43) / 2
+d.ellipse([bx, round(my - 4), bx + 7, round(my + 3)], fill=c(168, 112, 72), outline=c(88, 56, 32))
+d.text((bx + 12 - bb[0], round(my - th / 2) - bb[1]), "Leather Shield", font=fs, fill=TXT)
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
@@ -134,8 +140,7 @@ skills = [("Nosferatu", (216, 200, 72)), ("Recover", (176, 224, 176)),
           ("Physic", (176, 224, 176)), ("Invoke", (176, 224, 176)), ("????", (216, 176, 96))]
 for i, (s_, col) in enumerate(skills):
     y = Y0 + i * PASO; ym = y + 6
-    xa = cx - math.sqrt(r * r - (ym - cy) ** 2)  # x del arco a esa altura
-    x = int(xa) + SEP
+    x = ARCX[ym] + SEP  # sigue la curva real de la linea blanca
     d.rectangle([x, y + 2, x + 7, y + 9], fill=c(*col), outline=c(88, 72, 40))
     d.text((x + 11, y), s_, font=fs, fill=TXT)
 
