@@ -33,6 +33,11 @@ TEMAS = {
     "cenit": [C["obsidiana"], C["bronce oscuro"], C["oro"], C["marmol"], C["blanco"]],
     "verdin_bronce": [C["obsidiana"], C["bronce oscuro"], C["verdin"], C["bronce"], C["oro"]],
     "fisura": [C["obsidiana"], C["violeta erebos"], C["egeo"], C["aether"], C["aether brillo"]],
+    # inspirados en el contraste carmesi / turquesa sobre pizarra (complementarios)
+    "pizarra_turquesa": [(10, 20, 24), (28, 56, 60), (40, 110, 110), (40, 184, 160), (200, 248, 232)],
+    "carmesi": [(16, 6, 10), (96, 8, 32), (224, 24, 64), (240, 96, 128), (252, 210, 220)],
+    "carmesi_turquesa": [(10, 20, 24), (28, 56, 60), (40, 150, 140), (224, 24, 64), (252, 210, 220)],
+    "turquesa_carmesi": [(16, 6, 10), (96, 8, 32), (180, 20, 56), (40, 184, 160), (200, 248, 232)],
     "hierro": [C["obsidiana"], C["egeo profundo"], C["bronce oscuro"], C["verdin"], C["marmol"]],
 }
 if __name__ == "__main__":
