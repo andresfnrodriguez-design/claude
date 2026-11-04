@@ -109,3 +109,23 @@ Referencia: video "unit identity" (fuentes de identidad: estadísticas, clase, m
 - Regla sugerida: un solo rango S por unidad, como en los GBA. Así el arma S se vuelve parte de la identidad del personaje.
 - Cuidado con el +1 de alcance automático en arcos: cambia mucho el equilibrio, probar antes de fijarlo.
 - ABIERTO: definir la habilidad de cada tipo de arma (espada, lanza, hacha, arco, magias, bastones).
+
+## 9. Muerte permanente (CANON)
+
+Como en todos los Fire Emblem.
+
+**Implicaciones:**
+- Los capítulos paralelos de un personaje no se pueden jugar si murió.
+- Personajes indispensables para la trama, tres categorías:
+  1. Condición de derrota (game over) si caen. Reservar para Kairon y, en su Parte, el deuteragonista de turno.
+  2. Al caer se retiran mal heridos: siguen en la historia pero ya no son jugables.
+  3. Directamente no jugables.
+- Si un jugable tiene que salir del grupo por la trama:
+  - vuelve a unirse uno o dos capítulos después, o
+  - lo reemplaza otra unidad de la misma clase que hereda sus objetos y estadísticas (las habilidades personales pueden cambiar). Referencia: el caso de Nils al final de FE7.
+- Consecuencia natural: con menos unidades, la evacuación dividida y el rescate en los escombros son más difíciles. Las ayudas para remontar (sección 6) sostienen la partida.
+
+**Escenas dinámicas:**
+- Las líneas no esenciales de secundarios se escriben pensando en que ese personaje puede estar muerto: se le asignan a otro personaje o se quitan si la escena funciona sin ellas.
+- Regla de escritura: cada línea de un secundario no indispensable debe tener un reemplazo o poder eliminarse.
+- Las líneas esenciales para la trama solo las dicen personajes de las categorías 1-3.
