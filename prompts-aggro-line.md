@@ -22,6 +22,15 @@ Qué debe hacer:
 3. Debe respetar: costo de terreno según la clase del enemigo, unidades que bloquean el paso, rango mínimo y máximo de cada arma o tomo del inventario, armas que el enemigo no puede usar (rango de arma, bloqueos) y bastones (no cuentan como ataque).
 4. Ignorar enemigos con IA que nunca se mueven SOLO si es fácil detectarlo; si no, tratarlos como cualquier otro y avisarme.
 5. Guardar el resultado en una lista accesible (máx. [N, p. ej. 8] enemigos) con, para cada uno: puntero a la unidad y su posición en pantalla, para que otra rutina dibuje las líneas.
+6. Si hay más amenazas que N, quedarse con las N más cercanas (distancia Manhattan) a la unidad.
+
+Casos que deben quedar definidos:
+- Enemigos que no pueden actuar el próximo turno (dormidos, petrificados, con otro estado que impida actuar): NO cuentan.
+- Unidades aliadas verdes (NPC) y otras facciones: [cuentan / no cuentan] como amenaza. Las unidades del jugador y las aliadas bloquean el paso de los enemigos como en el juego normal.
+- Balistas y armas de rango especial (largo alcance, armas mágicas a distancia): cuentan según su rango real.
+- Habilidades que cambian el movimiento (atravesar unidades, Canto u otras del Skill System, si lo uso): deben respetarse si es posible; si no, avísame cuáles quedan fuera.
+- Refuerzos que todavía no aparecen en el mapa: NO cuentan.
+- La casilla de la unidad seleccionada está ocupada por ella: el enemigo la ataca desde una casilla adyacente o a distancia, no entrando en ella.
 
 Rendimiento:
 - No recalcular en cada frame. Calcular una vez al seleccionar la unidad.
@@ -58,6 +67,11 @@ Cómo deben verse:
 4. Color con buen contraste sobre pasto, camino, el azul del rango de movimiento y el rojo del rango de ataque. Propón uno (amarillo, blanco o puntos alternados blanco/rojo). El rojo puro NO sirve porque se pierde sobre las casillas de ataque.
 5. Opcional, solo si no cuesta mucho: animar los puntos desplazándose hacia la unidad.
 6. Las líneas deben seguir correctamente al mapa cuando la cámara se desplaza.
+7. Si el enemigo está fuera de la pantalla, la línea se dibuja igual hasta el borde de la pantalla (recortada), para indicar que la amenaza viene de esa dirección.
+8. Las líneas se dibujan POR ENCIMA del rango azul/rojo y POR DEBAJO de los sprites de las unidades y del cursor. Si con el enfoque elegido eso no es posible, dime qué orden queda.
+9. Si la línea pasa por encima de otra unidad, no pasa nada: se dibuja igual (queda debajo del sprite según el punto 8).
+
+Referencia visual: adjunto las imágenes aggro-a-sel-x4.png y aggro-b-sel-x4.png (ampliadas x4) y sus versiones a tamaño real 240x160. Muestran la idea con el rango de movimiento activo. OJO: en esas imágenes las líneas son rojas, pero ese NO es el color final (ver punto 4).
 
 Quiero que evalúes DOS enfoques y recomiendes uno:
 A) Sprites OAM: cada punto o grupo de puntos como sprite. Límite de 128 sprites compartidos con cursor, unidades y UI.
@@ -95,6 +109,9 @@ Comportamiento esperado:
 5. Deben convivir sin parpadeos ni glitches con: el rango azul/rojo, la flecha de camino de movimiento, el cursor, las ventanas de información de unidad y terreno, y la cámara desplazándose.
 6. Opción para activarlas o desactivarlas desde el menú de Opciones si es razonable; si no, una constante en el código.
 7. Debe funcionar igual con niebla de guerra activada (sin revelar enemigos ocultos: los no visibles no generan línea).
+8. Solo para unidades del jugador. Al seleccionar un enemigo o un aliado verde para ver su rango, NO aparecen líneas.
+
+Referencia visual: adjunto aggro-a-sel-x4.png y aggro-b-sel-x4.png, que muestran cómo debería verse el momento de selección (rango azul/rojo + líneas). El color rojo de las líneas en las imágenes no es el definitivo.
 
 ANTES DE ESCRIBIR CÓDIGO, respóndeme con este formato:
 1. **Lo que entendí**: resumen en 3 a 5 líneas.
