@@ -17,6 +17,19 @@ Misión de rescate en los escombros después del clímax: combate fácil, presi�
 - **New Game+:** los rescatados de la partida anterior aparecen en la nueva; al hablarles se unen o dan objetos poderosos. Requiere que esos personajes tengan presencia antes del último capítulo.
 - Riesgo a vigilar: "rescatar a todos" no debe depender de información que solo da una guía. Debe poder deducirse en el mapa.
 
+**Reglas de implementación (propuesta):**
+- Sin azar y sin muerte guionada. Lo difícil sale del diseño del mapa.
+- La victoria no es derrotar al jefe ni tomar un punto: el capítulo termina en un turno fijo o al rescatar al último. Ganar rápido no saltea el rescate.
+- Rescatar cuesta acciones: cada persona atrapada necesita una unidad que "excave" en casillas adyacentes durante 1-2 turnos. Varias personas, repartidas lejos entre sí.
+- El terreno empeora cada turno (derrumbes que bloquean caminos), así que el orden importa.
+- Definir qué pasa con bastones de teletransporte, bailarines y movimiento extra: limitarlos en ruinas o contarlos en el diseño del límite de turnos.
+- Si el jugador rescata a todos antes del límite, el capítulo termina y obtiene el epílogo "palmadita". Es legítimo: lo ganó.
+- Lo que nunca se puede salvar no está en el mapa: el registro de Demetria nombra a gente de otros lugares (fuera de alcance), no a fichas inalcanzables.
+
+**Quiénes están atrapados:**
+- Cada rescatable aparece al menos dos veces antes: campamento, conversaciones de base, capítulos paralelos o rescatados de la misión de la evacuación dividida.
+- Su presencia en el mapa final tiene que estar justificada por la historia: viajan con el convoy, viven en la zona del clímax o fueron rescatados antes y se quedaron cerca.
+
 ## 2. Jefes con varias barras de vida (PROPUESTA, estilo Engage)
 
 - Evita matar al jefe en uno o dos ataques; obliga a planear.
