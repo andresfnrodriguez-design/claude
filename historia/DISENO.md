@@ -80,3 +80,21 @@ Misión de rescate en los escombros después del clímax: combate fácil, presi�
 
 - Muerte permanente: ¿sí o no? Afecta casi todo lo anterior.
 - Motor: ¿hack de FE8 o motor propio? Define la viabilidad de las barras múltiples y la dificultad dinámica.
+
+## 7. Identidad de unidad (CANON como principio)
+
+**Principio:** la mecánica de cada unidad expresa su personalidad y su historia. Si dos unidades se sienten iguales al jugarlas, una sobra.
+
+Referencia: video "unit identity" (fuentes de identidad: estadísticas, clase, momento de unión, habilidades y estética).
+
+**Reglas:**
+1. **Habilidad personal nacida del carácter.** Solitario o egoísta: habilidades que solo lo potencian a él. Servicial: habilidades que potencian al equipo.
+2. **Las habilidades pueden cambiar con el arco del personaje** (PROPUESTA). Ejemplo: Vask empieza con una habilidad egoísta y, si decide quedarse, cambia a una de equipo. "Juramento" de Halvard ya va en esta línea.
+3. **Nada de cambio de clase indiscriminado.** Rompe la identidad (caso Jean en Engage: médico por historia, pero su habilidad de crecimiento empuja a sacarlo de curador). Opciones: sin cambio de clase, o pocas clases alternativas por personaje que digan algo de él (como Awakening).
+4. **Coherencia entre crecimientos y clase inicial.** Caso a evitar: Anna en Engage, con el mejor crecimiento mágico en una clase de fuerza, sin que el jugador lo sepa. Los crecimientos son invisibles: la clase, la animación y la presentación deben comunicarlos.
+5. **Los nichos (ladrón, bailarín, curador) tienen personalidad y pasado acordes.**
+6. **Limitar la versatilidad del ejército.** Si todos son buenos en todo, nadie es especial. Pocas fuentes de estadísticas extra para que los umbrales altos sigan siendo un rasgo de alguien.
+7. **Cuidar el momento de unión.** Una unidad fuerte que se une en un capítulo difícil queda como "la mejor" por contexto y opaca a las alternativas cercanas. Diseñar cada unión pensando en la primera impresión, incluidas las unidades que se quieren destacar.
+8. **Estética única.** Animaciones, sprites o vestimentas personales hacen memorables a los personajes. Clases exclusivas de un solo personaje cuando sea posible. Si hay cambio de clase, que la ropa personal se mantenga.
+
+ABIERTO: ¿hay cambio de clase? Si lo hay, ¿cuántas opciones por personaje?
