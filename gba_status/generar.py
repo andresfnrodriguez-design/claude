@@ -88,10 +88,21 @@ for x in range(W):
         k = min(1, x / 140) * 0.7 + y / 13 * 0.3
         d.point((x, y), fill=lerp((214, 96, 128), (110, 18, 40), k))
 d.line([(0, 13), (239, 13)], fill=c(32, 4, 10))
-t(3, 1, "Kairos")
-for x0, x1, lab in [(150, 166, "LV"), (190, 210, "EXP")]:
+def _tinta(txt):
+    m_ = Image.new("L", (80, 20), 0); md = ImageDraw.Draw(m_); md.fontmode = "1"
+    md.text((10, 0), txt, font=f, fill=255); return m_.getbbox()
+def tinta_izq(x, y, txt, col): b_ = _tinta(txt); t(x - (b_[0] - 10), y, txt, col)
+def tinta_der(x, y, txt, col=TXT): b_ = _tinta(txt); t(x - (b_[2] - 1 - 10), y, txt, col)
+# botones de hombro L / R en las esquinas (cambiar de ventana)
+def hombro(x0, letra, izq):
+    x1 = x0 + 12
+    d.rounded_rectangle([x0, 1, x1, 11], 3, fill=c(232, 216, 216))
+    b_ = _tinta(letra); t(x0 + (13 - (b_[2] - b_[0])) // 2 - (b_[0] - 10), 1, letra, c(48, 8, 20))
+hombro(1, "L", True); hombro(226, "R", False)
+t(17, 1, "Kairos")
+for x0, x1, lab in [(140, 156, "LV"), (178, 198, "EXP")]:
     d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
-tr(182, 1, "8"); tr(236, 1, "99")
+tr(172, 1, "8"); tr(222, 1, "99")
 
 # HP: franja vinotinto translucida bajo el HP, con extremo derecho curvo
 fr = Image.new("L", (W, H), 0); fd = ImageDraw.Draw(fr)
@@ -149,11 +160,6 @@ my = (BY0 + BY1) / 2
 d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
 d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
 
-def _tinta(txt):
-    m_ = Image.new("L", (80, 20), 0); md = ImageDraw.Draw(m_); md.fontmode = "1"
-    md.text((10, 0), txt, font=f, fill=255); return m_.getbbox()
-def tinta_izq(x, y, txt, col): b_ = _tinta(txt); t(x - (b_[0] - 10), y, txt, col)
-def tinta_der(x, y, txt, col=TXT): b_ = _tinta(txt); t(x - (b_[2] - 1 - 10), y, txt, col)
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
 for x in range(35): smd.line([(x, 62), (x, 136)], fill=int(170 - x * 3))  # translucido, se desvanece
