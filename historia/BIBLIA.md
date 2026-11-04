@@ -49,6 +49,8 @@ Regla: al confirmar algo, se mueve a CANON y se anota en el registro de decision
 - Puede influir en un par de mecánicas y en el worldbuilding (culto de Kallion como práctica social, costumbres, objetos).
 - No es la solución del clímax.
 
+**Nemira (CANON):** nunca puede ser un caso de "mujer en el refrigerador" (personaje femenino que sufre o muere para motivar al protagonista). Tiene metas propias, su propia búsqueda y puede estar en desacuerdo con Kairon. Si muere, es por la muerte permanente del jugador, no por el guion.
+
 ## 3. Personajes principales (CANON)
 
 | Personaje | Rol | Núcleo |
@@ -121,7 +123,9 @@ Dos mapas seguidos y después el rescate en los escombros.
    - **El reto es el camino:** abrirse paso hasta el registro del puerto. Orestion es casi invencible de frente.
    - **El ingenio de Kairon:** los guardias obedecen a la lista, no a Orestion. Kairon toma el registro y pone en la lista a todos los de la orilla. Los guardias dejan de obedecer; cambia la música.
    - **Barras en crescendo:** cada barra rota, Orestion quema más recuerdos y se vuelve más fuerte y menos humano (argumenta → confunde nombres → no reconoce a Kairon).
-   - **La última barra es la excepción:** Orestion ya no tiene nada que quemar. Débil, patético, da pena (no risa). Idea: no ataca; el mapa puede terminar con Kairon hablándole en vez de atacarlo.
+   - **La última barra es la excepción:** Orestion ya no tiene nada que quemar. Débil, patético, da pena (no risa). No ataca.
+   - **Elección del jugador:** en esa fase solo la habilidad de aether de Kairon le hace daño. Al acercarse, el menú de Kairon muestra con claridad dos comandos: **Matar** o **Hablar** (perdonar). El resto de las unidades no le hacen daño.
+   - Propuesta: matarlo con aether le cuesta a Kairon un recuerdo; perdonarlo no cuesta nada.
    - Termina sin recordar por qué peleaba. Sobrevive sin recordar lo que hizo; Kairon queda como el único que sabe.
 3. **Rescate en los escombros** (ver DISENO.md).
 
