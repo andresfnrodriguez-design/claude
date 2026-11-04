@@ -43,7 +43,8 @@ for y in range(art.height):
 ESC = 3.2  # cabeza grande, cortada bajo los hombros
 art = art.resize((int(art.width * ESC), int(art.height * ESC)), Image.NEAREST)
 mask = mask.resize(art.size, Image.NEAREST)
-img.paste(art, (RX, RY), mask)
+import os
+if not os.environ.get("SIN_RETRATO"): img.paste(art, (RX, RY), mask)
 
 # semicirculo negro translucido (centro fuera de pantalla a la derecha)
 cx, cy, r = 337, 85, 180
@@ -209,7 +210,7 @@ d.ellipse([197, 142, 210, 155], outline=TXT); d.ellipse([201, 146, 206, 151], fi
 d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
-suf = ""
+suf = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ""
 img.save(f"estado_gba{suf}.png")
 img.resize((W * 4, H * 4), Image.NEAREST).save(f"estado_gba{suf}_x4.png")
 print(len(img.getcolors(4096)), "colores")

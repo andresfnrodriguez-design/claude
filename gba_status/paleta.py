@@ -1,6 +1,6 @@
 """Lee los colores de estado_gba.png y genera paleta.png + paleta.txt (RGB888, hex y BGR555 de la GBA)."""
 from PIL import Image, ImageDraw
-img = Image.open("estado_gba.png").convert("RGB")
+img = Image.open(__import__("sys").argv[1] if len(__import__("sys").argv) > 1 else "estado_gba.png").convert("RGB")
 cols = sorted(img.getcolors(4096), reverse=True)
 lado, por_fila = 24, 16
 filas = (len(cols) + por_fila - 1) // por_fila
