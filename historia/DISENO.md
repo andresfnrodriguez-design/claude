@@ -101,3 +101,11 @@ Referencia: video "unit identity" (fuentes de identidad: estadísticas, clase, m
 - Descartado: cualquier sistema donde todos pueden ser cualquier clase (Three Houses, Fortune's Weave). También las habilidades de maestría transferibles entre clases: igualan a todo el ejército.
 - Rescatable de Fortune's Weave: clases exclusivas de un personaje (atadas a su historia) y bonos pasivos personales en ciertos roles (por ejemplo, +1 de movimiento a quien lleva armadura pesada por su pasado). Idea de mecánica: carga en línea recta que golpea a varios enemigos (carro de guerra).
 - **Tres promociones solo para reclutas** (PROPUESTA): como los reclutas de Sacred Stones, unas pocas unidades novatas tienen un árbol de tres niveles. Da la sensación de "de cero a héroe" sin multiplicar el trabajo artístico en todo el ejército, y la clase de recluta ya cuenta su historia (jóvenes de la diáspora, por ejemplo).
+
+## 8. Habilidad por rango S de arma (PROPUESTA)
+
+- Al llegar a rango S en un arma, la unidad gana una habilidad que refuerza la naturaleza de esa arma (hace mejor lo que el arma ya hace).
+- Ejemplo: arco (preciso) → más precisión, o +1 de alcance.
+- Regla sugerida: un solo rango S por unidad, como en los GBA. Así el arma S se vuelve parte de la identidad del personaje.
+- Cuidado con el +1 de alcance automático en arcos: cambia mucho el equilibrio, probar antes de fijarlo.
+- ABIERTO: definir la habilidad de cada tipo de arma (espada, lanza, hacha, arco, magias, bastones).
