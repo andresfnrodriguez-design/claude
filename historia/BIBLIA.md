@@ -89,10 +89,10 @@ Revisión completa: https://claude.ai/artifact/GbwYWvgJSkFC65ZdvcyZvU
 - **Revelación dividida:** a mitad del juego Kairon descubre que existe la lista y que su familia estaba en ella; después busca quién la hizo.
 - **Final:** Kairon no revela la lista. El cambio es interno: deja de vivir según el lema y actúa desde lo que cree. Tiene que ser una elección, no resignación.
 - **Ferannor:** provoca el colapso fuera de su territorio y aporta el "método racional" (tablas de viabilidad) con que se hizo la lista. Necesita un rostro humano que crea en su sistema.
-- **El lema (CANON):** rito de pregunta y respuesta. "—¿Quién queda en la orilla? —Nadie." Imagen de los barcos de la evacuación; después del giro, la orilla estaba llena. "Nadie" es además el nombre falso de Odiseo.
+- **El lema (CANON):** **"Volveremos por la orilla."** Imagen de los barcos de la evacuación. Antes del giro es una promesa de volver por los que quedaron; después, una promesa que nadie cumplió en quince años. En el epílogo todos la repiten por costumbre y Kairon es el único que la cumple.
 - **El cambio de Kairon (CANON):** le ofrecen el lugar de Orestion y callar es tentador. En una escena común responde a alguien con la frase de Orestion ("Tomé una decisión que no te voy a pedir que entiendas"). Nadie lo señala; el jugador lo reconoce. Después Kairon elige distinto.
 - **Capítulos paralelos:** pueden revelar secretos secundarios y motivaciones (como el Caballero de la Muerte y Mercedes en Three Houses), pero nunca una pieza necesaria del misterio principal.
-- **Último capítulo (PROPUESTA):** misión jugable en las ruinas después del clímax. Buscar sobrevivientes en los escombros con límite de turnos; no se puede llegar a todos. Los que no rescataste quedan "en la orilla". Sin muerte guionada imposible de evitar.
+- **Último capítulo (PROPUESTA):** misión jugable en las ruinas después del clímax. Buscar sobrevivientes en los escombros con límite de turnos; no se puede llegar a todos. Los que no rescataste quedan "en la orilla". Sin muerte guionada imposible de evitar. Epílogo según cuántos rescates: ver `DISENO.md`.
 
 ## 5. Propuestas (sin confirmar)
 
@@ -135,3 +135,4 @@ Bocetos: minera elíria en Cassaria · hijo de la élite evacuada (candidato a t
 | 2026-11-03 | Biblia creada a partir del Google Doc "FE". |
 | 2026-11-03 | Orestion con postura defendible; se elimina la capa sobrenatural. Revisión del boceto de novela. |
 | 2026-11-04 | Principio "nunca subestimar al jugador". Dirección: la lista, revelación dividida, final interno, Ferannor como cálculo. Estructura en revisión (25-30 + paralelos). |
+| 2026-11-04 | Lema: "Volveremos por la orilla". Ideas de mecánicas en DISENO.md. |
