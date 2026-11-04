@@ -89,7 +89,7 @@ for x in range(W):
 d.line([(0, 13), (239, 13)], fill=c(32, 4, 10))
 t(3, 1, "Kairos")
 for x0, x1, lab in [(150, 166, "LV"), (190, 210, "EXP")]:
-    d.rectangle([x0, 2, x1, 11], fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
+    d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
 tr(182, 1, "8"); tr(236, 1, "99")
 
 # HP: franja vinotinto translucida bajo el HP, con extremo derecho curvo
@@ -106,19 +106,19 @@ tinta(19, 17, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuS
 tinta(48, 19, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 9))
 for i in range(4): d.line([(45 - i, 19 + 2 * i), (45 - i, 20 + 2 * i)], fill=TXT)  # "/" recta 1:2
 d.rectangle([65, 19, 87, 24], fill=TXT)  # barra 100% blanca
-tr(213, 18, "Cleric")  # TODO: clase de la biblia
+tr(213, 18, "Articide")
 for x in (218, 227):
     d.rectangle([x, 20, x + 6, 27], fill=c(232, 224, 184), outline=c(88, 72, 40))
     d.line([(x + 2, 22), (x + 4, 22)], fill=c(88, 72, 40))
 
 # banner del objeto
-d.rounded_rectangle([65, 32, 175, 43], 6, fill=c(30, 4, 10), outline=c(176, 40, 64))
+d.rounded_rectangle([65, 30, 175, 45], 7, fill=c(30, 4, 10), outline=c(176, 40, 64))
 for x in range(100, 172):  # oscuro a la izquierda, se aclara a tinto hacia la derecha
-    d.line([(x, 34), (x, 41)], fill=lerp((30, 4, 10), (110, 18, 36), (x - 100) / 72))
+    d.line([(x, 32), (x, 43)], fill=lerp((30, 4, 10), (110, 18, 36), (x - 100) / 72))
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
 # icono + texto centrados como bloque en el recuadro (65..175, 32..43)
 bb = d.textbbox((0, 0), "Leather Shield", font=fs); tw, th = bb[2] - bb[0], bb[3] - bb[1]
-bx = (65 + 175 - (8 + 4 + tw)) // 2; my = (32 + 43) / 2
+bx = (65 + 175 - (8 + 4 + tw)) // 2; my = (30 + 45) / 2
 d.ellipse([bx, round(my - 4), bx + 7, round(my + 3)], fill=c(168, 112, 72), outline=c(88, 56, 32))
 d.text((bx + 12 - bb[0], round(my - th / 2) - bb[1]), "Leather Shield", font=fs, fill=TXT)
 
@@ -146,13 +146,18 @@ for i, (s_, col) in enumerate(skills):
 
 # barra inferior
 # (sin franja inferior: los botones flotan sobre el retrato)
+def boton(x0, y0, x1, y1, rad=5):  # caja redondeada con degradado vertical
+    g = Image.new("RGB", (x1 - x0 + 1, y1 - y0 + 1))
+    for j in range(g.height):
+        ImageDraw.Draw(g).line([(0, j), (g.width, j)], fill=lerp((120, 24, 44), (72, 12, 26), j / g.height))
+    mk = Image.new("L", g.size, 0); ImageDraw.Draw(mk).rounded_rectangle([0, 0, g.width - 1, g.height - 1], rad, fill=255)
+    img.paste(g, (x0, y0), mk)
+    d.rounded_rectangle([x0, y0, x1, y1], rad, outline=FR)
 for i, ic in enumerate(["+", "o", "#", "="]):
     x = 4 + i * 23.5; x = int(x)
-    grad_rect(x, 139, x + 21, 158, (120, 24, 44), (72, 12, 26))
-    d.rectangle([x, 139, x + 21, 158], outline=FR)
+    boton(x, 139, x + 21, 158)
     t(x + 8, 143, ic)
-grad_rect(193, 139, 236, 158, (120, 24, 44), (72, 12, 26))
-d.rectangle([193, 139, 236, 158], outline=FR)
+boton(193, 139, 236, 158)
 d.ellipse([197, 142, 210, 155], outline=TXT); d.ellipse([201, 146, 206, 151], fill=TXT)
 d.text((218, 140), "3", font=fb, fill=TXT)
 
