@@ -57,6 +57,15 @@ label{display:flex;gap:6px;align-items:center;font-size:13px}
 <section id="vistaEd" class="app">
   <div class="panel">
     <div>
+      <h2>Abrir mapa</h2>
+      <div class="chk">
+        <label>Juego <select id="selJuego" style="flex:1;min-width:0"></select></label>
+        <label>Capítulo <select id="selCap" style="flex:1;min-width:0"></select></label>
+        <div class="row"><span class="pill" id="estadoMapa">—</span><button id="volverOrig">Ver original</button><button id="borrarCustom">Borrar custom</button></div>
+        <span class="small">Los originales no se modifican. Al editar uno se crea su versión custom, que se guarda sola.</span>
+      </div>
+    </div>
+    <div>
       <h2>Mapa</h2>
       <div class="row"><input id="nombre" placeholder="Nombre" style="flex:1;min-width:0"></div>
       <div class="row" style="margin-top:6px">
@@ -108,10 +117,7 @@ label{display:flex;gap:6px;align-items:center;font-size:13px}
       <label><input id="vSim" type="checkbox" checked> Símbolos</label>
     </div>
     <div>
-      <h2>Guardados</h2>
-      <div class="row"><button id="guardar">Guardar</button><select id="lista" style="flex:1;min-width:0"></select></div>
-      <div class="row" style="margin-top:6px"><button id="cargar">Cargar</button><button id="borrar">Borrar</button></div>
-      <span class="small" id="msgGuard"></span>
+<span class="small" id="msgGuard"></span>
     </div>
   </div>
 
@@ -312,6 +318,7 @@ function casilla(e){ const r=cv.getBoundingClientRect(); const x=Math.floor((e.c
   return (x>=0&&y>=0&&x<M.w&&y<M.h)?{x,y}:null; }
 const unidadEn = (x,y) => M.u.findIndex(u=>u.x===x&&u.y===y);
 cv.addEventListener("pointerdown", e => { const c=casilla(e); if(!c) return;
+  if(herr!=="rango") tocar();
   if(herr==="pintar" && e.shiftKey && IMG && IMG.col){ if(c.y<IMG.h&&c.x<IMG.w){ PROTO[pincel]=IMG.col[c.y][c.x]; estimar(); } }
   else if(herr==="pintar"){ pintando=true; M.t[c.y][c.x]=pincel; rango=null; }
   else if(herr==="unidad"){ const i=unidadEn(c.x,c.y);
@@ -322,10 +329,10 @@ cv.addEventListener("pointerdown", e => { const c=casilla(e); if(!c) return;
   else if(herr==="objetivo"){ M.obj = (M.obj&&M.obj.x===c.x&&M.obj.y===c.y)?null:{x:c.x,y:c.y,tipo:"casilla"}; }
   else if(herr==="rango"){ const i=unidadEn(c.x,c.y); const cl = i>=0?M.u[i].cl:document.getElementById("rCl").value;
     rango = {alc: alcance(c.x,c.y,cl,CLASES[cl].mov)}; }
-  dibujar(); });
+  dibujar(); if(herr!=="rango") guardarPronto(); });
 cv.addEventListener("pointermove", e => { const c=casilla(e);
   document.getElementById("estado").textContent = c ? `(${c.x},${c.y}) ${TK[M.t[c.y][c.x]].nom} · 0x${TK[M.t[c.y][c.x]].id.toString(16).toUpperCase().padStart(2,"0")}` : "—";
-  if(pintando && c && M.t[c.y][c.x]!==pincel){ M.t[c.y][c.x]=pincel; dibujar(); } });
+  if(pintando && c && M.t[c.y][c.x]!==pincel){ M.t[c.y][c.x]=pincel; dibujar(); guardarPronto(); } });
 window.addEventListener("pointerup", ()=>pintando=false);
 
 // ---------- Movimiento ----------
@@ -417,7 +424,7 @@ document.getElementById("importar").onclick=()=>{
       filas.forEach((f,y)=>f.forEach((s,x)=>{ m.t[y][x]=SIM[s]||"plains"; }));
       M=m;
     }
-    rango=null; sincForm(); dibujar(); msgIo.textContent="Importado.";
+    M.custom=true; M.id="propio:"+Date.now(); rango=null; guardarCustom(); sincForm(); dibujar(); llenarSelectores("Mis mapas","c:"+M.id); msgIo.textContent="Importado como mapa custom.";
   }catch(e){ msgIo.textContent="No pude leerlo. Pega un JSON exportado o una grilla con filas numeradas."; }
 };
 
@@ -433,21 +440,14 @@ document.getElementById("resCostos").onclick=()=>{ CLASES=JSON.parse(JSON.string
 // ---------- Guardado local ----------
 function leerLS(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
 function guardarLS(k,v){ try{ v===null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ return false; } }
-function refrescarLista(){ const g=leerLS("fe-mapas")||{}; const s=document.getElementById("lista");
-  s.innerHTML=Object.keys(g).map(n=>`<option>${n.replace(/</g,"&lt;")}</option>`).join("")||"<option value=''>(vacío)</option>"; }
-document.getElementById("guardar").onclick=()=>{ M.nombre=document.getElementById("nombre").value||M.nombre; const g=leerLS("fe-mapas")||{}; g[M.nombre]=M;
-  document.getElementById("msgGuard").textContent = guardarLS("fe-mapas",g)?"Guardado en este navegador. Exporta JSON para respaldo.":"Este navegador no permite guardar. Exporta JSON.";
-  refrescarLista(); };
-document.getElementById("cargar").onclick=()=>{ const n=document.getElementById("lista").value, g=leerLS("fe-mapas")||{}; if(g[n]){ M=g[n]; rango=null; sincForm(); dibujar(); } };
-document.getElementById("borrar").onclick=()=>{ const n=document.getElementById("lista").value, g=leerLS("fe-mapas")||{}; delete g[n]; guardarLS("fe-mapas",g); refrescarLista(); };
 
 // ---------- Formularios ----------
 function sincForm(){ document.getElementById("nombre").value=M.nombre; document.getElementById("ancho").value=M.w; document.getElementById("alto").value=M.h; }
-document.getElementById("nombre").oninput=e=>M.nombre=e.target.value;
-document.getElementById("redim").onclick=()=>{ const w=Math.max(15,Math.min(60,+document.getElementById("ancho").value)), h=Math.max(10,Math.min(60,+document.getElementById("alto").value));
+document.getElementById("nombre").oninput=e=>{ tocar(); M.nombre=e.target.value; guardarPronto(); };
+document.getElementById("redim").onclick=()=>{ tocar(); const w=Math.max(15,Math.min(60,+document.getElementById("ancho").value)), h=Math.max(10,Math.min(60,+document.getElementById("alto").value));
   const n=vacio(w,h,M.nombre); for(let y=0;y<Math.min(h,M.h);y++) for(let x=0;x<Math.min(w,M.w);x++) n.t[y][x]=M.t[y][x];
-  n.u=M.u.filter(u=>u.x<w&&u.y<h); n.obj=M.obj&&M.obj.x<w&&M.obj.y<h?M.obj:null; M=n; rango=null; sincForm(); dibujar(); };
-document.getElementById("nuevo").onclick=()=>{ M=vacio(15,10,"Nuevo mapa"); rango=null; sincForm(); dibujar(); };
+  n.u=M.u.filter(u=>u.x<w&&u.y<h); n.obj=M.obj&&M.obj.x<w&&M.obj.y<h?M.obj:null; n.id=M.id; n.origen=M.origen; n.custom=true; M=n; guardarPronto(); rango=null; sincForm(); dibujar(); };
+document.getElementById("nuevo").onclick=()=>{ M=vacio(15,10,"Nuevo mapa"); M.custom=true; M.id="propio:"+Date.now(); rango=null; guardarCustom(); sincForm(); dibujar(); llenarSelectores("Mis mapas","c:"+M.id); };
 document.querySelectorAll("#herr button").forEach(b=>b.onclick=()=>{ herr=b.dataset.h;
   document.querySelectorAll("#herr button").forEach(o=>o.classList.toggle("on",o===b));
   document.getElementById("opPintar").hidden=herr!=="pintar"; document.getElementById("opUnidad").hidden=herr!=="unidad"; document.getElementById("opRango").hidden=herr!=="rango";
@@ -466,7 +466,7 @@ function estimar(){
     for(const k of ks){ const p=PROTO[k]; const d=(r-p[0])**2+(g-p[1])**2+(b-p[2])**2; if(d<dm){dm=d;mejor=k;} }
     M.t[y][x]=mejor;
   }
-  dibujar();
+  dibujar(); guardarPronto();
 }
 function cargarImagen(el){
   const ts = Math.max(4, +document.getElementById("imgTs").value || 16);
@@ -480,7 +480,7 @@ function cargarImagen(el){
     col[y].push([r/n,gg/n,b/n]); } }
   IMG = {el, ts, w, h, col};
   M = vacio(Math.max(15,w), Math.max(10,h), document.getElementById("nombre").value || "Desde imagen");
-  rango=null; sincForm(); estimar();
+  M.custom=true; M.id="propio:"+Date.now(); rango=null; sincForm(); estimar(); guardarCustom(); llenarSelectores("Mis mapas","c:"+M.id);
   document.getElementById("msgImg").textContent = `${w}×${h} casillas estimadas. Calibra con Mayús + clic y corrige a mano lo que falle.`;
 }
 document.getElementById("fImg").onchange = e => { const f=e.target.files[0]; if(!f) return;
@@ -515,21 +515,94 @@ function armarCat(){ const extra = leerLS("fe-cat-extra") || []; const m = new M
 armarCat();
 let filas = [];
 function abrirGrilla(c){
+  abrirOriginal(c); llenarSelectores(c.juego, "o:"+clave(c));
+}
+function abrirOriginal(c){
   if(c.ids){ const m = vacio(Math.max(15,c.ids[0].length), Math.max(10,c.ids.length), `${c.juego} ${c.cap} · ${c.nombre}`);
     c.ids.forEach((f,y)=>f.forEach((id,x)=>{ m.t[y][x] = PORID[id] || "none"; }));
-    M = m; rango = null; IMG = null; sincForm(); vista(true); dibujar();
-    if(c.imagen){ const el = new Image(); const w=c.ids[0].length, h=c.ids.length;
-      el.onload = () => { IMG = {el, ts: el.naturalWidth / w, w, h, col: null}; dibujar();
-        document.getElementById("msgImg").textContent = "Mapa estimado desde imagen. Corrige sobre la imagen de fondo las casillas que no coincidan."; };
-      el.src = c.imagen; }
+    m.origen = clave(c); m.custom = false; M = m; rango = null; IMG = null; sincForm(); vista(true); dibujar();
+    cargarFondo(c);
     return; }
   const g = c.grilla, h = g.length, w = Math.max(...g.map(f=>f.length));
   const m = vacio(Math.max(15,w), Math.max(10,h), `${c.juego} ${c.cap} · ${c.nombre}`);
   g.forEach((f,y)=>[...f].forEach((ch,x)=>{ m.t[y][x] = SIM[ch] || "plains"; }));
   m.u = (c.u||[]).map(u=>({x:u.x,y:u.y,eq:u.eq||"E",nom:u.nom||"?",cl:CLASES[u.cl]?u.cl:"infanteria",jefe:!!u.jefe,turno:u.turno||0,aviso:u.aviso!==false}));
-  m.obj = c.obj || null;
-  M = m; rango = null; sincForm(); vista(true); dibujar();
+  m.obj = c.obj || null; m.origen = clave(c); m.custom = false;
+  M = m; rango = null; IMG = null; sincForm(); vista(true); dibujar();
 }
+function cargarFondo(c){
+    if(c && c.imagen && c.ids){ const el = new Image(); const w=c.ids[0].length, h=c.ids.length;
+      el.onload = () => { IMG = {el, ts: el.naturalWidth / w, w, h, col: null}; dibujar();
+        document.getElementById("msgImg").textContent = "Mapa estimado desde imagen. Corrige sobre la imagen de fondo las casillas que no coincidan."; };
+      el.src = c.imagen; }
+}
+// ---------- Originales y custom ----------
+const leerCustom = () => leerLS("fe-custom") || {};
+function guardarCustom(){
+  if(!M.custom) return;
+  const g = leerCustom(); g[M.id] = M;
+  const ok = guardarLS("fe-custom", g);
+  document.getElementById("msgGuard").textContent = ok ? "" : "No se pudo guardar. Exporta el JSON para no perder cambios.";
+  estadoMapa();
+}
+let tGuardar = null;
+function guardarPronto(){ clearTimeout(tGuardar); tGuardar = setTimeout(guardarCustom, 400); }
+function tocar(){
+  if(M.custom) return;
+  const id = M.origen ? "orig:" + M.origen : "propio:" + Date.now();
+  const previo = leerCustom()[id];
+  if(previo){ // ya había un custom de este original: seguir editando ese
+    M = previo; M.custom = true;
+  } else {
+    M = JSON.parse(JSON.stringify(M)); M.custom = true; M.id = id; M.nombre = M.nombre + " (custom)";
+  }
+  sincForm(); guardarCustom();
+  const c = CAT.find(c => clave(c) === M.origen);
+  llenarSelectores(c ? c.juego : "Mis mapas", "c:" + M.id, true);
+}
+function estadoMapa(){
+  const e = document.getElementById("estadoMapa");
+  e.textContent = M.custom ? "Custom · se guarda solo" : M.origen ? "Original · sin cambios" : "Ejemplo";
+  e.className = "pill " + (M.custom ? "ok" : "warn");
+  document.getElementById("volverOrig").hidden = !(M.custom && M.origen);
+  document.getElementById("borrarCustom").hidden = !M.custom;
+}
+const selJ = document.getElementById("selJuego"), selC = document.getElementById("selCap");
+function llenarSelectores(juego, valor, sinAbrir){
+  const custom = leerCustom();
+  const juegos = [...new Set(CAT.filter(c=>c.ids||c.grilla).map(c=>c.juego))];
+  const hayPropios = Object.keys(custom).some(k=>k.startsWith("propio:"));
+  selJ.innerHTML = juegos.map(j=>`<option>${esc(j)}</option>`).join("") + (hayPropios?`<option>Mis mapas</option>`:"");
+  if(juego) selJ.value = juego;
+  const j = selJ.value; let ops = [];
+  if(j === "Mis mapas") ops = Object.entries(custom).filter(([k])=>k.startsWith("propio:")).map(([k,v])=>[`c:${k}`, v.nombre]);
+  else for(const c of CAT.filter(c=>c.juego===j&&(c.ids||c.grilla))){
+    ops.push([`o:${clave(c)}`, `${c.cap} · ${c.nombreEs||c.nombre}${c.ruta&&c.ruta!=="común"?" ("+c.ruta+")":""}`]);
+    if(custom["orig:"+clave(c)]) ops.push([`c:orig:${clave(c)}`, `${c.cap} · ${c.nombreEs||c.nombre} (custom)`]);
+  }
+  selC.innerHTML = `<option value="">Elige un capítulo</option>` + ops.map(([v,t])=>`<option value="${esc(v)}">${esc(t)}</option>`).join("");
+  if(valor) selC.value = valor;
+  if(!sinAbrir) estadoMapa();
+}
+function abrirSeleccion(){
+  const v = selC.value; if(!v) return;
+  if(v.startsWith("o:")){ const c = CAT.find(c=>clave(c)===v.slice(2)); if(c) abrirOriginal(c); }
+  else { const m = leerCustom()[v.slice(2)]; if(!m) return;
+    M = m; M.custom = true; rango = null; IMG = null; sincForm(); vista(true); dibujar();
+    cargarFondo(CAT.find(c=>clave(c)===M.origen)); }
+  estadoMapa();
+}
+selJ.onchange = () => { llenarSelectores(selJ.value, "", true); };
+selC.onchange = abrirSeleccion;
+document.getElementById("volverOrig").onclick = () => { const c = CAT.find(c=>clave(c)===M.origen); if(c){ abrirOriginal(c); llenarSelectores(c.juego, "o:"+clave(c)); } };
+document.getElementById("borrarCustom").onclick = () => {
+  const b = document.getElementById("borrarCustom");
+  if(b.dataset.confirmar !== "1"){ b.dataset.confirmar = "1"; b.textContent = "¿Seguro? Toca de nuevo"; setTimeout(()=>{ b.dataset.confirmar=""; b.textContent="Borrar custom"; }, 3000); return; }
+  b.dataset.confirmar = ""; b.textContent = "Borrar custom";
+  const g = leerCustom(); delete g[M.id]; guardarLS("fe-custom", g);
+  const c = CAT.find(c=>clave(c)===M.origen);
+  if(c){ abrirOriginal(c); llenarSelectores(c.juego, "o:"+clave(c)); } else { M = ejemplo(); sincForm(); dibujar(); llenarSelectores(); }
+};
 document.getElementById("fCat").onchange = async e => {
   const msg = document.getElementById("msgCat"); let n = 0;
   try{
@@ -568,6 +641,11 @@ function vista(ed){ document.getElementById("vistaEd").hidden=!ed; document.getE
 
 // ---------- Inicio ----------
 const cc=leerLS("fe-costos2"); if(cc) for(const k in cc) CLASES[k]={nom:CLASES[k]?.nom||k, mov:cc[k].mov, c:cc[k].c};
-llenarClases(); llenarJuegos(); mostrarCostos(); refrescarLista(); sincForm(); dibujar();
+llenarClases(); llenarJuegos(); mostrarCostos(); sincForm(); dibujar();
+// migrar los guardados de la versión anterior a "Mis mapas"
+(()=>{ const viejos = leerLS("fe-mapas"); if(!viejos) return; const g = leerCustom();
+  for(const [n,m] of Object.entries(viejos)){ m.custom = true; m.id = "propio:" + n; g[m.id] = m; }
+  if(guardarLS("fe-custom", g)) guardarLS("fe-mapas", null); })();
+llenarSelectores(); estadoMapa();
 document.fonts && document.fonts.ready.then(dibujar);
 </script>
