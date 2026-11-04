@@ -97,4 +97,6 @@ Referencia: video "unit identity" (fuentes de identidad: estadísticas, clase, m
 7. **Cuidar el momento de unión.** Una unidad fuerte que se une en un capítulo difícil queda como "la mejor" por contexto y opaca a las alternativas cercanas. Diseñar cada unión pensando en la primera impresión, incluidas las unidades que se quieren destacar.
 8. **Estética única.** Animaciones, sprites o vestimentas personales hacen memorables a los personajes. Clases exclusivas de un solo personaje cuando sea posible. Si hay cambio de clase, que la ropa personal se mantenga.
 
-ABIERTO: ¿hay cambio de clase? Si lo hay, ¿cuántas opciones por personaje?
+**Sistema de clases (CANON):** árbol cerrado estilo Sacred Stones. Sin cambio de clase libre. Cada clase base promociona a una de dos clases.
+- Descartado: cualquier sistema donde todos pueden ser cualquier clase (Three Houses).
+- **Tres promociones solo para reclutas** (PROPUESTA): como los reclutas de Sacred Stones, unas pocas unidades novatas tienen un árbol de tres niveles. Da la sensación de "de cero a héroe" sin multiplicar el trabajo artístico en todo el ejército, y la clase de recluta ya cuenta su historia (jóvenes de la diáspora, por ejemplo).
