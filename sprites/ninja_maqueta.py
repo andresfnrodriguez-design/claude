@@ -34,7 +34,7 @@ def gris(p):
         r,g,b=(int(h[i:i+2],16) for i in (0,2,4));y=round(.299*r+.587*g+.114*b);out.append('%02x%02x%02x'%(y,y,y))
     out[0]=MEJ[0];return ' '.join(out)
 PROP={'Aliado':' '.join(MEJ),'Enemigo':prop('Rojo','38a048'),'Neutral':prop('Verde','3070c8'),
-      'Usado':gris(' '.join(MEJ)),'Arena':prop('Morado','c02838')}
+      'Usado':gris(' '.join(MEJ)),'Arena':' '.join(MEJ[:1]+'584068 a8a8e8 e0e0f8'.split()+MEJ[4:7]+'584060 806090 b898e0 d0c0f8'.split()+['c02838']+MEJ[12:])}
 s=6;cw=W*s+16;out=Image.new('RGB',(cw*5+110,2*(H*s+60)+10),(0x80,0xa0,0x80));d=ImageDraw.Draw(out)
 for row,(titulo,P) in enumerate((('GBA',GBA),('Propuesta',PROP))):
     y0=10+row*(H*s+60);d.text((cw*5+12,y0+H*s//2),titulo,fill='black')

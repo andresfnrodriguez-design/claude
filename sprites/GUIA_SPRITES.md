@@ -200,3 +200,15 @@ El oro usa el dorado claro de SoV (`#f0dd60`) en vez del amarillo limón de GBA.
 | 13 | Sombra del suelo | `#7a8878` |
 | 14 | Blanco | `#f0f0e8` |
 | 15 | Contorno | `#241c2c` |
+
+## Paletas propuestas por bando (aprobadas)
+
+Base: paleta "Mejorada". Solo cambian las posiciones 1–3, 7–10 y 11.
+
+| Bando | Secundaria 1–3 | Principal 7–10 | Acento 11 |
+|---|---|---|---|
+| Aliado | `#3c2c58` `#8a78c0` `#d0c8f0` | `#1e2c6c` `#2f5cc8` `#3ea0e8` `#9ce4f8` | `#c02838` |
+| Enemigo | `#683232` `#dbb3b3` `#e5d1d1` | `#891111` `#bc1717` `#e73f3f` `#eba3a3` | `#38a048` |
+| Neutral | `#1f3e22` `#96ca9a` `#c0dac2` | `#0d5013` `#126d19` `#1cab28` `#81df88` | `#3070c8` |
+| Arena (morados de GBA) | `#584068` `#a8a8e8` `#e0e0f8` | `#584060` `#806090` `#b898e0` `#d0c0f8` | `#c02838` |
+| Usado | paleta Aliado completa pasada a grises (luminancia) | | |
