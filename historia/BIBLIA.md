@@ -112,6 +112,22 @@ Revisión completa: https://claude.ai/artifact/GbwYWvgJSkFC65ZdvcyZvU
 - **Capítulos paralelos:** pueden revelar secretos secundarios y motivaciones (como el Caballero de la Muerte y Mercedes en Three Houses), pero nunca una pieza necesaria del misterio principal.
 - **Último capítulo (PROPUESTA):** misión jugable en las ruinas después del clímax. Buscar sobrevivientes en los escombros con límite de turnos; no se puede llegar a todos. Los que no rescataste quedan "en la orilla". Sin muerte guionada imposible de evitar. Epílogo según cuántos rescates: ver `DISENO.md`.
 
+## 4e. Clímax (PROPUESTA avanzada, 2026-11-04)
+
+Dos mapas seguidos y después el rescate en los escombros.
+
+1. **Puerto de Ferannor.** Ferannor controla los barcos y solo embarca a quien pasa sus tablas de viabilidad. El grupo toma el puerto.
+2. **Orestion.** Organiza el embarque con las tablas: la lista de hace quince años repitiéndose ante el jugador. La fisura se agrieta cada turno (reloj).
+   - **El reto es el camino:** abrirse paso hasta el registro del puerto. Orestion es casi invencible de frente.
+   - **El ingenio de Kairon:** los guardias obedecen a la lista, no a Orestion. Kairon toma el registro y pone en la lista a todos los de la orilla. Los guardias dejan de obedecer; cambia la música.
+   - **Barras en crescendo:** cada barra rota, Orestion quema más recuerdos y se vuelve más fuerte y menos humano (argumenta → confunde nombres → no reconoce a Kairon).
+   - **La última barra es la excepción:** Orestion ya no tiene nada que quemar. Débil, patético, da pena (no risa). Idea: no ataca; el mapa puede terminar con Kairon hablándole en vez de atacarlo.
+   - Termina sin recordar por qué peleaba. Sobrevive sin recordar lo que hizo; Kairon queda como el único que sabe.
+3. **Rescate en los escombros** (ver DISENO.md).
+
+Requisito: antes del final el jugador debe haber visto qué pasa cuando alguien quema demasiados recuerdos (jefe intermedio o miembro del culto de Kallion). Orestion necesita un pasado que justifique que sepa pelear.
+Descartado: Orestion transformado en dios o monstruo.
+
 ## 5. Propuestas (sin confirmar)
 
 - **Motivo de Orestion:** el liderazgo supo del colapso y evacuó en secreto a una élite. El lema "nadie se abandona" nació después para taparlo. Hoy repite el trato con Ferannor (datos de fisuras a cambio de hogar garantizado).
