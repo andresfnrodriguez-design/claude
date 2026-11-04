@@ -129,3 +129,34 @@ Como en todos los Fire Emblem.
 - Las líneas no esenciales de secundarios se escriben pensando en que ese personaje puede estar muerto: se le asignan a otro personaje o se quitan si la escena funciona sin ellas.
 - Regla de escritura: cada línea de un secundario no indispensable debe tener un reemplazo o poder eliminarse.
 - Las líneas esenciales para la trama solo las dicen personajes de las categorías 1-3.
+
+## 10. Material previo: `fisuras-clases-armas.pdf` (Drive, 31 ago)
+
+Ya definido ahí (vigente salvo choque con decisiones nuevas):
+- **Triángulo cinético:** Asta > Filo > Peso > Asta. Filo y Asta son tradición elíria; Peso es invención industrial. Efectos: Filo = Sangrado, Asta = Anclaje, Peso = Empuje.
+- **Neutrales:** Arco, Rifle (retroceso: cuesta PV propio), Daga, Herramienta, Guante (Kairon), Lámpara Ritual.
+- **Triángulo de diarios (magia):** Ritual (Elyria) > Oral (Cassaria/Ordun) > Cristalino (Ferannor) > Ritual.
+- **18 clases** con promoción cerrada (encaja con la sección 7).
+- **Habilidad de aether única por personaje, que arriesga un tipo de recuerdo:** trivial/feliz (débil), apego, traumático, culpa, el viaje, lo no dicho, romántico (el más fuerte). "La diferencia entre dos personajes de la misma clase es el tipo de recuerdo que arriesgan."
+
+Pendiente: qué pasa mecánicamente cuando se pierde el recuerdo (el documento no lo define). Ver propuesta en la sección 11.
+
+**Choques con decisiones nuevas (revisar):**
+- "Su Nombre" de Kairon (olvidar a Nemira) ya no puede resolver el clímax.
+- Orestion figura como jugable desde M35; ahora es el jefe final.
+- Halvard se une en M21 y traiciona en M30; la nueva estructura lo adelanta.
+- Las habilidades de rango S (sección 8) deben usar Filo/Asta/Peso, no espada/lanza/hacha.
+
+## 11. Costo del Olvido (PROPUESTA)
+
+Usar la habilidad de aether gasta el recuerdo: **cada personaje tiene usos limitados en toda la partida** (por ejemplo 3). El costo escala con la categoría del recuerdo:
+
+| Categoría | Poder | Costo al usarla |
+|---|---|---|
+| Trivial / feliz | Bajo | Pierde puntos de apoyo |
+| Apego | Medio | Pierde un rango de apoyo con una persona concreta y estadísticas leves de forma permanente |
+| Culpa / traumático | Medio | Puede quitarle un rasgo negativo: olvidar alivia (el atractivo del culto de Kallion) |
+| Romántico | Máximo | Pierde la relación: apoyo, escenas y final compartido |
+
+- La experiencia como costo: posible en forma de rango de arma ("olvida la técnica"). Perder niveles parece demasiado castigo; probar con cuidado.
+- Debe verse en el juego, no explicarse: diálogos de apoyo que cambian, una línea que el personaje ya no recuerda.
