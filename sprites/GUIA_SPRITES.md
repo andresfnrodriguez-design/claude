@@ -145,3 +145,41 @@ crisp pixels, no anti-aliasing, no dithering, no blur.
 - Abajo: `walk cycle facing down (toward camera), 4 frames, 32x32`
 - Arriba: `walk cycle facing up (back view), 4 frames, 32x32`
 - Izquierda: `walk cycle facing left, side view, 4 frames, 32x32`
+
+## Uso de las rampas de color (regla clave)
+
+Cada bando tiene **dos rampas de su color**:
+
+- **Posiciones 7–10, rampa principal:** saturada y fuerte. Es el color intenso
+  de la armadura y las piezas principales (sombra → medio → claro → brillo).
+- **Posiciones 1–3, rampa secundaria:** el mismo color, pero suave, pálido y
+  desaturado, en tonos pastel. Para capas, mangas, túnicas y telas claras.
+
+Así toda la ropa cambia de bando, no solo la armadura. El pelo **no** tiene
+rampa propia: se arma con colores existentes o, con el sistema cuerpo + cabeza,
+redefiniendo posiciones solo en la cabeza de cada personaje.
+
+La posición 13 es la **sombra del suelo** bajo los pies (gris neutro cercano
+al fondo del mapa), no un gris metal.
+
+## Rampas corregidas (base: azul medido en SoV)
+
+Correcciones aplicadas: tonos 3 y 4 fusionados (rampa de 6), saturación de
+rojo −22 % y verde −28 %, y luminancia igualada a la del azul tono por tono
+para que todos los bandos pesen igual. Script: `rampas_corregidas.py`.
+
+| Bando | Principal 7–10 | Secundaria 1–3 |
+|---|---|---|
+| Azul | `#004471` `#005e98` `#0099d0` `#5fdcf0` | `#1f3e52` `#80c4cf` `#a9d7d8` |
+| Rojo | `#891111` `#bc1717` `#e73f3f` `#eba3a3` | `#683232` `#dbb3b3` `#e5d1d1` |
+| Verde | `#0d5013` `#126d19` `#1cab28` `#81df88` | `#1f3e22` `#96ca9a` `#c0dac2` |
+| Morado | `#6209a2` `#870cdf` `#a83cf5` `#d0a2f1` | `#5b3378` `#cdb4df` `#ded1e8` |
+| Gris | `#353535` `#494949` `#727272` `#b9b9b9` | `#353535` `#b9b9b9` `#d2d2d2` |
+
+Rampas completas de 6 tonos (sombra → brillo):
+
+- Azul: `#003250` `#004471` `#005e98` `#0099d0` `#5fdcf0` `#91eef0`
+- Rojo: `#640c0c` `#891111` `#bc1717` `#e73f3f` `#eba3a3` `#f0c6c6`
+- Verde: `#093a0e` `#0d5013` `#126d19` `#1cab28` `#81df88` `#b2e8b6`
+- Morado: `#470676` `#6209a2` `#870cdf` `#a83cf5` `#d0a2f1` `#e0c5f4`
+- Gris: `#262626` `#353535` `#494949` `#727272` `#b9b9b9` `#d2d2d2`
