@@ -1,74 +1,101 @@
-"""Pantalla de estado estilo GBA: 240x160, color RGB555 (15 bits)."""
+"""Pantalla de estado estilo GBA: 240x160, color RGB555 (15 bits).
+El semicirculo usa mezcla alfa 50% (equivalente a BLDALPHA de la GBA)."""
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 240, 160
-def c(r, g, b):  # cuantiza a 5 bits por canal (paleta GBA)
+def c(r, g, b):
     q = lambda v: (v >> 3) << 3 | (v >> 5)
     return (q(r), q(g), q(b))
 
-BG, BG2 = c(56, 16, 24), c(88, 24, 40)
-BAR, FR = c(120, 32, 56), c(200, 120, 136)
-TXT, LBL, HL = c(248, 248, 248), c(248, 176, 192), c(248, 216, 96)
-DARK = c(32, 8, 16)
-SKIN, HAIR, HAIR2, EYE = c(248, 216, 184), c(240, 136, 104), c(200, 88, 72), c(112, 56, 32)
+BG, BG2 = c(72, 16, 32), c(96, 24, 40)
+BAR, FR = c(136, 32, 56), c(216, 112, 136)
+TXT, LBL, HL = c(248, 248, 248), c(240, 184, 196), c(248, 216, 96)
+DARK = c(40, 8, 16)
 
 img = Image.new("RGB", (W, H), BG)
 d = ImageDraw.Draw(img); d.fontmode = "1"
-f = ImageFont.load_default()  # fuente bitmap pequeña
-def t(x, y, s, col=TXT): d.text((x, y), s, font=f, fill=col)
+f = ImageFont.load_default()
+def t(x, y, s, col=TXT, dd=None): (dd or d).text((x, y), s, font=f, fill=col)
+def big(x, y, s, col=TXT):  # texto 2x estilo pixel
+    tmp = Image.new("L", (60, 14)); td = ImageDraw.Draw(tmp); td.fontmode = "1"
+    td.text((0, 0), s, font=f, fill=255)
+    tmp = tmp.resize((120, 28), Image.NEAREST)
+    img.paste(Image.new("RGB", tmp.size, col), (x, y), tmp)
 
-# fondo con franjas
-for y in range(14, 144, 4): d.line([(0, y), (W, y)], fill=BG2)
+# fondo con viñeta diagonal sutil
+for y in range(H):
+    for x in range(0, W, 2):
+        if (x + y) % 8 == 0: img.putpixel((x, y), BG2)
 
-# barra superior
-d.rectangle([0, 0, 239, 12], fill=BAR); d.line([(0, 13), (239, 13)], fill=FR)
-t(3, 1, "Genny"); t(62, 1, "LV", LBL); t(76, 1, "8")
-t(92, 1, "EXP", LBL); t(112, 1, "99"); t(136, 1, "RTG", LBL); t(158, 1, "71")
-t(196, 1, "Cleric", HL)
-
-# HP
-t(3, 16, "HP", LBL); t(16, 16, "19/19")
-d.rectangle([2, 26, 58, 29], fill=DARK); d.rectangle([3, 27, 57, 28], fill=c(120, 232, 120))
-
-# retrato: arte del usuario (retrato.png), sin fondo y cuantizado a RGB555
-px, py = 70, 32
-d.rectangle([px, py, px + 80, py + 112], fill=BG2, outline=FR)
-art = Image.open("retrato.png").convert("RGB").crop((0, 0, 80, 112))
+# retrato grande detrás (arte del usuario)
+art = Image.open("retrato.png").convert("RGB")
 bgc = art.getpixel((0, 0))
-mask = Image.new("L", art.size, 255)
+mask = Image.new("L", art.size, 0)
 for y in range(art.height):
     for x in range(art.width):
         p = art.getpixel((x, y))
-        if sum(abs(p[i] - bgc[i]) for i in range(3)) < 40: mask.putpixel((x, y), 0)
+        if sum(abs(p[i] - bgc[i]) for i in range(3)) >= 40: mask.putpixel((x, y), 255)
         art.putpixel((x, y), c(*p))
-img.paste(art, (px + 1, py + 1), mask)
-# objeto equipado
-d.rectangle([62, 18, 160, 28], fill=DARK, outline=FR)
-d.ellipse([65, 20, 71, 26], fill=c(176, 112, 64)); t(75, 18, "Leather Shield")
+img.paste(art, (66, 16), mask)
 
-# stats
-stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
-         ("DEF", "2+3"), ("RES", "13"), ("MOV", "4")]
+# semicirculo negro translucido a la derecha (alpha 50%)
+cx, cy, r = 250, 80, 82
+ov = Image.new("RGB", (W, H), (0, 0, 0)); m = Image.new("L", (W, H), 0)
+ImageDraw.Draw(m).ellipse([cx - r, cy - r, cx + r, cy + r], fill=150)
+img = Image.composite(ov, img, m)
+img = img.point(lambda v: (v >> 3) << 3 | (v >> 5))  # re-cuantizar a RGB555
+d = ImageDraw.Draw(img); d.fontmode = "1"
+d.arc([cx - r, cy - r, cx + r, cy + r], 90, 270, fill=c(200, 200, 200))
+d.arc([cx - r - 3, cy - r - 3, cx + r + 3, cy + r + 3], 100, 260, fill=FR)
+
+# barra superior
+d.rectangle([0, 0, 239, 11], fill=BAR)
+t(3, 0, "Genny")
+for x, lab, val in [(90, "LV", "8"), (132, "EXP", "99"), (180, "Rating", "71")]:
+    d.rectangle([x, 1, x + len(lab) * 6 + 3, 10], fill=DARK); t(x + 2, 0, lab, LBL)
+    t(x + len(lab) * 6 + 8, 0, val)
+
+# HP grande + barra
+t(3, 14, "HP", LBL); big(16, 12, "19"); t(42, 20, "/19")
+d.rectangle([62, 22, 88, 27], fill=DARK); d.rectangle([63, 23, 87, 26], fill=TXT)
+
+# clase con iconos de libro
+t(192, 15, "Cleric")
+for x in (226, 233):
+    d.rectangle([x, 17, x + 5, 24], fill=c(232, 224, 176), outline=c(96, 80, 48))
+
+# banner de objeto
+d.rectangle([62, 32, 170, 43], fill=c(88, 16, 32), outline=c(200, 48, 72))
+d.ellipse([66, 34, 73, 41], fill=c(176, 112, 64)); t(78, 32, "Leather Shield")
+
+# stats (sin cajas, etiqueta en columna oscura)
+stats = [("ATK", "11"), ("SKILL", "6"), ("SPD", "7"), ("LCK", "10"),
+         ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
+d.rectangle([0, 50, 33, 50 + 7 * 13], fill=DARK)
 for i, (k, v) in enumerate(stats):
-    y = 32 + i * 14
-    d.rectangle([2, y, 60, y + 11], fill=DARK)
-    t(5, y, k, LBL); t(30, y, v, HL if "+" in v else TXT)
+    y = 51 + i * 13
+    t(33 - len(k) * 6, y, k, LBL); t(48 - len(v) * 6 + 6, y, v)
+d.polygon([(52, 108), (56, 105), (68, 105), (68, 112), (56, 112)], fill=TXT)
+t(56, 103, "+3", DARK)
 
-# habilidades
+# libro de comandos sobre el semicirculo
 skills = [("Nosferatu", c(232, 200, 80)), ("Recover", c(200, 232, 160)),
-          ("Physic", c(200, 232, 160)), ("Invoke", c(200, 232, 160)), ("????", c(160, 160, 160))]
+          ("Physic", c(200, 232, 160)), ("Invoke", c(200, 232, 160)), ("????", c(200, 160, 120))]
 for i, (s, col) in enumerate(skills):
-    y = 34 + i * 16
-    d.rectangle([158, y, 236, y + 12], fill=DARK, outline=FR)
-    d.rectangle([161, y + 3, 167, y + 9], fill=col); t(171, y + 1, s)
+    y = 46 + i * 14; x = 176 - (8 if i in (0, 4) else 4 if i == 1 else 0) + (i == 4) * 0
+    x = [174, 170, 168, 168, 170][i]
+    d.rectangle([x, y + 2, x + 6, y + 9], fill=col, outline=c(96, 80, 48))
+    t(x + 10, y, s)
 
-# barra inferior de iconos
-d.rectangle([0, 146, 239, 159], fill=BAR); d.line([(0, 145), (239, 145)], fill=FR)
-for i, lab in enumerate(["L", "R", "SEL", "INFO"]):
-    x = 3 + i * 34; d.rectangle([x, 147, x + 31, 158], fill=DARK, outline=FR)
-    t(x + 3, 146, lab, LBL)
-t(196, 147, "TURN 3", HL)
+# barra inferior
+d.rectangle([0, 146, 239, 159], fill=DARK)
+for i in range(4):
+    x = 2 + i * 18
+    d.rectangle([x, 147, x + 15, 158], fill=BAR if i != 2 else c(176, 48, 72), outline=FR)
+t(6, 147, "+"); t(24, 147, "o"); t(41, 147, "#"); t(60, 147, "=")
+d.rectangle([194, 147, 237, 158], fill=BAR, outline=FR)
+d.ellipse([199, 149, 207, 157], outline=TXT); t(222, 147, "3")
 
 img.save("estado_gba.png")
 img.resize((W * 4, H * 4), Image.NEAREST).save("estado_gba_x4.png")
-print(len(img.getcolors()), "colores")
+print(len(img.getcolors(4096)), "colores")
