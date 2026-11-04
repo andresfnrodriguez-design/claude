@@ -79,33 +79,45 @@ def mini(x, y, s, col):
         x += 4
 
 # barra superior
-grad_rect(0, 0, 239, 12, (176, 56, 80), (96, 16, 32), vertical=False)
+for x in range(W):
+    for y in range(13):
+        k = min(1, x / 140) * 0.7 + y / 13 * 0.3
+        d.point((x, y), fill=lerp((214, 96, 128), (110, 18, 40), k))
 d.line([(0, 13), (239, 13)], fill=c(32, 4, 10))
 t(3, 1, "Kairos")
 for x0, x1, lab in [(150, 166, "LV"), (190, 210, "EXP")]:
     d.rectangle([x0, 2, x1, 11], fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
 tr(182, 1, "8"); tr(236, 1, "99")
 
+# HP: franja vinotinto translucida bajo el HP, con extremo derecho curvo
+fr = Image.new("L", (W, H), 0); fd = ImageDraw.Draw(fr)
+fd.rectangle([0, 14, 150, 30], fill=150); fd.ellipse([130, -10, 170, 30], fill=0)
+fd.pieslice([120, 14, 152, 46], 270, 360, fill=150)
+img.paste(Image.new("RGB", (W, H), c(40, 4, 14)), (0, 0), fr)
 # HP
 fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
-mini(4, 17, "HP", LBL)  # fuente 3x5, la mas chica legible
-fb2 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 12)
-d.text((16, 10), "19", font=fb, fill=TXT); d.text((45, 13), "19", font=fb2, fill=TXT)
-for i in range(6): d.line([(42 - i, 12 + 2 * i), (42 - i, 13 + 2 * i)], fill=TXT)  # diagonal recta 1:2
-d.rectangle([66, 17, 90, 22], fill=TXT)  # barra 100% blanca
+mini(4, 18, "HP", LBL)  # fuente 3x5, la mas chica legible
+def tinta(x, y, txt, fnt):  # dibuja con la esquina de la tinta en (x, y)
+    bx = d.textbbox((0, 0), txt, font=fnt); d.text((x - bx[0], y - bx[1]), txt, font=fnt, fill=TXT)
+tinta(19, 17, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14))
+tinta(48, 19, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 9))
+for i in range(4): d.line([(45 - i, 19 + 2 * i), (45 - i, 20 + 2 * i)], fill=TXT)  # "/" recta 1:2
+d.rectangle([65, 19, 87, 24], fill=TXT)  # barra 100% blanca
 tr(213, 18, "Cleric")  # TODO: clase de la biblia
 for x in (218, 227):
     d.rectangle([x, 20, x + 6, 27], fill=c(232, 224, 184), outline=c(88, 72, 40))
     d.line([(x + 2, 22), (x + 4, 22)], fill=c(88, 72, 40))
 
 # banner del objeto
-d.rounded_rectangle([65, 32, 175, 43], 3, fill=c(96, 16, 32), outline=FR)
+d.rounded_rectangle([65, 32, 175, 43], 6, fill=c(48, 6, 16), outline=c(176, 40, 64))
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
 d.ellipse([69, 34, 76, 41], fill=c(168, 112, 72), outline=c(88, 56, 32))
 d.text((80, 33), "Leather Shield", font=fs, fill=TXT)
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
-grad_rect(0, 62, 34, 136, (40, 6, 14), (88, 18, 32), vertical=False)
+sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
+for x in range(35): smd.line([(x, 62), (x, 136)], fill=int(170 - x * 3))  # translucido, se desvanece
+img.paste(Image.new("RGB", (W, H), c(30, 4, 10)), (0, 0), sm)
 stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
          ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
 for i, (k, v) in enumerate(stats):
