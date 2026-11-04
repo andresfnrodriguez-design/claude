@@ -50,7 +50,8 @@ Misión de rescate en los escombros después del clímax: combate fácil, presi�
 
 - La curva crece más rápido que lineal: el jugador tiene que curar antes del tercer stack.
 - **Puede matar** (decidido por ahora).
-- ABIERTO: tope de stacks (¿3?), cómo se quita (antídoto, bastón, desaparece solo) y si baja un stack por turno.
+- **Tope: 3 stacks.**
+- **Solo se cura con consumibles o con magia.** No baja solo con los turnos.
 - Encaje temático: un estado que persiste le da peso a curar, es decir, a no dejar a nadie atrás.
 
 ## 4. Música dinámica (PROPUESTA)
