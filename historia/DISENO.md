@@ -33,22 +33,40 @@ Misión de rescate en los escombros después del clímax: combate fácil, presi�
 ## 2. Jefes con varias barras de vida (PROPUESTA, estilo Engage)
 
 - Evita matar al jefe en uno o dos ataques; obliga a planear.
-- Sugerencia: jefes comunes 1 barra, jefes de Parte 2, jefe final 3. Más barras se vuelve tedioso.
+- Normal: jefes comunes 1 barra, jefes de Parte 2, jefe final 3.
+- Difícil: una barra más para cada tipo (2 / 3 / 4).
+- Vigilar que el jefe final con 4 barras no se vuelva tedioso: cada barra debería cambiar algo.
 - ABIERTO: qué pasa al romper una barra (cambio de patrón, refuerzos, cambio de música).
 
 ## 3. Veneno (PROPUESTA)
 
-- Estilo Thracia 776 (detalles por definir; comparar con el veneno de Engage).
+- Estado acumulable (stacks). Daño al inicio de cada turno:
+
+| Stacks | Daño por turno |
+|---|---|
+| 1 | 1 |
+| 2 | 2 o 3 (decidir un valor fijo) |
+| 3 | 5 |
+
+- La curva crece más rápido que lineal: el jugador tiene que curar antes del tercer stack.
+- ABIERTO: tope de stacks (¿3?), si puede matar o deja en 1 PV, cómo se quita (antídoto, bastón, desaparece solo) y si baja un stack por turno.
 - Encaje temático: un estado que persiste le da peso a curar, es decir, a no dejar a nadie atrás.
 
 ## 4. Música dinámica (PROPUESTA)
 
 - En capítulos con una escena guionada que cambia el mapa o el objetivo, la música cambia en ese momento.
-- Candidatos: rotura de barra del jefe, colapso de la fisura, traición en mapa.
+- Puede ocurrir en el mapa, en una escena durante la misión o justo después de una escena cuyo guion cambia la dinámica de la misión.
+- Candidatos: rotura de barra del jefe, colapso de la fisura, traición en mapa, llegada de refuerzos.
+- Las transiciones no deben ser cortes bruscos: preparar pistas pensadas para enlazarse.
 
 ## 5. Dificultad dinámica (PROPUESTA, estilo Engage)
 
+- Solo en modo difícil. Quien lo elige busca un reto.
+- Nunca se le dice al jugador: la sensación buscada es que el desafío está atado a cómo juega.
+- Objetivo: que entrenar de más no vuelva el juego trivial (una unidad sola barriendo el mapa sin tensión).
 - Toma el promedio de nivel de todas las unidades y ajusta estadísticas, objetos o habilidades enemigas.
+- ABIERTO: rango y tope del ajuste. Que la variación sea moderada.
+- Complemento: limitar las fuentes de experiencia infinitas (escaramuzas, arena) ataca el entrenamiento excesivo de raíz.
 - Solo sube. Si el jugador va mal, la dificultad es la base.
 - Encaje: con despliegue obligatorio, el promedio es de todo el ejército y no se puede manipular dejando unidades débiles en el banco.
 - Riesgos: que entrenar se sienta inútil; que se note el "rubber banding". Preferir ajustar habilidades, armas, cantidad de enemigos o IA antes que estadísticas puras. Poner un tope.
