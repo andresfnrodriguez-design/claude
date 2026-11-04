@@ -30,19 +30,18 @@ t(196, 1, "Cleric", HL)
 t(3, 16, "HP", LBL); t(16, 16, "19/19")
 d.rectangle([2, 26, 58, 29], fill=DARK); d.rectangle([3, 27, 57, 28], fill=c(120, 232, 120))
 
-# retrato simplificado (placeholder pixel)
+# retrato: arte del usuario (retrato.png), sin fondo y cuantizado a RGB555
 px, py = 70, 32
-d.rectangle([px, py, px + 80, py + 96], fill=BG2, outline=FR)
-d.ellipse([px + 14, py + 8, px + 66, py + 66], fill=HAIR)
-d.ellipse([px + 22, py + 22, px + 58, py + 66], fill=SKIN)
-d.rectangle([px + 22, py + 18, px + 58, py + 30], fill=HAIR2)
-d.rectangle([px + 30, py + 40, px + 34, py + 46], fill=EYE)
-d.rectangle([px + 46, py + 40, px + 50, py + 46], fill=EYE)
-d.line([(px + 37, py + 56), (px + 43, py + 56)], fill=c(200, 96, 96))
-d.ellipse([px + 6, py + 50, px + 26, py + 80], fill=HAIR)
-d.ellipse([px + 54, py + 50, px + 74, py + 80], fill=HAIR)
-d.rectangle([px + 20, py + 78, px + 60, py + 95], fill=c(72, 64, 136))
-
+d.rectangle([px, py, px + 80, py + 112], fill=BG2, outline=FR)
+art = Image.open("retrato.png").convert("RGB").crop((0, 0, 80, 112))
+bgc = art.getpixel((0, 0))
+mask = Image.new("L", art.size, 255)
+for y in range(art.height):
+    for x in range(art.width):
+        p = art.getpixel((x, y))
+        if sum(abs(p[i] - bgc[i]) for i in range(3)) < 40: mask.putpixel((x, y), 0)
+        art.putpixel((x, y), c(*p))
+img.paste(art, (px + 1, py + 1), mask)
 # objeto equipado
 d.rectangle([62, 18, 160, 28], fill=DARK, outline=FR)
 d.ellipse([65, 20, 71, 26], fill=c(176, 112, 64)); t(75, 18, "Leather Shield")
