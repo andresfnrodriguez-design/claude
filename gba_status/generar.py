@@ -67,7 +67,8 @@ def big(x, y, s, col=TXT):
     img.paste(Image.new("RGB", tmp.size, col), (x, y), tmp)
 
 # mini fuente 3x5 para la etiqueta +3
-MINI = {"+": ["000","010","111","010","000"], "3": ["111","001","011","001","111"]}
+MINI = {"+": ["000","010","111","010","000"], "3": ["111","001","011","001","111"],
+        "H": ["101","101","111","101","101"], "P": ["110","101","110","100","100"]}
 def mini(x, y, s, col):
     for ch in s:
         for j, fila in enumerate(MINI[ch]):
@@ -84,7 +85,8 @@ for x0, x1, lab in [(93, 113, "LV"), (143, 164, "EXP"), (183, 218, "Rating")]:
 tr(138, 1, "8"); tr(182, 1, "99"); tr(236, 1, "71")
 
 # HP
-t(3, 15, "HP", LBL); fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
+fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
+mini(4, 19, "HP", LBL)  # fuente 3x5, la mas chica legible
 d.text((18, 12), "19", font=fb, fill=TXT); t(42, 16, "/19")
 d.rectangle([65, 19, 87, 24], fill=c(248, 224, 232))
 d.ellipse([89, 17, 97, 25], outline=TXT); d.point([(91, 20), (95, 20)], fill=TXT)
