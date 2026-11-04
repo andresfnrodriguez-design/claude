@@ -11,6 +11,12 @@ Regla: al confirmar algo, se mueve a CANON y se anota en el registro de decision
 
 ---
 
+## 0. Principios de escritura (CANON)
+
+1. **Nunca subestimar la inteligencia del jugador/lector.** No explicar el tema en voz alta, no señalar qué decisión es la buena y cuál la mala. Si una escena necesita un personaje que la explique, la escena no funciona.
+2. La historia tiene que seguir siendo buena después del giro: la segunda partida debe leerse distinto, no peor.
+3. Pocas pistas y bien hechas: dos pistas justas del misterio alcanzan.
+
 ## 1. Núcleo (CANON)
 
 **Premisa.** El pueblo elirio, desplazado por la caída de Elyria, busca reconstruir su identidad y reunir a los suyos dispersos, mientras una conspiración enterrada en su propio liderazgo —ligada a la familia de Kairon— amenaza con repetir la catástrofe a mayor escala.
@@ -43,7 +49,9 @@ Regla: ningún deuteragonista es sirviente de Kairon; cada uno tiene su Parte.
 
 ## 4. Estructura (CANON)
 
-Tope 40 misiones. 4 Partes sobre 3 actos.
+**En revisión:** bajar de 40 a 25-30 misiones principales, más capítulos paralelos (paralogue) opcionales para personajes secundarios y exposición del mundo. La tabla de abajo es la versión de 40 y hay que recalcularla.
+
+4 Partes sobre 3 actos.
 
 | Parte | Acto | POV | Misiones | Beat clave |
 |---|---|---|---|---|
@@ -74,6 +82,14 @@ Revisión completa: https://claude.ai/artifact/GbwYWvgJSkFC65ZdvcyZvU
 - Nombres que se confunden: Vask/Voss, Kairon/Kallion, Ilarion repetido.
 - El clímax (olvidar a Nemira con magia) contradice el arco de Kairon.
 - Conservar: cold open M1/M30, M2 y M9–M10, mapas separados M14 y M32, Kallion, cartas Brandt–Halvard, epílogo.
+
+## 4d. Dirección aceptada (2026-11-04, falta cerrar detalles)
+
+- **El secreto de Orestion es la lista:** hace quince años hizo la lista de quién se evacuaba antes del colapso. Kairon estaba en ella. El lema nació después para que los sobrevivientes pudieran vivir con eso. Feron era un sobreviviente de los que quedaron fuera.
+- **Revelación dividida:** a mitad del juego Kairon descubre que existe la lista y que su familia estaba en ella; después busca quién la hizo.
+- **Final:** Kairon no revela la lista. El cambio es interno: deja de vivir según el lema y actúa desde lo que cree. Tiene que ser una elección, no resignación.
+- **Ferannor:** provoca el colapso fuera de su territorio y aporta el "método racional" (tablas de viabilidad) con que se hizo la lista. Necesita un rostro humano que crea en su sistema.
+- **El lema:** "nadie se abandona" queda descartado (suena infantil). Ver propuestas en la sección 5.
 
 ## 5. Propuestas (sin confirmar)
 
@@ -115,3 +131,4 @@ Bocetos: minera elíria en Cassaria · hijo de la élite evacuada (candidato a t
 |---|---|
 | 2026-11-03 | Biblia creada a partir del Google Doc "FE". |
 | 2026-11-03 | Orestion con postura defendible; se elimina la capa sobrenatural. Revisión del boceto de novela. |
+| 2026-11-04 | Principio "nunca subestimar al jugador". Dirección: la lista, revelación dividida, final interno, Ferannor como cálculo. Estructura en revisión (25-30 + paralelos). |
