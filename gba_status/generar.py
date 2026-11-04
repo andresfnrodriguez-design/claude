@@ -15,11 +15,15 @@ DARK, FR = c(48, 8, 20), c(200, 64, 88)
 img = Image.new("RGB", (W, H))
 f = ImageFont.load_default()
 
-# fondo: degradado radial rojo oscuro (centro claro arriba-izq del retrato)
+# fondo: cono de luz tinto que baja desde arriba (apice fuera de pantalla)
+AX, AY, ANG = 95, -60, math.radians(24)
 for y in range(H):
     for x in range(W):
-        k = min(1, math.hypot(x - 100, (y - 40) * 1.3) / 170)
-        img.putpixel((x, y), lerp((128, 32, 48), (40, 6, 14), k))
+        a = abs(math.atan2(x - AX, y - AY))  # angulo respecto al eje del cono
+        borde = max(0, 1 - a / ANG)            # 1 en el eje, 0 fuera del cono
+        dist = math.hypot(x - AX, y - AY) / 260
+        k = 1 - borde * max(0, 1 - dist * 0.6)
+        img.putpixel((x, y), lerp((136, 34, 52), (36, 5, 12), min(1, k)))
 
 # retrato (arte del usuario, fondo morado transparente)
 RX, RY = -26, 17  # ojos alineados con la guia
@@ -80,16 +84,16 @@ def mini(x, y, s, col):
 grad_rect(0, 0, 239, 12, (176, 56, 80), (96, 16, 32), vertical=False)
 d.line([(0, 13), (239, 13)], fill=c(32, 4, 10))
 t(3, 1, "Genny")
-for x0, x1, lab in [(93, 113, "LV"), (143, 164, "EXP"), (183, 218, "Rating")]:
+for x0, x1, lab in [(93, 113, "LV"), (143, 164, "EXP")]:
     d.rectangle([x0, 2, x1, 11], fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
-tr(138, 1, "8"); tr(182, 1, "99"); tr(236, 1, "71")
+tr(138, 1, "8"); tr(182, 1, "99")
 
 # HP
 fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
 mini(4, 19, "HP", LBL)  # fuente 3x5, la mas chica legible
-d.text((18, 12), "19", font=fb, fill=TXT); t(42, 16, "/19")
-d.rectangle([65, 19, 87, 24], fill=c(248, 224, 232))
-d.ellipse([89, 17, 97, 25], outline=TXT); d.point([(91, 20), (95, 20)], fill=TXT)
+d.text((16, 12), "19", font=fb, fill=TXT); d.text((45, 12), "19", font=fb, fill=TXT)
+for i in range(6): d.line([(42 - i, 14 + 2 * i), (42 - i, 15 + 2 * i)], fill=TXT)  # diagonal recta 1:2
+d.rectangle([68, 19, 92, 24], fill=c(248, 224, 232))
 tr(214, 16, "Cleric")
 for x in (217, 226):
     d.rectangle([x, 18, x + 6, 25], fill=c(232, 224, 184), outline=c(88, 72, 40))
