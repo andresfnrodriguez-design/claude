@@ -98,5 +98,6 @@ Referencia: video "unit identity" (fuentes de identidad: estadísticas, clase, m
 8. **Estética única.** Animaciones, sprites o vestimentas personales hacen memorables a los personajes. Clases exclusivas de un solo personaje cuando sea posible. Si hay cambio de clase, que la ropa personal se mantenga.
 
 **Sistema de clases (CANON):** árbol cerrado estilo Sacred Stones. Sin cambio de clase libre. Cada clase base promociona a una de dos clases.
-- Descartado: cualquier sistema donde todos pueden ser cualquier clase (Three Houses).
+- Descartado: cualquier sistema donde todos pueden ser cualquier clase (Three Houses, Fortune's Weave). También las habilidades de maestría transferibles entre clases: igualan a todo el ejército.
+- Rescatable de Fortune's Weave: clases exclusivas de un personaje (atadas a su historia) y bonos pasivos personales en ciertos roles (por ejemplo, +1 de movimiento a quien lleva armadura pesada por su pasado). Idea de mecánica: carga en línea recta que golpea a varios enemigos (carro de guerra).
 - **Tres promociones solo para reclutas** (PROPUESTA): como los reclutas de Sacred Stones, unas pocas unidades novatas tienen un árbol de tres niveles. Da la sensación de "de cero a héroe" sin multiplicar el trabajo artístico en todo el ejército, y la clase de recluta ya cuenta su historia (jóvenes de la diáspora, por ejemplo).
