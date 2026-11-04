@@ -183,3 +183,20 @@ Rampas completas de 6 tonos (sombra → brillo):
 - Verde: `#093a0e` `#0d5013` `#126d19` `#1cab28` `#81df88` `#b2e8b6`
 - Morado: `#470676` `#6209a2` `#870cdf` `#a83cf5` `#d0a2f1` `#e0c5f4`
 - Gris: `#262626` `#353535` `#494949` `#727272` `#b9b9b9` `#d2d2d2`
+
+## Paleta "Mejorada" (aprobada)
+
+Misma estructura de posiciones que GBA, colores más cercanos a SoV.
+El oro usa el dorado claro de SoV (`#f0dd60`) en vez del amarillo limón de GBA.
+
+| Pos. | Uso | Color |
+|---|---|---|
+| 0 | Transparente | `#80a080` |
+| 1–3 | Secundaria (pastel) | `#3c2c58` `#8a78c0` `#d0c8f0` |
+| 4–6 | Piel | `#6a4a48` `#c08a68` `#f4d8b8` |
+| 7–10 | Principal (bando) | `#1e2c6c` `#2f5cc8` `#3ea0e8` `#9ce4f8` |
+| 11 | Acento | `#c02838` |
+| 12 | Oro | `#f0dd60` |
+| 13 | Sombra del suelo | `#7a8878` |
+| 14 | Blanco | `#f0f0e8` |
+| 15 | Contorno | `#241c2c` |
