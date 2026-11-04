@@ -27,6 +27,35 @@ Notas aprendidas midiendo hojas de sprites de referencia de tácticas en GBA.
   - Marrones / metal: `#b09058` `#808870` `#706060` `#584878`
   - Acentos: amarillo `#f8f840`, rojo `#e81018` (muy poco uso)
 
+### Paletas por bando (16 slots, el 0 es transparente)
+
+Cada slot cumple la misma función en todos los bandos: se dibuja una vez
+con índices y se cambia de bando cambiando la paleta.
+
+| Slot | Función | Aliado | Enemigo | Neutral | Usado | Arena |
+|---|---|---|---|---|---|---|
+| 0 | Transparente | `#80a080` | `#80a080` | `#80a080` | `#80a080` | `#80a080` |
+| 1 | Pelo/tela oscuro | `#584878` | `#684860` | `#385038` | `#404040` | `#584068` |
+| 2 | Pelo/tela medio | `#90b8e8` | `#c0a8b8` | `#98c880` | `#787878` | `#a8a8e8` |
+| 3 | Pelo/tela claro | `#d8e8f0` | `#e0e0e0` | `#d8f8b8` | `#b8b8b8` | `#e0e0f8` |
+| 4 | Piel/cuero oscuro | `#706060` | `#706060` | `#585850` | `#505050` | `#786050` |
+| 5 | Piel/cuero medio | `#b09058` | `#b09058` | `#a08840` | `#808080` | `#c08848` |
+| 6 | Piel claro | `#f8f8d0` | `#f8f8d0` | `#f8f8c0` | `#c8c8c8` | `#f8f8c8` |
+| 7 | Color de bando 1 (sombra) | `#383890` | `#602820` | `#205010` | `#484848` | `#584060` |
+| 8 | Color de bando 2 | `#3850e0` | `#a83028` | `#089000` | `#585858` | `#806090` |
+| 9 | Color de bando 3 | `#28a0f8` | `#e01010` | `#18d010` | `#989898` | `#b898e0` |
+| 10 | Color de bando 4 (brillo) | `#18f0f8` | `#f85048` | `#50f838` | `#b8b8b8` | `#d0c0f8` |
+| 11 | Acento (contrario al bando) | `#e81018` | `#38d030` | `#0078c8` | `#707070` | `#e81018` |
+| 12 | Amarillo/oro | `#f8f840` | `#f8f840` | `#e0f828` | `#c8c8c8` | `#f8f828` |
+| 13 | Gris metal/sombra | `#808870` | `#808870` | `#808870` | `#808870` | `#808870` |
+| 14 | Blanco | `#f8f8f8` | `#f8f8f8` | `#f8f8f8` | `#d0d0d0` | `#f8f8f8` |
+| 15 | Contorno | `#403838` | `#403838` | `#384038` | `#403838` | `#482840` |
+
+- El color de bando son 4 tonos (slots 7–10): sombra, medio, claro, brillo.
+- El acento (slot 11) es siempre el color "contrario": rojo en aliados, verde en enemigos, azul en neutrales.
+- Piel (4–6), metal (13), blanco (14) y contorno (15) casi no cambian entre bandos.
+- "Usado" = unidad que ya actuó en el turno: todo en grises.
+
 ## Reglas de legibilidad (16 × 16)
 
 1. Cabeza grande: ~6–7 px, casi la mitad del alto.
