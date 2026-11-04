@@ -22,7 +22,7 @@ for y in range(H):
         img.putpixel((x, y), lerp((128, 32, 48), (40, 6, 14), k))
 
 # retrato (arte del usuario, fondo morado transparente)
-RX, RY = -32, 17  # ojos alineados con la guia
+RX, RY = -26, 17  # ojos alineados con la guia
 art = Image.open("retrato_busto.png").convert("RGB")
 bgc = (77, 26, 77)
 # quitar fondo morado y marco gris conectado al borde (flood fill)
