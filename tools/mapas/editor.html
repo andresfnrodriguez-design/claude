@@ -507,7 +507,7 @@ function armarCat(){ const extra = leerLS("fe-cat-extra") || []; const m = new M
   if(window.MAPAS_EST) for(const mp of window.MAPAS_EST){
     let cap = mp.cap.replace(/\s+/g,""), ruta = "común";
     if(mp.juego==="FE7"){ const mm = cap.match(/^(.*?)([EH])$/); if(mm){ cap=mm[1]; ruta = mm[2]==="E"?"Eliwood":"Hector"; } else ruta="Lyn"; }
-    let hit = [...m.values()].find(c=>c.juego===mp.juego&&c.cap===cap&&c.ruta===ruta);
+    let hit = [...m.values()].find(c=>c.juego===mp.juego&&c.cap===cap&&(mp.juego!=="FE7"||c.ruta===ruta));
     if(!hit){ hit = {juego:mp.juego,cap,nombre:mp.nombre,ruta,m:3,d:3,j:3,v:false,rasgo:"Pendiente de ficha.",leccion:""}; m.set(clave(hit),hit); }
     else if(hit.nombre!==mp.nombre) hit.nombreEs = mp.nombre;
     hit.ids = mp.ids; hit.imagen = mp.imagen; hit.fuente = mp.fuente; hit.exacto = false; }

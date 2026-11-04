@@ -50,4 +50,4 @@ Cada build copia `editor.html` y `catalogo.js` de la carpeta de arriba, así que
 
 `bajar_wod.py` recorre las guías de fireemblemwod.com, baja la imagen de cada mapa a `imagenes/` y estima su terreno con `estimar_mapas.py`. El estimador aprende de capturas de FE8 cuyo terreno exacto se conoce. Con mapas de FE8 que no vio acierta en promedio el 75% de las casillas. En otros juegos acierta menos, y las casillas tapadas por unidades salen mal. Al abrir un mapa estimado, la imagen original aparece de fondo para corregirlo.
 
-Estado: FE7 con 45 mapas estimados.
+Estado: FE7 (45), FE6 (39) y FE4 (12) estimados. En FE4 el estimador confunde caminos con arena y bosques con pasto.

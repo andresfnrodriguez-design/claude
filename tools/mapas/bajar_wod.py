@@ -13,7 +13,7 @@ import estimar_mapas as E
 SITIO = "https://www.fireemblemwod.com/"
 AQUI = os.path.dirname(os.path.abspath(__file__))
 JUEGO, TRAB = sys.argv[1], sys.argv[2]
-NOMBRE = {"fe6": "FE6", "fe7": "FE7", "fe8": "FE8"}.get(JUEGO, JUEGO.upper())
+NOMBRE = JUEGO.upper()
 
 
 def get(url):
@@ -29,14 +29,15 @@ def limpiar(s):
 
 
 indice = texto(SITIO + JUEGO + ".htm")
-carpeta_guia = JUEGO + "/guia" + JUEGO + "/"
+m_c = re.search(r'href="(' + re.escape(JUEGO) + r'/guia[^/"]*/)[^"]+\.htm"', indice)
+carpeta_guia = m_c.group(1) if m_c else JUEGO + "/guia" + JUEGO + "/"
 pags = list(dict.fromkeys(re.findall(r'href="' + re.escape(carpeta_guia) + r'([^"]+\.htm)"', indice)))
 os.makedirs(os.path.join(AQUI, "imagenes", JUEGO), exist_ok=True)
 
 mapas, vistos = [], set()
 for p in pags:
     t = texto(SITIO + carpeta_guia + p)
-    m = re.search(r'<img src="[^"]*s\.png" width="(\d+)" height="(\d+)"></div><img src="([^"]+)"', t)
+    m = re.search(r'<img src="[^"]*s\.png"[^>]*?width="(\d+)" height="(\d+)"[^>]*>\s*(?:</div>)?\s*<img src="([^"]+)"', t)
     h1 = re.search(r"<h1>(.*?)</h1>", t, re.S)
     if not m or not h1:
         print("sin mapa:", p)
