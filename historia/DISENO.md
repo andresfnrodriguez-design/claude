@@ -96,7 +96,7 @@ Misión de rescate en los escombros después del clímax: combate fácil, presi�
 ## Abierto
 
 - Muerte permanente: ¿sí o no? Afecta casi todo lo anterior.
-- **Motor (CANON):** proyecto propio en C que compila para GBA. Las barras múltiples, la dificultad dinámica y los diálogos variables son programación normal, no parches. Vigilar los límites de memoria de la GBA.
+- **Motor (CANON):** la decompilación de Fire Emblem 8 en C (compila `fireemblem8.gba` con `make`). Las barras múltiples, la dificultad dinámica y los diálogos variables se programan modificando ese código. El código original de FE8 accede al hardware directamente y tiene su propia organización de memoria: los principios de programación aplican al código nuevo, y un port a PC exigiría bastante más trabajo que con un motor propio.
 
 ## 7. Identidad de unidad (CANON como principio)
 
