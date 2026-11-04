@@ -1,6 +1,6 @@
 # Fisuras de Elyria — Versión 2: la lista
 
-Escaleta completa para leer de corrido. 28 misiones en 4 Partes, más capítulos paralelos.
+**Fecha: 2026-11-04.** Escaleta completa para leer de corrido. 28 misiones en 4 Partes, más capítulos paralelos.
 Lo marcado como **[provisional]** llena un hueco que todavía no está decidido; se puede cambiar sin romper el resto.
 
 ---

@@ -1,6 +1,6 @@
 # Fisuras de Elyria — Biblia de historia
 
-Documento vivo. Fuente original: Google Doc "FE" (ago 2026).
+**Última actualización: 2026-11-04.** Documento vivo. Fuente original: Google Doc "FE" (ago 2026).
 Cada idea vive en uno de tres estados:
 
 - **CANON** — decidido. La programación puede depender de esto.

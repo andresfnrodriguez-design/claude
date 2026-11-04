@@ -1,6 +1,13 @@
 # Fisuras de Elyria — Diseño de mecánicas
 
-Documento vivo, compañero de `BIBLIA.md`. Mismos estados: CANON / PROPUESTA / ABIERTO.
+**Última actualización: 2026-11-04.** Documento vivo, compañero de `BIBLIA.md`. Mismos estados: CANON / PROPUESTA / ABIERTO.
+
+## 0. Principios de programación (CANON)
+
+1. **La lógica del juego no toca el hardware.** Combate, IA, estadísticas, estados, diálogos y guardado no escriben en registros de la GBA ni en VRAM. Todo acceso a gráficos, entrada y sonido pasa por una capa propia (por ejemplo `dibujar_sprite()`, `boton_presionado()`), con una implementación para GBA y, en el futuro, otra para PC (SDL2).
+2. **Los datos no dependen de la plataforma.** Unidades, clases, mapas y textos viven en formatos propios, separados del código de hardware.
+3. **La versión más chica manda.** Se diseña para los límites de la GBA: ROM 32 MB, EWRAM 256 KB, IWRAM 32 KB, VRAM 96 KB, guardado de 32 a 128 KB. El estado de la partida (muertes, recuerdos gastados, rescatados, datos de New Game+) se guarda de forma compacta.
+4. No depender de trucos de cartucho (cambio de bancos, ROM de más de 32 MB) ni de tolerancias de un emulador concreto.
 
 ## 1. Último capítulo y epílogo dinámico (PROPUESTA)
 
