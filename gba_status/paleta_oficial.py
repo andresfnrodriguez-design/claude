@@ -27,6 +27,13 @@ TEMAS = {
     "bronce": [C["obsidiana"], C["bronce oscuro"], C["bronce"], C["oro"], C["marmol"]],
     "erebos": [C["obsidiana"], C["granate profundo"], C["violeta erebos"], C["egeo"], C["aether brillo"]],
     "ferannor": [C["obsidiana"], C["egeo profundo"], C["verdin"], C["aether"], C["marmol"]],
+    "terracota": [C["obsidiana"], C["granate profundo"], C["terracota"], C["oro"], C["marmol"]],
+    "cassaria": [C["obsidiana"], C["granate"], C["terracota"], C["oro"], C["aether brillo"]],
+    "kaldholt": [C["obsidiana"], C["granate profundo"], C["egeo profundo"], C["egeo"], C["marmol"]],
+    "cenit": [C["obsidiana"], C["bronce oscuro"], C["oro"], C["marmol"], C["blanco"]],
+    "verdin_bronce": [C["obsidiana"], C["bronce oscuro"], C["verdin"], C["bronce"], C["oro"]],
+    "fisura": [C["obsidiana"], C["violeta erebos"], C["egeo"], C["aether"], C["aether brillo"]],
+    "hierro": [C["obsidiana"], C["egeo profundo"], C["bronce oscuro"], C["verdin"], C["marmol"]],
 }
 if __name__ == "__main__":
     from PIL import Image, ImageDraw
