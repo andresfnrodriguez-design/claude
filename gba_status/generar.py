@@ -106,21 +106,31 @@ tinta(19, 17, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuS
 tinta(48, 19, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 9))
 for i in range(4): d.line([(45 - i, 19 + 2 * i), (45 - i, 20 + 2 * i)], fill=TXT)  # "/" recta 1:2
 d.rectangle([65, 19, 87, 24], fill=TXT)  # barra 100% blanca
-tr(213, 18, "Articide")
+tr(213, 18, "Artifice")
 for x in (218, 227):
     d.rectangle([x, 20, x + 6, 27], fill=c(232, 224, 184), outline=c(88, 72, 40))
     d.line([(x + 2, 22), (x + 4, 22)], fill=c(88, 72, 40))
 
-# banner del objeto
-d.rounded_rectangle([65, 30, 175, 45], 7, fill=c(30, 4, 10), outline=c(176, 40, 64))
-for x in range(100, 172):  # oscuro a la izquierda, se aclara a tinto hacia la derecha
-    d.line([(x, 32), (x, 43)], fill=lerp((30, 4, 10), (110, 18, 36), (x - 100) / 72))
+# banner del objeto: barra recta con esquinas apenas redondeadas, alta (14 px),
+# rojo tinto al centro y oscura en los extremos (como en la guia)
+BX0, BY0, BX1, BY1 = 64, 31, 175, 44
+for x in range(BX0, BX1 + 1):
+    u = (x - BX0) / (BX1 - BX0)
+    osc = max(0, 1 - min(u / 0.22, (1 - u) / 0.12))  # oscurece en los extremos
+    for y in range(BY0, BY1 + 1):
+        v = (y - BY0) / (BY1 - BY0)
+        base = lerp((168, 30, 52), (104, 14, 30), v)  # mas claro arriba
+        d.point((x, y), fill=lerp(base, (34, 6, 12), osc))
+for px_, py_ in [(BX0, BY0), (BX1, BY0), (BX0, BY1), (BX1, BY1)]:
+    d.point((px_, py_), fill=img.getpixel((px_, py_ - 1 if py_ == BY1 else py_)))
+d.rounded_rectangle([BX0, BY0, BX1, BY1], 3, outline=c(150, 30, 52))
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
-# icono + texto centrados como bloque en el recuadro (65..175, 32..43)
 bb = d.textbbox((0, 0), "Leather Shield", font=fs); tw, th = bb[2] - bb[0], bb[3] - bb[1]
-bx = (65 + 175 - (8 + 4 + tw)) // 2; my = (30 + 45) / 2
-d.ellipse([bx, round(my - 4), bx + 7, round(my + 3)], fill=c(168, 112, 72), outline=c(88, 56, 32))
-d.text((bx + 12 - bb[0], round(my - th / 2) - bb[1]), "Leather Shield", font=fs, fill=TXT)
+my = (BY0 + BY1) / 2
+bx = (BX0 + BX1 - (10 + 4 + tw)) // 2
+d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
+d.point((bx + 3, round(my - 2)), fill=c(248, 232, 200))
+d.text((bx + 14 - bb[0], round(my - th / 2) - bb[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
