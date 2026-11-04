@@ -16,3 +16,5 @@ Material original en Google Drive (no se modifica): "FE", `fisuras-de-elyria-nov
 Revisiones publicadas:
 - Revisión crítica del boceto de novela: https://claude.ai/artifact/GbwYWvgJSkFC65ZdvcyZvU
 - Versión 2 para leer: https://claude.ai/artifact/HH17YwBJk8Cp7wX68nKmpV
+- Storyboard de Elyria (versión 2): https://claude.ai/artifact/RxKxabGfduDjCdRkGnXjY7 (copia en `storyboard-elyria.html`)
+- Storyboard de Path of Radiance (para comparar): https://claude.ai/artifact/4EJXFz4m5AKZx28tB4qCwy

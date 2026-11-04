@@ -1,0 +1,558 @@
+<title>Storyboard de Fisuras de Elyria</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: cuaderno de guion en una columna; cada capítulo es una hoja con viñetas numeradas, y los momentos clave llevan un cuadro dibujado a tinta */
+:root{
+  --bg:#f3f0ea; --sheet:#fbf9f5; --fg:#26211d; --muted:#6c625a; --rule:#d9d0c4; --garnet:#7d2331;
+  --ink:#2f2925; --panel:#e8e2d8; --snow:#f4f1ec; --ground:#cfc7bb; --water:#8fa3ad; --paper:#fffdf8;
+  --display:"Cormorant Garamond",Georgia,serif; --body:"Source Serif 4",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#191513; --sheet:#211c19; --fg:#ece4da; --muted:#a7998b; --rule:#3a322c; --garnet:#e07a88;
+  --ink:#e6ddd2; --panel:#2b2522; --snow:#3a3430; --ground:#4a423c; --water:#4d6470; --paper:#332d29; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#191513; --sheet:#211c19; --fg:#ece4da; --muted:#a7998b; --rule:#3a322c; --garnet:#e07a88;
+  --ink:#e6ddd2; --panel:#2b2522; --snow:#3a3430; --ground:#4a423c; --water:#4d6470; --paper:#332d29; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px}
+main{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1{font:700 2.6rem/1.05 var(--display);margin:0;color:var(--garnet);text-wrap:balance}
+h2{font:700 1.9rem/1.15 var(--display);margin:0;text-wrap:balance}
+h3{font:700 1.35rem/1.2 var(--display);margin:0}
+p{margin:0}
+.eyebrow{font:500 .72rem/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lead{color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font:500 .72rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+ul.cast{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.arc{display:flex;flex-direction:column;gap:18px;padding-top:18px;border-top:2px solid var(--garnet)}
+.ch{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.ch .num{font:500 .72rem/1 var(--mono);letter-spacing:.08em;color:var(--garnet)}
+.ch ol{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:4px}
+.ch ol li::marker{font-family:var(--mono);font-size:.8em;color:var(--muted)}
+.comment{font-style:italic;font-family:var(--display);font-size:1.18rem;line-height:1.4;color:var(--fg);padding-left:12px;border-left:2px solid var(--garnet)}
+.prov{font:500 .68rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--garnet);border:1px solid var(--garnet);border-radius:3px;padding:2px 5px;vertical-align:2px;white-space:nowrap}
+figure{margin:0;display:flex;flex-direction:column;gap:6px}
+figure svg{display:block;width:100%;height:auto;max-width:100%;background:var(--panel);border:2px solid var(--ink);border-radius:2px}
+figcaption{font:500 .72rem/1.3 var(--mono);color:var(--muted)}
+.ink{fill:var(--ink)} .g{fill:var(--garnet)} .snow{fill:var(--snow)} .ground{fill:var(--ground)} .water{fill:var(--water)} .paperf{fill:var(--paper)} .panelf{fill:var(--panel)}
+.stroke{stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round}
+.gstroke{stroke:var(--garnet);fill:none;stroke-width:2;stroke-linecap:round}
+.halo{fill:var(--garnet);opacity:.22}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="p" viewBox="0 0 20 60"><circle cx="10" cy="8" r="6"/><path d="M3 17h14l2 22h-4l-1 21h-4l-1-17-1 17H4l-1-21H1z"/></symbol>
+    <symbol id="k" viewBox="0 0 20 60"><rect x="3" y="0" width="14" height="13" rx="3"/><path d="M2 16h16l2 23h-4l-1 21h-4l-1-17-1 17H5l-1-21H0z"/></symbol>
+    <symbol id="s" viewBox="0 0 30 40"><circle cx="9" cy="7" r="6"/><path d="M3 15h12l3 12h10v4H16l1 9h-4l-2-9H3z"/></symbol>
+    <symbol id="b" viewBox="0 0 34 40"><circle cx="27" cy="18" r="6"/><path d="M2 14l20 6 1 6-8 2 1 12h-4l-2-11-6 11H0l5-14z"/></symbol>
+  </defs>
+</svg>
+
+<main>
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <span class="eyebrow">Storyboard · versión 2 · 2026-11-04</span>
+    <h1>Fisuras de Elyria</h1>
+    <p class="lead">Mismo formato que el storyboard de Path of Radiance, para leerlos uno al lado del otro.</p>
+  </header>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <h2>Cómo leer este storyboard</h2>
+    <p>La historia está contada capítulo por capítulo, solo con las escenas que la mueven. Cada capítulo tiene dos partes.</p>
+    <ul class="cast">
+      <li><b>Viñetas.</b> Lo que se vería en cada cuadro del cómic, en orden. Una viñeta es una imagen y una acción.</li>
+      <li><b>Comentario.</b> Una o dos frases en tono de novela que dicen qué cambia en la historia o en el personaje.</li>
+    </ul>
+    <p>Los momentos clave tienen un cuadro dibujado. Los diálogos están resumidos. Lo marcado <span class="prov">provisional</span> todavía no está decidido.</p>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <h2>Contexto</h2>
+    <p>Un joven refugiado investiga un asesinato para su tío y descubre que sobrevivió a la caída de su nación porque alguien eligió dejar atrás a los demás. Esa es la historia en una línea.</p>
+    <p><b>El mundo.</b> El aether es una energía que se extrae de fisuras entre planos. Usarlo tiene un precio: cada vez que alguien lo usa, olvida algo. Hace quince años, la extracción hizo colapsar la fisura bajo Elyria y la nación desapareció. Sus sobrevivientes, los elirios, viven repartidos en campamentos de otros países. Ferannor, el imperio que industrializó el aether, sigue extrayendo más que nunca.</p>
+    <p><b>Las naciones que importan.</b></p>
+    <div class="tablewrap"><table>
+      <tr><th>Nación</th><th>Papel en la historia</th></tr>
+      <tr><td>Elyria</td><td>Nación caída. Su pueblo vive en el exilio y se repite un lema: "Volveremos por la orilla".</td></tr>
+      <tr><td>Kaldholt</td><td>País frío y cerrado que aloja el campamento. Desconfía de los refugiados.</td></tr>
+      <tr><td>Ferannor</td><td>Imperio industrial del aether. Hizo posible la evacuación y decidió quién subía a los barcos.</td></tr>
+      <tr><td>Cassaria</td><td>Recibe a los elirios con los brazos abiertos y los pone a trabajar en las minas.</td></tr>
+    </table></div>
+    <p><b>Los personajes centrales.</b></p>
+    <ul class="cast">
+      <li><b>Kairon.</b> Elirio criado en el campamento. Resuelve todo con la cabeza y cree en el lema más que nadie.</li>
+      <li><b>Orestion.</b> Su tío y la voz más respetada del consejo elirio. Fue capitán de la guardia del templo.</li>
+      <li><b>Nemira.</b> Cronista del campamento. Busca a la familia que perdió en la caída.</li>
+      <li><b>Demetria.</b> La cronista más vieja. Lleva veinte años anotando nombres.</li>
+      <li><b>Vask.</b> Mercenario sin pueblo. Le debe dinero a la gente equivocada.</li>
+      <li><b>Halvard.</b> Oficial de Kaldholt, formado por la capitana Brandt. Leal a su gente y a su ley.</li>
+      <li><b>Kallion.</b> Líder de un culto que ofrece olvido a quien carga demasiado.</li>
+    </ul>
+  </section>
+
+  <!-- ARCO 1 -->
+  <section class="arc">
+    <span class="eyebrow">Arco 1 · Capítulos 1 a 8</span>
+    <h2>El encargo</h2>
+    <p class="lead">Una historia completa: un asesinato en el campamento, investigado y resuelto. Presenta el mundo y a Kairon.</p>
+
+    <article class="ch">
+      <span class="num">Cap. 1 · Prólogo</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Kairon frente a un soldado de Kaldholt con el yelmo cerrado, en la nieve">
+          <rect class="snow" width="320" height="180"/>
+          <path class="ground" d="M0 150 Q80 138 160 146 T320 142 V180 H0z"/>
+          <g class="ink"><circle cx="40" cy="30" r="1.6"/><circle cx="90" cy="60" r="1.4"/><circle cx="260" cy="40" r="1.6"/><circle cx="220" cy="80" r="1.2"/><circle cx="150" cy="25" r="1.3"/><circle cx="300" cy="100" r="1.4"/></g>
+          <use href="#p" class="ink" x="105" y="88" width="22" height="64"/>
+          <rect class="g" x="122" y="118" width="7" height="6" rx="1"/>
+          <use href="#k" class="ink" x="190" y="82" width="24" height="70"/>
+          <path class="stroke" d="M214 104 L240 92"/>
+        </svg>
+        <figcaption>"No tenías que llegar hasta acá." — "Alguien tenía que hacerlo."</figcaption>
+      </figure>
+      <ol>
+        <li>Nieve en la frontera. Kairon frente a un soldado de Kaldholt con el yelmo cerrado.</li>
+        <li>Dos frases. Kairon levanta el guante.</li>
+        <li>Corte a negro.</li>
+      </ol>
+      <p class="comment">Una escena sin contexto que el jugador va a reconocer veintidós capítulos después. Todavía no sabe quién está debajo del yelmo.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 2 · El asentamiento</span>
+      <ol>
+        <li>El campamento elirio de día: casillas de chapa, ropa colgada, telas viejas como cortinas.</li>
+        <li>Kairon limpia su guante. Demetria le dice que lo va a gastar de tanto limpiarlo.</li>
+        <li>Saqueadores en el borde del campamento. Primera pelea, chica.</li>
+        <li>Dos vecinos se despiden con el lema, sin pensarlo, como quien dice buenos días.</li>
+      </ol>
+      <p class="comment">La vida que se va a perder, mostrada antes de quitarla. El lema aparece una vez, al pasar, y nadie lo explica.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 3 · El regreso</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Orestion le entrega documentos a Kairon frente a una casilla de chapa">
+          <rect class="panelf" width="320" height="180"/>
+          <path class="ground" d="M0 152 H320 V180 H0z"/>
+          <rect class="ink" x="28" y="72" width="96" height="80" opacity=".18"/>
+          <path class="stroke" d="M24 74 L76 50 L128 74"/>
+          <path class="stroke" d="M28 72 V152 M124 72 V152 M40 90 h20 M40 100 h20"/>
+          <use href="#p" class="ink" x="170" y="74" width="27" height="80"/>
+          <use href="#p" class="ink" x="226" y="92" width="21" height="62"/>
+          <rect class="paperf" x="203" y="112" width="14" height="17" stroke="var(--ink)" stroke-width="1.5"/>
+          <path class="gstroke" d="M206 117h8 M206 121h8 M206 125h5"/>
+        </svg>
+        <figcaption>Los documentos ya estaban preparados.</figcaption>
+      </figure>
+      <ol>
+        <li>Orestion cruza el campamento. Demetria lo ve venir.</li>
+        <li>Feron, un recién llegado, apareció muerto. Orestion le encarga el caso a Kairon.</li>
+        <li>Le entrega acceso a los archivos del consejo, con todo listo.</li>
+      </ol>
+      <p class="comment">El tío confía en el sobrino más que en el consejo entero. Los papeles llegan demasiado ordenados para una noticia de anoche, y nadie lo dice.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 4 · Cuentas viejas</span>
+      <ol>
+        <li>Mercado de trueque. Dos bandas se pelean por un cargamento.</li>
+        <li>En medio de la pelea, Kairon interroga a un sospechoso. La coartada cambia dos veces.</li>
+        <li>Kairon lo descarta: miente, pero no por esto.</li>
+      </ol>
+      <p class="comment">Kairon piensa mientras pelea. El jugador ve cómo razona antes de saber qué busca.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 5 · El agente</span>
+      <ol>
+        <li>Puesto de extracción de Ferannor: tuberías, vapor, un generador que zumba.</li>
+        <li>Un operario no recuerda el nombre de su hija. Nadie se sorprende.</li>
+        <li>El agente admite que extraen más de lo permitido. Feron había venido a preguntar.</li>
+      </ol>
+      <p class="comment">El Olvido aparece como algo de todos los días. La industria que destruyó Elyria sigue funcionando a pocos kilómetros del campamento.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 6 · Frontera de humo</span>
+      <ol>
+        <li>Los Quebrados, elirios que viven del saqueo, atacan el campamento.</li>
+        <li>Kairon deja escapar a uno, casi un chico.</li>
+        <li>El chico dice que Feron andaba con ellos antes de llegar.</li>
+      </ol>
+      <p class="comment">Refugiados contra refugiados. El enemigo de este capítulo es lo que el campamento podría ser con un invierno peor.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 7 · Los papeles</span>
+      <ol>
+        <li>Ilse admite que llevó documentos de un lado a otro sin saber qué eran.</li>
+        <li>Callejón de noche. Kairon encuentra al asesino: un vecino del campamento.</li>
+        <li>Mató por miedo. Le prometieron un lugar seguro para su familia.</li>
+        <li>Kairon decide qué hacer con él. <span class="prov">provisional</span></li>
+      </ol>
+      <p class="comment">El caso se resuelve y el culpable da pena. Lo que Kairon hace con él dice quién es, sin que nadie lo explique.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 8 · Caso cerrado</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Una hoja vieja con nombres; algunos tienen una marca y uno está resaltado">
+          <rect class="panelf" width="320" height="180"/>
+          <rect class="paperf" x="78" y="16" width="164" height="150" stroke="var(--ink)" stroke-width="2" transform="rotate(-3 160 90)"/>
+          <g transform="rotate(-3 160 90)">
+            <path class="stroke" d="M100 40h90 M100 56h80 M100 72h95 M100 88h70 M100 104h88 M100 120h76 M100 136h92"/>
+            <path class="stroke" d="M206 36l4 5 7-9 M206 68l4 5 7-9 M206 116l4 5 7-9"/>
+            <rect class="g" x="96" y="98" width="98" height="11" opacity=".3"/>
+            <path class="gstroke" d="M206 100l4 5 7-9"/>
+            <circle class="g" cx="225" cy="150" r="9" opacity=".7"/>
+          </g>
+        </svg>
+        <figcaption>El apellido de Kairon tiene una marca.</figcaption>
+      </figure>
+      <ol>
+        <li>El consejo da el caso por resuelto. Orestion felicita a Kairon.</li>
+        <li>De noche, Nemira ordena los papeles de Feron.</li>
+        <li>Una hoja vieja: nombres, sellos de Ferannor, algunos marcados. El apellido de Kairon tiene marca.</li>
+        <li>Nemira guarda la hoja. No dice nada todavía.</li>
+      </ol>
+      <p class="comment">El caso está cerrado y algo no encaja. No es una pregunta urgente: es una incomodidad que va a durar.</p>
+    </article>
+  </section>
+
+  <!-- ARCO 2 -->
+  <section class="arc">
+    <span class="eyebrow">Arco 2 · Capítulos 9 a 16</span>
+    <h2>La hoja con marcas</h2>
+    <p class="lead">La hoja lleva al grupo fuera del campamento. En la mitad del juego, la hoja tiene nombre.</p>
+
+    <article class="ch">
+      <span class="num">Cap. 9 · Frontera fría</span>
+      <ol>
+        <li>Nemira le muestra la hoja a Kairon. Los nombres sin marca venían del sur.</li>
+        <li>Deciden ir a buscar a alguien que la entienda.</li>
+        <li>Cruce a Kaldholt sin documentos, con labia.</li>
+      </ol>
+      <p class="comment">Kairon sale del campamento por primera vez. Lo empuja la curiosidad, todavía no el miedo.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 10 · Manos rápidas</span>
+      <ol>
+        <li>Mercado fronterizo. Vask ofrece su espada.</li>
+        <li>Cobra por adelantado y no pregunta para qué.</li>
+      </ol>
+      <p class="comment">Un hombre que no pertenece a ningún pueblo se suma a un grupo que no hace otra cosa que hablar de su pueblo.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 11 · El oficial</span>
+      <ol>
+        <li>Halvard y su patrulla detienen al grupo. Los elirios sin papeles vuelven al campamento.</li>
+        <li>No grita ni amenaza. Cumple la ley.</li>
+        <li>Kairon escapa con un engaño.</li>
+      </ol>
+      <p class="comment">El rival no es un villano. Es un hombre que hace bien su trabajo, y su trabajo es devolverlos.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 12 · Lo que Vask no dijo</span>
+      <ol>
+        <li>Mapa separado. Vask solo en un almacén abandonado.</li>
+        <li>Sombra Rota le muestra un mechón de pelo de su hermana.</li>
+        <li>Le piden información sobre el grupo. El jugador decide cuánto entregar.</li>
+      </ol>
+      <p class="comment">La traición la comete el jugador, en silencio, y el resto del grupo no se entera.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 13 · Preguntas sin respuesta</span>
+      <ol>
+        <li>Asentamientos de frontera. Rumores de un culto que ofrece paz a cambio de olvido.</li>
+        <li>Una anciana: su nieto volvió más tranquilo y ya casi no habla de su mujer.</li>
+      </ol>
+      <p class="comment">El precio de la magia también se puede pagar a propósito. Para algunos, olvidar es un alivio.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 14 · La anciana del sur</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Una anciana lee la hoja a la luz de una vela; Kairon la escucha y Nemira se aparta">
+          <rect class="panelf" width="320" height="180"/>
+          <circle class="halo" cx="122" cy="100" r="56"/>
+          <rect class="ink" x="96" y="118" width="70" height="6"/>
+          <path class="stroke" d="M104 124v30 M158 124v30"/>
+          <rect class="paperf" x="118" y="102" width="14" height="16" stroke="var(--ink)" stroke-width="1.5" transform="rotate(-50 125 110)"/>
+          <rect class="ink" x="150" y="104" width="4" height="14"/>
+          <circle class="g" cx="152" cy="100" r="3.5"/>
+          <use href="#s" class="ink" x="60" y="104" width="38" height="50"/>
+          <use href="#p" class="ink" x="196" y="92" width="21" height="62"/>
+          <g transform="translate(560 0) scale(-1 1)"><use href="#p" class="ink" x="278" y="94" width="20" height="60"/></g>
+        </svg>
+        <figcaption>Kairon estaba marcado. La familia de Nemira, no.</figcaption>
+      </figure>
+      <ol>
+        <li>Una mujer que vino del sur lee la hoja a la luz de una vela.</li>
+        <li>Es una página de la lista de evacuación. Los marcados subieron a los barcos. Ella quedó en la orilla.</li>
+        <li>Kairon estaba marcado. La familia de Nemira, no.</li>
+        <li>Nemira se aparta del círculo de luz.</li>
+      </ol>
+      <p class="comment">La mitad del juego. Kairon descubre que su vida le costó la de otros, y que la persona a su lado es una de esos otros. Todavía no sabe quién firmó.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 15 · Emboscada</span>
+      <ol>
+        <li>Sombra Rota y Halvard llegan al mismo tiempo, cada uno por su lado.</li>
+        <li>Si Vask entregó mucho, Sombra Rota sabe por dónde atacar.</li>
+        <li>Alguien del campamento que viajaba con ellos no sale vivo.</li>
+      </ol>
+      <p class="comment">Lo que el jugador decidió en el capítulo 12 tiene precio, y lo paga otra persona.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 16 · La grieta</span>
+      <ol>
+        <li>Fogata. Kairon y Nemira, sentados lejos uno del otro.</li>
+        <li>Nadie tiene la culpa de lo que hizo de niño. Igual algo se rompió.</li>
+        <li>Deciden seguir hacia el sur: a buscar a los de la orilla y a quien firmó.</li>
+      </ol>
+      <p class="comment">La pareja no se separa, pero ya no camina igual. Los dos van al mismo lugar por razones distintas.</p>
+    </article>
+  </section>
+
+  <!-- ARCO 3 -->
+  <section class="arc">
+    <span class="eyebrow">Arco 3 · Capítulos 17 a 23</span>
+    <h2>Quién eligió</h2>
+    <p class="lead">El punto de vista pasa a Halvard. El jugador ve la historia desde Kaldholt y termina haciendo lo que Kaldholt manda.</p>
+
+    <article class="ch">
+      <span class="num">Cap. 17 · Las órdenes</span>
+      <ol>
+        <li>El puesto de Halvard. Brandt le ordena capturar al grupo.</li>
+        <li>Los elirios del sur están cruzando en masa. La frontera se va a cerrar.</li>
+        <li>Un mapa de la frontera marcado a mano con décadas de anotaciones. Brandt perdió su aldea en un ataque de elirios desesperados.</li>
+      </ol>
+      <p class="comment">El jugador cambia de lado sin cambiar de juego. El miedo de Kaldholt tiene una historia, y no es mentira.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 18 · El culto</span>
+      <ol>
+        <li>El templo de Kallion: limpio, sereno, con plantas cuidadas.</li>
+        <li>Kallion cuenta que su hija quedó en la orilla. Olvidar fue lo único que lo dejó vivir.</li>
+        <li>Un seguidor pelea con aether hasta no reconocer a nadie.</li>
+      </ol>
+      <p class="comment">El jugador ve por primera vez qué pasa cuando alguien quema demasiados recuerdos. Lo va a necesitar al final.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 19 · Del otro lado</span>
+      <ol>
+        <li>Halvard alcanza al grupo. En lugar de capturarlo, escucha.</li>
+        <li>Kairon le muestra la hoja: sellos de Ferannor, y Kaldholt lo sabía.</li>
+        <li>Halvard vuelve a su puesto sin presos.</li>
+      </ol>
+      <p class="comment">Una duda alcanza para que un buen soldado deje de serlo del todo.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 20 · El nombre</span>
+      <ol>
+        <li>Archivos del templo en ruinas de la vieja guardia elíria.</li>
+        <li>La firma de la lista es la de Orestion.</li>
+        <li>Kairon cierra el libro y no dice nada.</li>
+      </ol>
+      <p class="comment">Kairon confirma lo que el jugador atento sospecha desde el capítulo 3. El hombre que lo crió decidió quién vivía.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 21 · La evacuación dividida</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Cuadro partido: a la izquierda civiles huyendo, a la derecha una figura en un sótano inundado">
+          <rect class="panelf" width="320" height="180"/>
+          <path class="ground" d="M0 150 H158 V180 H0z"/>
+          <path class="stroke" d="M30 150 L60 120 L75 135 L100 105 M120 150 l14 -22"/>
+          <use href="#p" class="ink" x="30" y="104" width="16" height="46"/>
+          <use href="#p" class="ink" x="54" y="110" width="14" height="40"/>
+          <use href="#p" class="ink" x="76" y="96" width="19" height="54"/>
+          <use href="#p" class="ink" x="110" y="112" width="13" height="38"/>
+          <rect class="ink" x="158" y="0" width="4" height="180"/>
+          <rect class="ink" x="162" y="0" width="158" height="180" opacity=".12"/>
+          <use href="#p" class="ink" x="228" y="78" width="22" height="64"/>
+          <rect class="water" x="162" y="120" width="158" height="60" opacity=".85"/>
+          <path class="stroke" d="M172 128 q8 -4 16 0 t16 0 M240 134 q8 -4 16 0 t16 0"/>
+        </svg>
+        <figcaption>Dos zonas y un solo ejército.</figcaption>
+      </figure>
+      <ol>
+        <li>El sur se derrumba antes de lo esperado.</li>
+        <li>Zona norte: civiles en las calles. Zona sur: la hermana de Vask en un sótano que se inunda.</li>
+        <li>El jugador reparte sus unidades. No alcanza para todo.</li>
+        <li>Se salva a quien se puede.</li>
+      </ol>
+      <p class="comment">El jugador hace lo mismo que hizo Orestion hace quince años, con menos gente y menos tiempo. Nadie se lo dice.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 22 · La frontera se cierra</span>
+      <ol>
+        <li>Los evacuados llegan a la frontera de Kaldholt.</li>
+        <li>Brandt cierra el paso.</li>
+        <li>Halvard, entre su capitana y la gente del otro lado.</li>
+      </ol>
+      <p class="comment">La lealtad de Halvard tenía dos dueños. Ahora tiene que elegir uno.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 23 · La orden</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="El mismo campo nevado del prólogo; el convoy de refugiados a un lado y Halvard con sus soldados al otro">
+          <rect class="snow" width="320" height="180"/>
+          <path class="ground" d="M0 150 Q80 138 160 146 T320 142 V180 H0z"/>
+          <g class="ink"><circle cx="40" cy="30" r="1.6"/><circle cx="90" cy="60" r="1.4"/><circle cx="260" cy="40" r="1.6"/><circle cx="150" cy="25" r="1.3"/></g>
+          <rect class="ink" x="18" y="122" width="44" height="20" opacity=".55"/>
+          <circle class="ink" cx="28" cy="146" r="5"/><circle class="ink" cx="52" cy="146" r="5"/>
+          <use href="#p" class="ink" x="70" y="106" width="14" height="42"/>
+          <use href="#p" class="ink" x="88" y="110" width="12" height="38"/>
+          <use href="#p" class="ink" x="105" y="88" width="22" height="64"/>
+          <rect class="g" x="122" y="118" width="7" height="6" rx="1"/>
+          <use href="#k" class="ink" x="190" y="82" width="24" height="70"/>
+          <use href="#k" class="ink" x="232" y="96" width="18" height="54" opacity=".75"/>
+          <use href="#k" class="ink" x="262" y="100" width="16" height="50" opacity=".6"/>
+        </svg>
+        <figcaption>El mismo lugar que el prólogo. Esta vez el jugador está debajo del yelmo.</figcaption>
+      </figure>
+      <ol>
+        <li>Brandt ordena detener al convoy.</li>
+        <li>El jugador controla a Halvard y ejecuta la orden.</li>
+        <li>El campo nevado del prólogo. Las mismas dos frases.</li>
+        <li>Esta vez la pelea se juega completa.</li>
+      </ol>
+      <p class="comment">La escena del principio vuelve, y ahora el jugador sabe quién está debajo del yelmo porque es él.</p>
+    </article>
+  </section>
+
+  <!-- ARCO 4 -->
+  <section class="arc">
+    <span class="eyebrow">Arco 4 · Capítulos 24 a 28</span>
+    <h2>Volveremos por la orilla</h2>
+    <p class="lead">Corto. Los tres últimos capítulos son una sola historia.</p>
+
+    <article class="ch">
+      <span class="num">Cap. 24 · La confrontación</span>
+      <ol>
+        <li>Kairon encuentra a Orestion. Orestion no se esconde ni pide perdón.</li>
+        <li>Había barcos para un tercio. Si no firmaba, no se salvaba nadie.</li>
+        <li>"Vos también hiciste una lista en el sur. La mía tenía más nombres."</li>
+        <li>El consejo, sin saber nada, le ofrece a Kairon el lugar de su tío.</li>
+      </ol>
+      <p class="comment">El villano tiene un argumento y el jugador no puede descartarlo, porque lo vivió con sus manos en el capítulo 21.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 25 · El que lidera</span>
+      <ol>
+        <li>Kairon empieza a mandar. Callar mantiene unido al pueblo.</li>
+        <li>Alguien le pregunta por qué no vuelven por los que siguen al sur.</li>
+        <li>Kairon contesta con las palabras de Orestion: "Tomé una decisión que no te voy a pedir que entiendas."</li>
+        <li>Nadie lo señala. En la escena siguiente, Kairon elige distinto. <span class="prov">provisional</span></li>
+      </ol>
+      <p class="comment">Kairon se escucha a sí mismo convertido en su tío. El juego no lo subraya: confía en que el jugador lo recuerde.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 26 · El puerto</span>
+      <ol>
+        <li>Ferannor controla los barcos que sacarán a los últimos del sur.</li>
+        <li>Solo embarca quien pasa sus tablas. Su directora cree que así se salva a más gente. <span class="prov">provisional</span></li>
+        <li>El grupo toma el puerto.</li>
+      </ol>
+      <p class="comment">El método que decidió la lista sigue funcionando, ahora con sellos nuevos.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 27 · Orestion</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Puerto con barcos; Kairon escribe en el registro mientras Orestion, rodeado de luz, avanza sobre un muelle agrietado">
+          <rect class="panelf" width="320" height="180"/>
+          <rect class="water" x="0" y="116" width="320" height="64" opacity=".7"/>
+          <path class="ink" d="M196 112 h96 l-12 18 h-72z"/>
+          <path class="stroke" d="M230 112 V54 M262 112 V64 M230 60 h22 M262 70 h18"/>
+          <path class="ground" d="M0 132 H190 V180 H0z"/>
+          <path class="gstroke" d="M60 134 l10 12 -6 10 12 16 M130 136 l-8 14 10 8"/>
+          <rect class="ink" x="20" y="104" width="44" height="6"/>
+          <path class="stroke" d="M26 110 v22 M58 110 v22"/>
+          <rect class="paperf" x="30" y="96" width="24" height="9" stroke="var(--ink)" stroke-width="1.2"/>
+          <use href="#p" class="ink" x="62" y="72" width="21" height="62"/>
+          <circle class="halo" cx="148" cy="98" r="40"/>
+          <use href="#p" class="ink" x="136" y="62" width="25" height="72"/>
+        </svg>
+        <figcaption>Los guardias obedecen a la lista. Kairon reescribe la lista.</figcaption>
+      </figure>
+      <ol>
+        <li>Orestion organiza el embarque con las mismas tablas. La lista de hace quince años, otra vez.</li>
+        <li>El muelle se agrieta cada turno. De frente, Orestion es casi invencible.</li>
+        <li>Kairon llega al registro y pone en la lista a todos los de la orilla. Los guardias dejan de obedecer.</li>
+        <li>Orestion, solo, quema recuerdos para seguir peleando. Cada vez es más fuerte y menos él.</li>
+        <li>Al final no le queda nada. Un viejo que no sabe dónde está. Kairon puede hablarle o matarlo.</li>
+        <li>La fisura cede.</li>
+      </ol>
+      <p class="comment">Kairon no le gana a Orestion siendo más fuerte. Le gana usando su propia lista. Lo que queda del tío no recuerda lo que hizo.</p>
+    </article>
+
+    <article class="ch">
+      <span class="num">Cap. 28 · Los escombros</span>
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Escombros; dos figuras inclinadas excavan y una mano sobresale entre las piedras">
+          <rect class="panelf" width="320" height="180"/>
+          <path class="ground" d="M0 180 L20 120 L60 132 L90 100 L130 128 L170 96 L210 124 L250 104 L290 130 L320 112 V180z"/>
+          <path class="stroke" d="M40 150 l18 -8 M110 144 l22 6 M200 150 l14 -12 M260 156 l20 -6"/>
+          <use href="#b" class="ink" x="70" y="96" width="44" height="52"/>
+          <use href="#b" class="ink" x="196" y="92" width="44" height="52"/>
+          <path class="ink" d="M150 140 l3 -12 2 0 1 8 2 -10 2 0 0 10 2 -8 2 0 -1 12z"/>
+        </svg>
+        <figcaption>Más gente atrapada de la que se puede alcanzar.</figcaption>
+      </figure>
+      <ol>
+        <li>Ruinas después del colapso. Gente atrapada bajo las piedras.</li>
+        <li>Entre ellos, caras conocidas del campamento y del capítulo 21.</li>
+        <li>No hay turnos para todos. El jugador elige a quién buscar primero.</li>
+      </ol>
+      <p class="comment">El último capítulo no tiene jefe. Tiene un reloj, y el lema del juego convertido en tarea.</p>
+    </article>
+  </section>
+
+  <section class="arc">
+    <span class="eyebrow">Epílogo</span>
+    <h2>Meses después</h2>
+    <article class="ch">
+      <figure>
+        <svg viewBox="0 0 320 180" role="img" aria-label="Un grupo levanta vasos en el campamento mientras una figura se aleja sola hacia el horizonte">
+          <rect class="panelf" width="320" height="180"/>
+          <circle class="g" cx="270" cy="112" r="16" opacity=".55"/>
+          <path class="ground" d="M0 130 Q160 116 320 126 V180 H0z"/>
+          <use href="#p" class="ink" x="20" y="96" width="18" height="54"/>
+          <use href="#p" class="ink" x="44" y="92" width="20" height="58"/>
+          <use href="#p" class="ink" x="70" y="98" width="17" height="52"/>
+          <use href="#p" class="ink" x="92" y="94" width="19" height="56"/>
+          <g class="ink"><rect x="34" y="88" width="4" height="7"/><rect x="60" y="84" width="4" height="7"/><rect x="84" y="90" width="4" height="7"/><rect x="108" y="86" width="4" height="7"/></g>
+          <path class="stroke" d="M150 128 Q200 122 248 122" stroke-dasharray="3 5"/>
+          <use href="#p" class="ink" x="248" y="100" width="9" height="26"/>
+        </svg>
+        <figcaption>"Volveremos por la orilla." Todos lo repiten. Él no.</figcaption>
+      </figure>
+      <ol>
+        <li>Demetria anota nombres nuevos, y también los de quienes no salieron de los escombros.</li>
+        <li>Orestion vive sin recordar lo que hizo. Kairon es el único que sabe, y no lo cuenta.</li>
+        <li>En una reunión, alguien levanta un vaso: "Volveremos por la orilla." Todos lo repiten.</li>
+        <li>Kairon no. Al día siguiente sale hacia el sur.</li>
+      </ol>
+      <p class="comment">El lema sigue en pie y el pueblo sigue unido. El único que lo cumple es el único que dejó de decirlo.</p>
+    </article>
+  </section>
+</main>
