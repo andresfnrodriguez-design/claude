@@ -43,6 +43,12 @@ Regla: al confirmar algo, se mueve a CANON y se anota en el registro de decision
 - **Kaldholt** — anfitriona recelosa (migrante como amenaza).
 - **Cassaria** — anfitriona receptiva.
 
+**El Olvido (CANON, 2026-11-04).** Usar aether cuesta recuerdos. Es un rasgo normal del mundo: todos lo conocen, nadie lo explica. Funciona como lienzo, no como pintura: no es una trama ni un ente, es el fondo sobre el que pasan las cosas.
+- Equilibra el sistema de magia (el poder tiene un costo).
+- Resuena con la migración sin decirlo: dejar el hogar también es soltar el pasado.
+- Puede influir en un par de mecánicas y en el worldbuilding (culto de Kallion como práctica social, costumbres, objetos).
+- No es la solución del clímax.
+
 ## 3. Personajes principales (CANON)
 
 | Personaje | Rol | Núcleo |
