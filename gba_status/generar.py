@@ -123,19 +123,17 @@ for y in range(EL[1], EL[3] + 1):
         e = ((x - ecx) / ea) ** 2 + ((y - ecy) / eb) ** 2
         if e > 0.9: continue                   # 0.9 evita puntas de 1 px arriba y abajo
         u = abs(x - ecx) / ea                  # 0 centro, 1 extremos
-        base = lerp((190, 32, 56), (116, 12, 30), (y - EL[1]) / (EL[3] - EL[1]))
+        base = lerp((190, 32, 56), (130, 14, 34), abs(y - ecy) / eb)  # simetrico arriba/abajo
         k = max(0, (u - 0.6) / 0.4)            # funde a oscuro en el ultimo 40%
         if e > 0.7 and k < 0.5:                # borde fino mas claro de la lente
             base = lerp(base, (224, 72, 96), 0.5)
         d.point((x, y), fill=lerp(base, (34, 4, 12), k))
-d.line([(76, 43), (85, 43)], fill=c(232, 168, 184))  # subrayado bajo el escudo
 BY0, BY1 = 28, 46
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
 bb = d.textbbox((0, 0), "Leather Shield", font=fs); tw, th = bb[2] - bb[0], bb[3] - bb[1]
 my = (BY0 + BY1) / 2
 bx = (BX0 + BX1 - (10 + 4 + tw)) // 2
 d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
-d.point((bx + 3, round(my - 2)), fill=c(248, 232, 200))
 d.text((bx + 14 - bb[0], round(my - th / 2) - bb[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
@@ -151,7 +149,7 @@ d.polygon([(44, 109), (47, 106), (56, 106), (56, 112), (47, 112)], fill=TXT)
 mini(48, 107, "+3", DARK)
 
 # libro de comandos: interlineado fijo, inicio sigue la curva del arco con separacion fija
-DIST, PASO, Y0 = 14, 12, 48  # DIST: del centro del cuadrado a la linea blanca
+DIST, PASO, Y0 = 11, 12, 48  # DIST: del centro del cuadrado a la linea blanca
 GUIAS = []
 skills = [("Nosferatu", (216, 200, 72)), ("Recover", (176, 224, 176)),
           ("Physic", (176, 224, 176)), ("Invoke", (176, 224, 176)), ("????", (216, 176, 96))]
@@ -159,7 +157,7 @@ for i, (s_, col) in enumerate(skills):
     y = Y0 + i * PASO; ym = y + 5                 # fila del centro del cuadrado (7x7)
     # centro sobre un circulo concentrico a la linea blanca: distancia perpendicular
     # (por la normal) siempre igual a DIST; se redondea hacia arriba
-    xc = math.ceil(cx - math.sqrt((r - DIST) ** 2 - (ym - cy) ** 2))
+    xc = ARCX[ym] + DIST  # la linea blanca corrida DIST px a la derecha
     x = xc - 3
     d.rectangle([x, y + 2, x + 6, y + 8], fill=c(*col), outline=c(88, 72, 40))
     GUIAS.append((xc, ym))
@@ -191,6 +189,6 @@ g = Image.open("guia.png").convert("RGB").resize((W, H), Image.LANCZOS)
 Image.blend(g, img, 0.5).resize((W * 4, H * 4), Image.NEAREST).save("comparacion_x4.png")
 
 dbg = img.copy(); dd = ImageDraw.Draw(dbg)
-for xc, ym in GUIAS:  # linea por la normal hasta la linea blanca
-    ang = math.atan2(ym - cy, xc - cx); dd.line([(xc, ym), (cx + r * math.cos(ang), cy + r * math.sin(ang))], fill=(0, 255, 0))
+for y in range(40, 110):  # linea blanca corrida DIST px (verde) y centros
+    dd.point((ARCX[y] + DIST, y), fill=(0, 255, 0))
 dbg.crop((140, 40, 240, 110)).resize((600, 420), Image.NEAREST).save("guias_hechizos_x6.png")
