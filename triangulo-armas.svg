@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 350" width="400" height="350">
+  <defs>
+    <linearGradient id="r" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0443f"/><stop offset="1" stop-color="#a51e22"/></linearGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ccf6a"/><stop offset="1" stop-color="#16903e"/></linearGradient>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a8fe0"/><stop offset="1" stop-color="#1d5fb0"/></linearGradient>
+  </defs>
+
+  <!-- Flechas -->
+  <g stroke-linecap="butt">
+    <!-- Rojo -> Verde -->
+    <line x1="236" y1="112" x2="282" y2="190" stroke="#e8423e" stroke-width="16"/>
+    <polygon points="268,186 300,220 300,174" fill="#e8423e" transform="rotate(-5 290 200)"/>
+    <!-- Verde -> Azul -->
+    <line x1="245" y1="262" x2="180" y2="262" stroke="#3cc96a" stroke-width="16"/>
+    <polygon points="185,242 152,262 185,282" fill="#3cc96a"/>
+    <!-- Azul -> Rojo -->
+    <line x1="112" y1="196" x2="150" y2="132" stroke="#4aa3e0" stroke-width="16"/>
+    <polygon points="134,124 165,100 168,142" fill="#4aa3e0"/>
+  </g>
+
+  <!-- Rombo rojo: espada -->
+  <g transform="translate(200 72)">
+    <rect x="-52" y="-52" width="104" height="104" transform="rotate(45)" fill="url(#r)" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+    <g fill="#fff">
+      <path d="M0,-46 L9,-34 L9,10 L-9,10 L-9,-34 Z"/>
+      <rect x="-20" y="10" width="40" height="7" rx="3.5"/>
+      <rect x="-4" y="17" width="8" height="20"/>
+      <circle cx="0" cy="40" r="6"/>
+    </g>
+  </g>
+
+  <!-- Rombo azul: lanza -->
+  <g transform="translate(78 268)">
+    <rect x="-52" y="-52" width="104" height="104" transform="rotate(45)" fill="url(#b)" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+    <g fill="#fff">
+      <path d="M0,-50 L11,-26 L4,-30 L4,-24 L-4,-24 L-4,-30 L-11,-26 Z"/>
+      <rect x="-3.5" y="-26" width="7" height="72" rx="3.5"/>
+    </g>
+  </g>
+
+  <!-- Rombo verde: hacha doble -->
+  <g transform="translate(322 268)">
+    <rect x="-52" y="-52" width="104" height="104" transform="rotate(45)" fill="url(#g)" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+    <g fill="#fff">
+      <rect x="-3.5" y="-46" width="7" height="92" rx="3.5"/>
+      <circle cx="0" cy="-46" r="5"/>
+      <path d="M-7,-24 C-18,-34 -30,-30 -32,-14 C-34,2 -26,12 -12,10 C-18,2 -18,-10 -7,-14 Z"/>
+      <path d="M7,-24 C18,-34 30,-30 32,-14 C34,2 26,12 12,10 C18,2 18,-10 7,-14 Z"/>
+    </g>
+  </g>
+</svg>
