@@ -26,7 +26,7 @@ RX, RY = -26, 17  # ojos alineados con la guia
 art = Image.open("retrato_busto.png").convert("RGB")
 bgc = (77, 26, 77)
 # quitar fondo morado y marco gris conectado al borde (flood fill)
-fondo = {bgc, (34, 34, 34)}
+fondo = {bgc}  # solo el morado; el gris oscuro es pelo
 mask = Image.new("L", art.size, 255)
 pila = [(x, y) for x in range(art.width) for y in (0, art.height - 1)] + \
        [(x, y) for y in range(art.height) for x in (0, art.width - 1)]
