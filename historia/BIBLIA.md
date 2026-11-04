@@ -17,6 +17,7 @@ Regla: al confirmar algo, se mueve a CANON y se anota en el registro de decision
 2. La historia tiene que seguir siendo buena después del giro: la segunda partida debe leerse distinto, no peor.
 3. Pocas pistas y bien hechas: dos pistas justas del misterio alcanzan.
 4. **No sobreusar el tema.** "No dejar a nadie atrás" vive en pocos lugares clave (la evacuación dividida, el último capítulo, el final de Kairon). No justificar mecánicas genéricas del género (curar, rescatar) con el tema: eso lo hace cualquier RPG.
+5. **No todo tiene que encajar.** Evitar el mundo donde cada detalle está conectado a la trama (shonen genérico). Hay personajes con preocupaciones propias que no tocan el misterio, cosas que quedan sin explicar y coincidencias que no significan nada.
 
 ## 1. Núcleo (CANON)
 
@@ -114,7 +115,7 @@ Revisión completa: https://claude.ai/artifact/GbwYWvgJSkFC65ZdvcyZvU
 
 ## 7. Banco de ideas (secundario, para más adelante)
 
-**Diseño de secundarios (estilo Three Houses).** Cada jugable cumple ≥2 de: cara del tema · vínculo previo con otro personaje · pieza del misterio · motivo propio para quedarse.
+**Diseño de secundarios (estilo Three Houses).** Guía, no regla (ver principio 5). Los secundarios importantes cumplen ≥2 de: cara del tema · vínculo previo con otro personaje · pieza del misterio · motivo propio para quedarse.
 
 Bocetos: minera elíria en Cassaria · hijo de la élite evacuada (candidato a traidor) · guardia fronteriza de Kaldholt bajo Halvard · sacerdote dracónico tradicionalista · niña elíria nacida en la diáspora · ingeniero desertor de Ferannor.
 
