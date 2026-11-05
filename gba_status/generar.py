@@ -146,10 +146,9 @@ _off = int(float(os.environ.get("T", "0")) / 18) % 2  # cambia cada 3 cuadros
 def punta(cx, izq):
     # flecha rellena con muesca atras (chevron grueso), negra con un brillo gris arriba
     pts = [(0, 1), (3, 1), (8, 6), (3, 11), (0, 11), (4, 6)]          # ">" en caja 9x11
+    if izq:   # compensacion optica: sobre el fondo claro se ve mas grande -> 1 px mas delgada y corta
+        pts = [(1, 2), (3, 2), (7, 6), (3, 10), (1, 10), (4, 6)]
     if izq: pts = [(8 - px_, py_) for px_, py_ in pts]                 # espejo para "<"
-    if not izq:   # compensacion optica: sobre fondo oscuro la flecha se ve mas chica -> halo gris de 1 px
-        for ox, oy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            d.polygon([(cx + px_ + ox, py_ + oy) for px_, py_ in pts], fill=c(120, 120, 128))
     d.polygon([(cx + px_, py_) for px_, py_ in pts], fill=(0, 0, 0))
     luz = [(1, 2), (2, 2), (3, 3), (4, 4)]                               # brillo en el borde superior
     for px_, py_ in luz:
@@ -231,9 +230,9 @@ d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs,
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
-STY = 55  # bloque de stats centrado entre el fin de la franja negra (30) y el inicio de los botones (139)
-for x in range(57): smd.line([(x, STY), (x, STY + 74)], fill=int(230 if x < 44 else max(0, 230 - (x - 44) * 19)))  # opaco bajo los numeros, se desvanece hasta el final del +3 (x 56)
-img.paste(Image.new("RGB", (W, H), c(30, 4, 10)), (0, 0), sm)
+STY = 57  # bloque de stats centrado entre el fin de la franja negra (30) y el inicio de los botones (139)
+for x in range(61): smd.line([(x, STY), (x, STY + 74)], fill=int(255 * (1 - x / 60)))  # negro puro a la izquierda, se desvanece parejo hasta x 60
+img.paste(Image.new("RGB", (W, H), (0, 0, 0)), (0, 0), sm)
 stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
          ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
 for i, (k, v) in enumerate(stats):
