@@ -7,7 +7,7 @@ env = dict(os.environ); FONDO = env.get("FONDO", "luz")
 sf = "" if FONDO == "luz" else "_" + FONDO
 run = lambda **e: subprocess.run([sys.executable, "generar.py"], check=True, env={**env, **e}, capture_output=True)
 run(); run(SIN_RETRATO="1", SIN_ICONOS="1"); run(FONDO="negro"); run(SIN_BANNER="1")
-sr = "_sin_retrato" if env.get("SIN_RETRATO") else ""
+sr = "_sin_retrato" if env.get("SIN_RETRATO") else ("_r" + env["RETRATO"] if env.get("RETRATO", "kairos") != "kairos" else "")
 full = Image.open(f"estado_gba{sr}{sf}.png").convert("RGB"); ui = Image.open(f"estado_gba_sin_retrato_sin_iconos{sf}.png").convert("RGB")
 debajo = Image.open(f"estado_gba{sr}_sin_banner{sf}.png").convert("RGB")  # lo que hay detras del recuadro
 negro = Image.open(f"estado_gba{sr}_negro.png").convert("RGB")  # para saber que pixeles dependen del fondo

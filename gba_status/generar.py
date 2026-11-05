@@ -60,9 +60,14 @@ elif FONDO == "negro":
     pass
 
 # retrato (arte del usuario, fondo morado transparente)
-RX, RY = -26, 17  # ojos alineados con la guia
-art = Image.open("retrato_busto.png").convert("RGB")
-bgc = (77, 26, 77)
+# retratos disponibles: archivo, color de fondo a quitar, posicion y escala
+# (el punto medio entre los ojos cae en ~(110, 84) de la pantalla)
+RETRATOS = {
+    "kairos": ("retrato_busto.png", (77, 26, 77), -26, 17, 3.2),
+    "2": ("retrato_2.png", (169, 203, 166), 1, 25, 2.4),
+}
+_arch, bgc, RX, RY, ESC_R = RETRATOS[os.environ.get("RETRATO", "kairos")]
+art = Image.open(_arch).convert("RGB")
 # quitar fondo morado y marco gris conectado al borde (flood fill)
 fondo = {bgc}  # solo el morado; el gris oscuro es pelo
 mask = Image.new("L", art.size, 255)
@@ -76,7 +81,7 @@ for y in range(art.height):
     for x in range(art.width):
         if art.getpixel((x, y)) == bgc: mask.putpixel((x, y), 0)
         art.putpixel((x, y), c(*art.getpixel((x, y))))
-ESC = 3.2  # cabeza grande, cortada bajo los hombros
+ESC = ESC_R  # cabeza grande, cortada bajo los hombros
 art = art.resize((int(art.width * ESC), int(art.height * ESC)), Image.NEAREST)
 mask = mask.resize(art.size, Image.NEAREST)
 import os
@@ -285,6 +290,7 @@ d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
 suf = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ""
+if os.environ.get("RETRATO", "kairos") != "kairos" and not os.environ.get("SIN_RETRATO"): suf += "_r" + os.environ["RETRATO"]
 if os.environ.get("SIN_BANNER"): suf += "_sin_banner"
 if not ICONOS_ON: suf += "_sin_iconos"
 if FONDO != "luz": suf += "_" + FONDO

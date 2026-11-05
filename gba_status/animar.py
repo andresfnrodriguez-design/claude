@@ -3,7 +3,7 @@ Uso: FONDO=fisuras_fucsia python3 animar.py gris_final [cuadros]"""
 import os, sys, subprocess
 from PIL import Image
 tema = sys.argv[1] if len(sys.argv) > 1 else "gris_final"; N = int(sys.argv[2]) if len(sys.argv) > 2 else 16
-FONDO = os.environ.get("FONDO", "fisuras_fucsia"); sr = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ""
+FONDO = os.environ.get("FONDO", "fisuras_fucsia"); sr = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ("_r" + os.environ["RETRATO"] if os.environ.get("RETRATO", "kairos") != "kairos" else "")
 cuadros = []
 for i in range(N):
     subprocess.run([sys.executable, "recolorear.py", tema], check=True, capture_output=True,
