@@ -146,7 +146,7 @@ def punta(cx, izq):
     for px_, py_ in luz:
         d.point((cx + (8 - px_ if izq else px_), py_), fill=c(88, 88, 96))
 punta(2 - _off, True); punta(229 + _off, False)
-t(40, 1, "Kairos"); t(41, 1, "Kairos")  # mas grueso (doble pasada) y corrido a la derecha
+t(40, 0, "Kairos"); t(41, 0, "Kairos")  # mas grueso (doble pasada) y corrido a la derecha
 for x0, x1, lab in [(140, 156, "LV"), (178, 198, "EXP")]:
     d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK)
     fl = ImageFont.load_default(size=9)                      # un punto mas chica
@@ -222,7 +222,7 @@ d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs,
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
-STY = 58  # bloque de stats centrado entre el borde inferior (160) y el fin de la franja negra (30)
+STY = 48  # bloque de stats centrado entre el fin de la franja negra (30) y el inicio de los botones (139)
 for x in range(35): smd.line([(x, STY), (x, STY + 74)], fill=int(170 - x * 3))  # translucido, se desvanece
 img.paste(Image.new("RGB", (W, H), c(30, 4, 10)), (0, 0), sm)
 stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),

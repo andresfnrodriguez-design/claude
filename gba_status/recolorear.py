@@ -23,7 +23,7 @@ def rampa(stops, t):
     return tuple(q5(stops[i][j] + (stops[i + 1][j] - stops[i][j]) * k) for j in range(3))
 mb = Image.open("mascara_banner.png").convert("L")
 FR_Q = (206, 66, 90)
-ALFA_BANNER = 0.6
+ALFA_BANNER = 0.4
 CONTORNO_BANNER = (240, 120, 40)
 for nombre in (sys.argv[1:] or TEMAS):
     stops = TEMAS[nombre]; out = full.copy()
