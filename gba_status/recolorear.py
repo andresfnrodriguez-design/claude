@@ -10,6 +10,7 @@ run(); run(SIN_RETRATO="1", SIN_ICONOS="1"); run(FONDO="negro")
 full = Image.open(f"estado_gba{sf}.png").convert("RGB"); ui = Image.open(f"estado_gba_sin_retrato_sin_iconos{sf}.png").convert("RGB")
 negro = Image.open("estado_gba_negro.png").convert("RGB")  # para saber que pixeles dependen del fondo
 W, H = full.size
+TEXTOS_FIJOS = {(247, 206, 214), (255, 231, 239)}  # etiquetas (HP, ATK, LV...) y texto del arma
 q5 = lambda v: (int(v) >> 3) << 3 | (int(v) >> 5)
 lum = lambda p: (p[0] * 299 + p[1] * 587 + p[2] * 114) / 1000
 uis = [ui.getpixel((x, y)) for y in range(H) for x in range(W)]
@@ -26,7 +27,7 @@ for nombre in (sys.argv[1:] or TEMAS):
                 p, u = full.getpixel((x, y)), ui.getpixel((x, y))
                 if p != u: continue                       # retrato o icono: no se toca
                 if FONDO != "luz" and p != negro.getpixel((x, y)): continue  # fondo o translucido: se deja
-                if min(p) > 200 and max(p) - min(p) < 40: continue  # blancos fijos
+                if (min(p) > 200 and max(p) - min(p) < 40) or p in TEXTOS_FIJOS: continue  # blancos y textos claros fijos
                 st = next((r for (x0, y0, x1, y1), r in ZONAS.get(nombre, []) if x0 <= x <= x1 and y0 <= y <= y1), stops)
                 out.putpixel((x, y), rampa(st, (lum(p) - lo) / (hi - lo)))
     out.save(f"tema_{nombre}{sf}.png"); out.resize((W * 4, H * 4), Image.NEAREST).save(f"tema_{nombre}{sf}_x4.png")
