@@ -87,5 +87,5 @@ ZONAS["gris_final"] = [((60, 26, 180, 48), [(12, 12, 16), (96, 8, 32), (150, 16,
 
 # color de las etiquetas (HP, ATK, LV, EXP...) y del texto del arma, por tema (si no, quedan las originales)
 COLOR_ETIQUETAS = {"gris_final": (184, 184, 192)}   # gris neutro
-NARANJA = [(12, 12, 16), (88, 30, 10), (168, 64, 24), (216, 88, 48), (216, 88, 48)]
+NARANJA = [(12, 12, 16), (120, 40, 8), (200, 80, 24), (240, 120, 40), (240, 120, 40)]
 ZONAS["gris_final"] = [((60, 26, 180, 48), NARANJA)]  # arma equipada en naranja brasa, sin contorno claro

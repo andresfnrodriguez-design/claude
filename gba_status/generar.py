@@ -17,30 +17,36 @@ f = ImageFont.load_default()
 
 import os, random
 FONDO = os.environ.get("FONDO", "luz")
+BAYER = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
 def fondo_fisuras(c_izq, c_der, c_centro):
-    """Degradado diagonal teal -> fucsia con una franja central blanca (zona clara del cristal)
-    + esquirlas que solo usan colores del propio degradado y se mueven con T."""
-    BLANCO = (226, 228, 234)
-    def base(x, y):
+    """Degradado diagonal con centro oscuro (tramado Bayer para que no se marquen franjas),
+    manchas/brillos blancos suaves, y esquirlas que solo usan colores del degradado (nunca blanco)."""
+    def raw(x, y):
         u = (x + y * 0.6) / (W + H * 0.6)
-        col = lerp(c_izq, c_der, u)
-        k = max(0, 1 - abs(u - 0.5) / 0.22)               # franja blanca en diagonal
-        col = lerp(col, BLANCO, min(1, k * 1.4) * 0.85)
-        return lerp(col, c_centro, max(0, 1 - abs(u - 0.5) / 0.6) * 0.25)
+        b_ = [c_izq[i] + (c_der[i] - c_izq[i]) * u for i in range(3)]
+        k = max(0, 1 - abs(u - 0.5) / 0.35) * 0.75
+        return [b_[i] + (c_centro[i] - b_[i]) * k for i in range(3)]
+    T = float(os.environ.get("T", "0"))
+    manchas = [(30, 30, 26), (205, 20, 20), (120, 150, 30), (225, 120, 18), (70, 100, 16), (160, 70, 14)]
     for y in range(H):
         for x in range(W):
-            img.putpixel((x, y), base(x, y))
-    T = float(os.environ.get("T", "0"))
+            col = raw(x, y)
+            for mx, my, mr in manchas:                         # brillos blancos difusos
+                dd_ = math.hypot(x - mx, (y - my) * 1.3) / mr
+                if dd_ < 1: col = [col[i] + (232 - col[i]) * (1 - dd_) ** 2 * 0.8 for i in range(3)]
+            t_ = (BAYER[y % 4][x % 4] / 16 - 0.5) * 8               # tramado de +-4 antes de cuantizar
+            img.putpixel((x, y), c(*(v + t_ for v in col)))
     rnd = random.Random(7); dd = ImageDraw.Draw(img)
     for n in range(46):
         x0, y0 = rnd.randrange(W), rnd.randrange(H); L = rnd.randint(6, 24)
         a0 = rnd.random() * math.tau; giro = rnd.uniform(-0.03, 0.03)
         vx, vy = rnd.uniform(-1.2, 1.2), rnd.uniform(-0.6, 0.6)
-        sx, sy = rnd.randrange(W), rnd.randrange(H)        # color tomado de otro punto del fondo
+        sx, sy = rnd.randrange(W), rnd.randrange(H); f = rnd.choice((1.25, 0.75))
         x0 = (x0 + vx * T) % (W + 40) - 20; y0 = (y0 + vy * T) % (H + 40) - 20
         a0 += giro * T
         pts = [(x0 + L * math.cos(a0 + t), y0 + L * math.sin(a0 + t) * 0.6) for t in (0, 2.4, 3.6)]
-        dd.polygon(pts, fill=base(sx, sy))
+        col = [min(190, v * f) for v in raw(sx, sy)]          # del degradado, nunca blanco
+        dd.polygon(pts, fill=c(*col))
 if FONDO == "luz":
     # fondo: luz tinta que sale de la esquina superior izquierda
     for y in range(H):
@@ -147,10 +153,13 @@ fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 
 mini(4, 18, "HP", LBL)  # fuente 3x5, la mas chica legible
 def tinta(x, y, txt, fnt):  # dibuja con la esquina de la tinta en (x, y)
     bx = d.textbbox((0, 0), txt, font=fnt); d.text((x - bx[0], y - bx[1]), txt, font=fnt, fill=TXT)
-tinta(19, 17, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14))
-tinta(48, 19, "19", ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 9))
+HP_ACT, HP_MAX = 13, 19
+tinta(19, 17, str(HP_ACT), ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14))
+tinta(48, 19, str(HP_MAX), ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 9))
 for i in range(4): d.line([(45 - i, 19 + 2 * i), (45 - i, 20 + 2 * i)], fill=TXT)  # "/" recta 1:2
-d.rectangle([65, 19, 87, 24], fill=TXT)  # barra 100% blanca
+d.rectangle([65, 19, 87, 24], fill=c(96, 96, 104))                     # vacio en gris
+lleno = round(23 * HP_ACT / HP_MAX)
+if lleno: d.rectangle([65, 19, 65 + lleno - 1, 24], fill=TXT)          # parte proporcional en blanco
 tr(213, 18, "Artifice")
 # PLACEHOLDERS de iconos (tienen su propia paleta; con SIN_ICONOS=1 no se dibujan):
 #  - 2 libritos junto a la clase = tipos de arma que puede usar la clase
