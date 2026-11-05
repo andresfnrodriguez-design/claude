@@ -207,15 +207,17 @@ d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs,
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
-for x in range(35): smd.line([(x, 62), (x, 136)], fill=int(170 - x * 3))  # translucido, se desvanece
+STY = 39  # bloque de stats centrado en vertical entre la barra superior y los botones
+for x in range(35): smd.line([(x, STY), (x, STY + 74)], fill=int(170 - x * 3))  # translucido, se desvanece
 img.paste(Image.new("RGB", (W, H), c(30, 4, 10)), (0, 0), sm)
 stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
          ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
 for i, (k, v) in enumerate(stats):
-    y = 62 + round(i * 10.5)
+    y = STY + round(i * 10.5)
     tinta_izq(4, y, k, LBL); tinta_der(41, y, v)  # alineado por tinta real
-d.polygon([(44, 109), (47, 106), (56, 106), (56, 112), (47, 112)], fill=TXT)
-mini(48, 107, "+3", DARK)
+dy = STY - 62
+d.polygon([(44, 109 + dy), (47, 106 + dy), (56, 106 + dy), (56, 112 + dy), (47, 112 + dy)], fill=TXT)
+mini(48, 107 + dy, "+3", DARK)
 
 # libro de comandos: interlineado fijo, inicio sigue la curva del arco con separacion fija
 DIST, PASO, Y0 = 11, 12, 48  # DIST: del centro del cuadrado a la linea blanca
