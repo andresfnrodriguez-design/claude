@@ -134,7 +134,15 @@ def hombro(x0, letra, izq):
     x1 = x0 + 12
     d.rounded_rectangle([x0, 1, x1, 11], 3, fill=c(232, 216, 216))
     b_ = _tinta(letra); t(x0 + (13 - (b_[2] - b_[0])) // 2 - (b_[0] - 10), 1, letra, c(48, 8, 20))
-hombro(1, "L", True); hombro(226, "R", False)
+# indicadores de cambio de ventana (L/R): solo puntas de flecha negras "<" y ">", animadas
+# (se desplazan 1 px hacia afuera en cuadros alternos; T = cuadro)
+_off = int(float(os.environ.get("T", "0")) / 6) % 2
+def punta(cx, izq):
+    for i in range(5):                       # i = distancia a la fila central (y = 6)
+        x_ = cx + i if izq else cx + 4 - i   # "<": punta a la izquierda; ">": punta a la derecha
+        for yy in {6 - i, 6 + i}:
+            d.point((x_, yy), fill=(0, 0, 0)); d.point((x_ + 1, yy), fill=(0, 0, 0))
+punta(3 - _off, True); punta(231 + _off, False)
 t(40, 1, "Kairos"); t(41, 1, "Kairos")  # mas grueso (doble pasada) y corrido a la derecha
 for x0, x1, lab in [(140, 156, "LV"), (178, 198, "EXP")]:
     d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
