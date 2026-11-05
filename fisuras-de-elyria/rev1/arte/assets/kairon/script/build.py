@@ -9,6 +9,19 @@ OUT=sys.argv[2] if len(sys.argv)>2 else 'out'
 for d in ['retratos','zoom','mapa','batalla','vistas']: os.makedirs(f'{OUT}/{d}',exist_ok=True)
 h1=load(f'{SRC}/h1.jpg'); h2=load(f'{SRC}/h2.jpg'); h3=load(f'{SRC}/h3.jpg'); h4=load(f'{SRC}/h4.jpg'); h5=load(f'{SRC}/h5.jpg')
 CYAN=[(72,224,240),(24,144,168)]
+# ---- paleta única del personaje ----
+# Primera pasada: junta los colores de todas las imágenes. Segunda: usa una sola paleta.
+import core as _core
+MASTER=f'{OUT}/kairon_paleta_maestra.npy'
+_orig_q=_core.quantize
+_pool=[]
+def quantize(C,M,n=15,fixed=None,pal=None):
+    if os.path.exists(MASTER):
+        P=[tuple(int(v) for v in c) for c in np.load(MASTER)]
+        return _orig_q(C,M,pal=P)
+    _pool.append(C[M][::7].astype(np.uint8))
+    return _orig_q(C,M,n=n,fixed=fixed,pal=pal)
+
 HAIR_C=[(64,60,60),(96,92,88),(136,132,124)]
 def crop(a,b,label=0,pad=3):
     x0,y0,x1,y1=b; return a[y0+label:y1-pad, x0+pad:x1-pad]
@@ -309,3 +322,25 @@ gif([frame_with(bf[i*16:(i+1)*16],mx,my) for i in (5,4,3,4)],'kairon_hablando',1
 gif([frame_with(bf[i*16:(i+1)*16],mx,my) for i in (2,1,0,1)],'kairon_hablando_sonriendo',140)
 gif([frame_with(bf[80:96],mx,my)]*12+[frame_with(of[0:16],ex,ey),frame_with(of[16:32],ex,ey),frame_with(of[0:16],ex,ey)],'kairon_pestaneando',90)
 print('ok vistas')
+
+# ---------- PALETA MAESTRA ----------
+if not os.path.exists(MASTER):
+    allpx=np.concatenate(_pool).reshape(1,-1,3)
+    fixed=[(0,0,0),(248,248,248),(40,40,40)]+CYAN+[(96,92,88)]
+    from sklearn.cluster import KMeans
+    X=allpx.reshape(-1,3).astype(float)
+    F=np.array(fixed,float); d=np.sqrt(((X[:,None]-F[None])**2).sum(-1)).min(1)
+    X=X[d>28]                                   # lo que ya cubren los fijos no cuenta
+    if len(X)>60000: X=X[np.random.RandomState(0).choice(len(X),60000,replace=False)]
+    k=15-len(fixed)
+    km=KMeans(k,n_init=4,random_state=0).fit(X)
+    cent=[tuple(int(v) for v in c) for c in km.cluster_centers_]
+    cent.sort(key=lambda c:sum(c))
+    P=[BG]+fixed+cent
+    P=gba_round(P); np.save(MASTER,np.array(P))
+    print('paleta maestra creada, vuelve a correr el script')
+if os.path.exists(MASTER):
+    MP=[tuple(int(v) for v in c) for c in np.load(MASTER)]
+    for p in ['retratos/kairon_retrato.agbpal','batalla/kairon_batalla.agbpal']: agbpal(MP,f'{OUT}/{p}')
+    agbpal(MP,f'{OUT}/kairon_paleta.agbpal')
+    sw=Image.new('RGB',(16*24,24)); [sw.paste(c,(i*24,0,i*24+24,24)) for i,c in enumerate(MP)]; sw.save(f'{OUT}/vistas/kairon_paleta.png')

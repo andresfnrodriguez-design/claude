@@ -30,6 +30,8 @@ Gemini dibuja el guantelete en la mano derecha y la batalla mirando a la derecha
 | `fuente/` | | Hojas originales de Gemini |
 | `script/` | | `build.py`, `core.py` y `reg.py` para regenerar todo |
 
+**Paleta única.** Retratos, espejo, mini, bocas, ojos, estado, zoom, HERIDO y batalla usan la misma paleta de 16 colores (`kairon_paleta.agbpal`, muestra en `vistas/kairon_paleta.png`). El script la arma en una primera pasada con los colores de todas las imágenes, así que hay que correrlo dos veces. Los sprites de mapa usan la paleta de aliados.
+
 **Un solo verde.** El índice 0 es siempre `#A9CBA6` exacto en retratos, zoom y batalla. Los sprites de mapa usan `#80a080`, que es el transparente de la paleta de aliados.
 
 **Sprites de mapa.** Cada píxel de la fuente se clasifica por material en su posición de la paleta de aliados (abrigo en la rampa pastel 1 a 3, granate en el color del bando 7 a 10, piel y bronce en 4 a 6, gema en 10). Se reduce por voto mayoritario, se limpian píxeles sueltos, se agregan ojos de 2 px, contorno grueso por fuera y sombra bajo los pies. Infantería de 16x16 con los pies en la fila 14.
