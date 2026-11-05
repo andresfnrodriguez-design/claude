@@ -7,8 +7,9 @@ env = dict(os.environ); FONDO = env.get("FONDO", "luz")
 sf = "" if FONDO == "luz" else "_" + FONDO
 run = lambda **e: subprocess.run([sys.executable, "generar.py"], check=True, env={**env, **e}, capture_output=True)
 run(); run(SIN_RETRATO="1", SIN_ICONOS="1"); run(FONDO="negro")
-full = Image.open(f"estado_gba{sf}.png").convert("RGB"); ui = Image.open(f"estado_gba_sin_retrato_sin_iconos{sf}.png").convert("RGB")
-negro = Image.open("estado_gba_negro.png").convert("RGB")  # para saber que pixeles dependen del fondo
+sr = "_sin_retrato" if env.get("SIN_RETRATO") else ""
+full = Image.open(f"estado_gba{sr}{sf}.png").convert("RGB"); ui = Image.open(f"estado_gba_sin_retrato_sin_iconos{sf}.png").convert("RGB")
+negro = Image.open(f"estado_gba{sr}_negro.png").convert("RGB")  # para saber que pixeles dependen del fondo
 W, H = full.size
 TEXTOS_FIJOS = {(247, 206, 214), (255, 231, 239)}  # etiquetas (HP, ATK, LV...) y texto del arma
 q5 = lambda v: (int(v) >> 3) << 3 | (int(v) >> 5)
@@ -33,5 +34,5 @@ for nombre in (sys.argv[1:] or TEMAS):
                 if min(p) > 200 and max(p) - min(p) < 40: continue  # blancos fijos
                 st = next((r for (x0, y0, x1, y1), r in ZONAS.get(nombre, []) if x0 <= x <= x1 and y0 <= y <= y1), stops)
                 out.putpixel((x, y), rampa(st, (lum(p) - lo) / (hi - lo)))
-    out.save(f"tema_{nombre}{sf}.png"); out.resize((W * 4, H * 4), Image.NEAREST).save(f"tema_{nombre}{sf}_x4.png")
+    out.save(f"tema_{nombre}{sr}{sf}.png"); out.resize((W * 4, H * 4), Image.NEAREST).save(f"tema_{nombre}{sr}{sf}_x4.png")
     print(nombre, len(out.getcolors(4096)), "colores")
