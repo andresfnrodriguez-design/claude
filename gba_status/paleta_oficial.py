@@ -50,6 +50,7 @@ TEMAS = {
     "gris_rosa": [(12, 12, 16), (44, 44, 52), (96, 96, 108), (240, 112, 176), (248, 216, 232)],
     "gris_morado": [(12, 12, 16), (44, 44, 52), (96, 96, 108), (168, 96, 216), (232, 208, 248)],
     "gris_lima": [(12, 12, 16), (44, 44, 52), (96, 96, 108), (184, 232, 56), (236, 248, 200)],
+    "gris_mix": [(12, 12, 16), (44, 44, 52), (96, 96, 108), (160, 160, 172), (232, 232, 236)],
     "hierro": [C["obsidiana"], C["egeo profundo"], C["bronce oscuro"], C["verdin"], C["marmol"]],
 }
 if __name__ == "__main__":
@@ -59,3 +60,16 @@ if __name__ == "__main__":
         d.rectangle([i * 24 + 1, 1, i * 24 + 22, 22], fill=rgb)
         r, g, b = rgb; print(f"{i:2} 0x{(b>>3)<<10|(g>>3)<<5|(r>>3):04X}  {n:17} {s}")
     sw.resize((sw.width * 2, sw.height * 2), Image.NEAREST).save("paleta_oficial.png")
+
+# Toques de acento por zona (x0, y0, x1, y1): dentro de cada caja se usa otra rampa.
+FUCSIA = [(12, 12, 16), (60, 8, 32), (150, 16, 64), (232, 24, 96), (252, 200, 220)]
+MORADO = [(12, 12, 16), (44, 24, 64), (100, 56, 150), (168, 96, 216), (232, 208, 248)]
+LIMA   = [(12, 12, 16), (40, 56, 16), (110, 150, 32), (184, 232, 56), (236, 248, 200)]
+ZONAS = {
+    "gris_mix": [
+        ((0, 0, 239, 13), FUCSIA),      # barra del nombre
+        ((60, 26, 180, 48), FUCSIA),    # arma equipada
+        ((3, 138, 27, 159), LIMA),      # boton seleccionado
+        ((192, 138, 238, 159), MORADO), # turno
+    ],
+}

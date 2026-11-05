@@ -2,7 +2,7 @@
 Uso: python3 recolorear.py [tema ...]   (sin argumentos: todos)"""
 import sys, subprocess, os
 from PIL import Image
-from paleta_oficial import TEMAS
+from paleta_oficial import TEMAS, ZONAS
 env = dict(os.environ); FONDO = env.get("FONDO", "luz")
 sf = "" if FONDO == "luz" else "_" + FONDO
 run = lambda **e: subprocess.run([sys.executable, "generar.py"], check=True, env={**env, **e}, capture_output=True)
@@ -27,6 +27,7 @@ for nombre in (sys.argv[1:] or TEMAS):
                 if p != u: continue                       # retrato o icono: no se toca
                 if FONDO != "luz" and p != negro.getpixel((x, y)): continue  # fondo o translucido: se deja
                 if min(p) > 200 and max(p) - min(p) < 40: continue  # blancos fijos
-                out.putpixel((x, y), rampa(stops, (lum(p) - lo) / (hi - lo)))
+                st = next((r for (x0, y0, x1, y1), r in ZONAS.get(nombre, []) if x0 <= x <= x1 and y0 <= y <= y1), stops)
+                out.putpixel((x, y), rampa(st, (lum(p) - lo) / (hi - lo)))
     out.save(f"tema_{nombre}{sf}.png"); out.resize((W * 4, H * 4), Image.NEAREST).save(f"tema_{nombre}{sf}_x4.png")
     print(nombre, len(out.getcolors(4096)), "colores")
