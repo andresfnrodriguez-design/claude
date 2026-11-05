@@ -46,5 +46,10 @@ for nombre in (sys.argv[1:] or TEMAS):
                 if st is not stops and en_banner:   # relleno del recuadro translucido sobre lo de atras
                     b_ = debajo.getpixel((x, y)); col = tuple(q5(b_[j] + (col[j] - b_[j]) * ALFA_BANNER) for j in range(3))
                 out.putpixel((x, y), col)
+    if ZONAS.get(nombre):   # linea oscura por fuera del contorno naranja: separa el recuadro de cualquier retrato
+        for y in range(1, H - 1):
+            for x in range(1, W - 1):
+                if not mb.getpixel((x, y)) and any(mb.getpixel((x + i, y + j)) for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                    out.putpixel((x, y), (16, 8, 8))
     out.save(f"tema_{nombre}{sr}{sf}.png"); out.resize((W * 4, H * 4), Image.NEAREST).save(f"tema_{nombre}{sr}{sf}_x4.png")
     print(nombre, len(out.getcolors(4096)), "colores")
