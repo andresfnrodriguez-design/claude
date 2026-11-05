@@ -3,11 +3,11 @@
   "arte_x": 2,
   "boca": {
     "x": 32,
-    "y": 32,
+    "y": 24,
     "w": 32,
     "h": 16,
     "tile_x": 4,
-    "tile_y": 4,
+    "tile_y": 3,
     "orden_frames": [
       "sonrisa abierta",
       "sonrisa media",
@@ -19,11 +19,11 @@
   },
   "ojos": {
     "x": 32,
-    "y": 16,
+    "y": 8,
     "w": 32,
     "h": 16,
     "tile_x": 4,
-    "tile_y": 2,
+    "tile_y": 1,
     "orden_frames": [
       "entrecerrados",
       "cerrados"

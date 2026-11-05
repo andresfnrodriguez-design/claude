@@ -78,7 +78,7 @@ def quantize(C,M,n=15,fixed=None,pal=None):
     im.putpalette(flat+[0]*(768-len(flat)))
     return im, pal
 
-def gba_round(pal): return [tuple((v>>3)<<3 for v in c) for c in pal]
+def gba_round(pal): return [tuple(BG)]+[tuple((v>>3)<<3 for v in c) for c in pal[1:]]
 
 def agbpal(pal, path):
     with open(path,'wb') as f:

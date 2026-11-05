@@ -13,13 +13,13 @@ Gemini dibuja el guantelete en la mano derecha y la batalla mirando a la derecha
 | Archivo | Tamaño | Uso |
 |---|---|---|
 | `retratos/kairon_escena_104x112.png` | 104x112 (arte de 100x112 en x=2) | Retrato de escena |
-| `retratos/kairon_espejo_104x112.png` | 104x112 | Espejo real, mismo retrato mirando a la derecha con el guantelete en la misma mano |
-| `retratos/kairon_bocas_32x96.png` | 6 cuadros de 32x16 | Bocas, recortadas del retrato con su mismo ángulo |
-| `retratos/kairon_ojos_32x32.png` | 2 cuadros de 32x16 | Ojos entrecerrados y cerrados |
+| `retratos/kairon_espejo_104x112.png` | 104x112 | Espejo real, mirando a la derecha con el guantelete en la misma mano. Sale de `fuente/espejo_real.png`, generado aparte |
+| `retratos/kairon_bocas_32x96.png` | 6 cuadros de 32x16 | Bocas dibujadas sobre el retrato base, en su línea de boca |
+| `retratos/kairon_ojos_32x32.png` | 2 cuadros de 32x16 | Ojos entrecerrados y cerrados, dibujados sobre el retrato base |
 | `retratos/kairon_coordenadas.json` | | Posición de la boca y los ojos dentro de la hoja de 104x112 |
-| `retratos/kairon_mini_32x32.png` | 32x32 | Mini retrato |
+| `retratos/kairon_mini_32x32.png` | 32x32 | Mini retrato, la cabeza del retrato de escena reducida |
 | `retratos/kairon_retrato.agbpal` | 16 colores | Paleta compartida por escena, espejo, bocas, ojos y mini |
-| `retratos/kairon_estado_80x144.png` | 80x144 | Retrato de la pantalla de estado, con su propia paleta |
+| `retratos/kairon_estado_80x144.png` | 80x144 | Retrato de la pantalla de estado, sale del FRENTE de la hoja 1 con cabeza de 28 px |
 | `zoom/kairon_zoom_240x160.png` | 240x160 | Fondo del menú de estado |
 | `zoom/kairon_herido_240x160.png` | 240x160 | El mismo fondo con menos de 25 % de vida |
 | `mapa/kairon_mapa_quieto_16x48.png` | 3 cuadros de 16x16 | Sprite de mapa quieto |
@@ -30,11 +30,17 @@ Gemini dibuja el guantelete en la mano derecha y la batalla mirando a la derecha
 | `fuente/` | | Hojas originales de Gemini |
 | `script/` | | `build.py`, `core.py` y `reg.py` para regenerar todo |
 
+**Un solo verde.** El índice 0 es siempre `#A9CBA6` exacto en retratos, zoom y batalla. Los sprites de mapa usan `#80a080`, que es el transparente de la paleta de aliados.
+
+**Sprites de mapa.** Cada píxel de la fuente se clasifica por material en su posición de la paleta de aliados (abrigo en la rampa pastel 1 a 3, granate en el color del bando 7 a 10, piel y bronce en 4 a 6, gema en 10). Se reduce por voto mayoritario, se limpian píxeles sueltos, se agregan ojos de 2 px, contorno grueso por fuera y sombra bajo los pies. Infantería de 16x16 con los pies en la fila 14.
+
+**Vistas animadas.** `vistas/kairon_hablando.gif`, `kairon_hablando_sonriendo.gif` y `kairon_pestaneando.gif` muestran las bocas y los ojos puestos sobre el retrato.
+
 **Bocas.** El orden de los cuadros es el de FE8 (sonrisa abierta, media y cerrada, normal abierta, media y cerrada). La normal cerrada es igual al retrato base.
 
 ## Regenerar
 
-Copia las hojas como `h2.jpg`, `h3.jpg`, `h4.jpg` y `h5.jpg` en una carpeta y corre esto.
+Copia las hojas como `h1.jpg` a `h5.jpg` y el espejo real como `espejo.png` en una carpeta y corre esto.
 
 ```bash
 python3 script/build.py carpeta_con_las_hojas carpeta_de_salida
@@ -44,7 +50,7 @@ Necesita `numpy`, `pillow`, `scipy` y `opencv-python`.
 
 ## Limitaciones conocidas
 
-- Los ojos de la hoja 5 salieron como recortes chicos. Se alinearon por el pelo y sirven para probar, pero conviene retocarlos a mano.
-- A este tamaño la boca mide unos 3 px, así que las 6 bocas se diferencian poco.
+- Las bocas y los ojos de la hoja 5 no servían a esta escala, así que se dibujan por script sobre el retrato base. Conviene retocarlos a mano.
+- Los sprites de mapa de Gemini son angostos (unos 9 px de ancho), así que el resultado queda flaco. El asset final conviene hacerlo en PixelLab o a mano.
 - El HERIDO no tiene el mismo encuadre que el zoom.
 - Los sprites de batalla son una reducción del concepto. Sirven para probar la posición y la escala, no como arte final.
