@@ -1,0 +1,50 @@
+; ============================================================
+; Kairon - Golpe crítico (Mode 3)
+; Basado en el diseño de animación ya acordado: flourish/carga,
+; salto hacia la izquierda, smear, impacto (puñetazo del guante),
+; liberación de vapor.
+; Nombrá tus archivos exactamente como abajo, o cambiá los nombres
+; acá para que coincidan con los tuyos - el orden es lo que importa.
+; ============================================================
+
+/// - Mode 3 #Melee Critical Animation
+C03 #Start attack animation; need 07 right after this.
+C07 #Start attack animation; need 03 right before this.
+
+1 p- kairon_standing.png
+
+; --- FLOURISH / CARGA ---
+; Windup exagerado: se planta, prepara el guante hacia atrás.
+; Frame time más largo acá porque es la pausa antes de la explosión de movimiento.
+5 p- kairon_crit_001_flourish.png
+5 p- kairon_crit_002_flourish.png
+C1B #Play quick "heavy step" SFE - pie plantándose con fuerza
+
+; --- SALTO / AIRBORNE (hacia la izquierda) ---
+; Movimiento rápido, frames cortos.
+3 p- kairon_crit_003_airborne.png
+C2B #Play armored unit "leaping" SFE - lo más cercano disponible a un salto; Kairon no es armored pero es el sonido de salto que hay
+3 p- kairon_crit_004_airborne.png
+
+; --- SMEAR ---
+; Un solo frame, forma estirada/simplificada, sin contorno ni detalle.
+2 p- kairon_crit_005_smear.png
+
+; --- IMPACTO ---
+C04 #Prepare HP depletion routine; needed to animate return to standing frame after hit
+C09 #Critical hit
+C14 #Heavy vibration of screen - vende el peso del golpe ya que no hay un SFE específico de "puñetazo mecánico" en la lista de referencia
+2 p- kairon_crit_006_impact.png
+
+; --- LIBERACIÓN DE VAPOR ---
+3 p- kairon_crit_007_release.png
+3 p- kairon_crit_008_release.png
+
+C01 #NOP
+
+; --- REGRESO A POSICIÓN NORMAL ---
+3 p- kairon_crit_009_recovery.png
+
+C06 #Begin opponent's turn after hit. next code 0D.
+C0D #End of dodge animation. preceeded by 0x06
+~~~

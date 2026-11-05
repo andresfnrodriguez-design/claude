@@ -1,0 +1,327 @@
+Overview
+A script is a plain text (.txt) file.
+
+It consists of 12 parts or "modes", but two of them are handled automatically. So, you need to script 10 separate things. They are:
+
+1: Melee animation
+(You don't need to worry about 2)
+3: Melee critical animation
+(Don't worry about 4 either)
+5: Ranged animation
+6: Ranged critical
+7: Dodge melee attack
+8: Dodge ranged attack
+9: Equipped with melee weapon
+10: Standing motions
+11: Equipped with ranged weapon
+12: Attack missed animation
+
+In practice, 7 and 8 are identical, 9/10/11 are just a single standing frame, and 12 is the same as 1 with minor differences.
+
+How the script works
+If you export an animation, you'll find that it comes with a text file. Opening it shows a lot of lines that look like this:
+
+1 p- lorf_sw1_000.png
+It may look overwhelming, but don't panic - it's actually pretty simple. Let's break it down:
+
+1
+This number determines for how long the frame is visible in frames, or 60ths of a second. The higher it is, the longer the image displays.
+
+p-
+This is always present so don't worry about it.
+
+lorf_sw1_000.png
+This is the image being shown. You can use any name you like and i recommend making use of that ability. If you name the frames attack001, attack002, and so on, it's easier to know you're getting the right frames in the right order.
+
+So, in full, this line means to display the image named lorf_sw1_000.png for one 60th of a second before showing the next step of the animation.
+
+⚠ Frames showing movement typically display for around 2 to 7 frames. A pause, such as between raising a weapon and striking, might last for 10-30 frames. Larger, bulkier units tend to move slower, and show each frame for slightly longer than smaller, nimbler ones. Very few things outside the standing frames at the start - which also display at all times the character is not animating - are displayed for just one frame.
+
+Next, there are lines that looks like this
+
+C03 #Start attack animation; should be followed by 0x07
+Anything beginning with a C is an instruction for the game to do something. Some of these are required to tell it when and where an animation starts or ends. Some of these are for playing various effects. The # indicates a comment; in this case it lets you know this is one of the required commands.
+
+Finally, there are lines that denote the beginning of each mode
+
+/// - Mode 1 #Melee Animation
+and
+
+~~~
+lines that denote the end of that section.
+
+Here is a "cleaned" script with only the necessary commands in it. You can use it as a basis for your script - copy the contents into a new text document and save it in the same folder where you keep your animation images, then edit it according to the instructions below.
+
+You may also want to take a look at a complete script for reference - this is Eirika's. I have also made a version that shows the images instead of the file names to help visualise the process.
+
+Melee attack and crit
+The basic form of a melee attack with only the required code looks like this:
+
+/// - Mode 1 #Melee Animation
+C03 #Start attack animation; need 07 right after this.
+C07 #Start attack animation; need 03 right before this.
+
+Here the animation starts. Begin with the standing frame, then insert everything up to the hit connecting.
+
+C04 #Prepare HP depletion routine; needed to animate return to standing frame after hit
+C1A #Normal hit
+C1F #Play hit SFE (sounds like Eliwood with sword's hit)
+
+This happens after the hit, up until the animation stops to await the enemy's HP depleting.
+
+C01 #NOP
+
+This happens after the HP stops depleting. It includes the character returning to the standing position.
+
+C06 #Begin opponent's turn after hit.next code 0D.
+C0D #End of dodge animation. preceeded by 0x06
+~~~
+
+Using this as a template, you can insert the image display lines like this:
+
+/// - Mode 1 #Melee Animation
+C03 #Start attack animation; need 07 right after this.
+C07 #Start attack animation; need 03 right before this.
+
+1 p- standing.png
+3 p- attack01.png
+3 p- attack02.png
+3 p- attack03.png
+
+C04 #Prepare HP depletion routine; needed to animate return to standing frame after hit
+C1A #Normal hit
+C1F #Play hit SFE (sounds like Eliwood with sword's hit)
+
+3 p- attack04.png
+3 p- attack05.png
+3 p- attack06.png
+
+C01 #NOP
+
+3 p- attack07.png
+3 p- attack08.png
+3 p- attack09.png
+
+C06 #Begin opponent's turn after hit.next code 0D.
+C0D #End of dodge animation. preceeded by 0x06
+~~~
+
+If you have named your images properly, you should have no trouble putting them in the correct order, simply going from the first to last.
+
+The critical hit works exactly the same way as the normal attack but with the command
+
+C1A #Normal hit
+replaced with
+
+C09 #Critical hit
+and of course, you need to insert your critical animation instead of the normal attack.
+Magic and ranged attacks
+⚠ If you are making an axe user, read the note on hand axes. If you are making a mage, also see the note on capes.
+
+Both magic and ranged physical animations function very much the same way as the melee versions, but these commands
+
+C1A #Normal hit OR C09 #Critical hit
+C1F #Play hit SFE (sounds like Eliwood with sword's hit)
+are replaced with
+
+C05 #Call spell associated with equipped weapon
+This is true for physical attacks as well; "spell" just means it uses a magic animation to produce the thrown spear or whatever.
+
+For these animations, the same command is used for both normal and critical hits.
+
+A template:
+
+/// - Mode 5 #Ranged Animation
+C03 #Start attack animation; need 07 right after this.
+C07 #Start attack animation; need 03 right before this.
+
+1 p- standing frame
+frames up to the attack going off
+
+C05 #Call spell associated with equipped weapon
+
+Everything between the attack going off and waiting for hp to deplete
+
+C01 #NOP
+C06 #Begin opponent's turn after hit.next code 0D.
+
+Return to standing animation after hp depletes
+
+C0D #End of dodge animation. preceeded by 0x06
+~~~
+
+Staves
+Staff scripts are the most simple of all. The same code goes in modes 1, 3, 5, 6, and 12:
+
+/// - Mode 1 #Melee Animation
+C03 #Start attack animation; need 07 right after this.
+C07 #Start attack animation; need 03 right before this.
+
+1 p- standing frame
+transition frame(s) for raising the staff
+
+C05 #Call spell associated with equipped weapon
+
+1 p- staff fully raised
+
+C01 #NOP
+
+frames for lowering staff (often the same ones as raising it but in reverse)
+
+C0D #End of dodge animation. preceeded by 0x06
+~~~
+
+Dodges
+The dodge animation is very simple and typically consists of your standing animation, one frame where your character has dodged, and a frame between those two.
+
+/// - Mode 7 #Dodge Melee Attack
+C02 #Start of dodge
+
+1 p- Standing frame
+
+C0E #Start of dodging frames (should go after standing frame and before dodging animation)
+
+3 p- transition frame
+1 p- dodged frame
+
+C01 #NOP
+
+3 p- transition frame
+
+C0D #End of dodge animation. preceeded by 0x06
+~~~
+
+Use the same code for modes 7 and 8.
+
+Standing frames
+Standing frames are just that: your standing frame.
+/// - Mode 9 #Equiped with Melee Weapon
+
+1 p- Standing frame
+
+C01 #NOP
+~~~
+
+That's it. Mode 9, 10, and 11 are all the same.
+
+⚠ It is possible to have a brief animation play at the start of combat by adding more frames here, but this is very much not expected and will stick out next to vanilla animations. Unless you know what you're doing, it's best to leave this simply as a standing frame.
+
+Miss animation
+The miss animation is generally identical to your attack animation but without the hit effects and no piercing frames.
+
+To insert it, simply copy your Mode 1 and paste it into Mode 12, remove these lines
+
+C1A #Normal hit
+C1F #Play hit SFE (sounds like Eliwood with sword's hit)
+
+and change any piercing frames to the non-piercing variant. (If you took my advice, you can simply remove the P from the end of the file names in the script.)
+
+For magic/bows, no changes are necessary; just copy and paste Mode 1 into Mode 12 and you're done.
+
+Unarmed dodge
+The unarmed dodge animation is much the same as the armed version. The unarmed dodge script is only for the dodge; since they are unarmed, the character cannot attack. You can simply copy and paste the dodge script into modes 1-6 and 12 and ignore them.
+
+The standing frames (modes 9-11) should also show the character unarmed.
+
+Note on hand axes
+Axes work a little differently from swords and lances; for mechanical reasons, the melee version and thrown version need two separate scripts.
+
+In practice, you follow the same instructions, but for the melee version you can just leave mode 5 and mode 6 empty with:
+
+/// - Mode 5 #Ranged Animation
+1 p- standing frame
+~~~
+
+Then once your script is complete, make a copy of it and put in the thrown axe normal attack in mode 1 and 5 and the critical hit in modes 3 and 6. Script it the same way you did the melee attack but these commands
+
+C1A #Normal hit
+C1F #Play hit SFE (sounds like Eliwood with sword's hit)
+should be replaced with
+
+C05 #Call spell associated with equipped weapon
+Note on capes
+You may have noticed mages' capes keep flapping dramatically throughout their animations.
+
+
+
+This is not required, but adds flair.
+
+To make it happen, we use the L command. This allows you to set frames to automatically loop until the animation finishes.
+
+
+
+For example, the mage here loops these four frames.
+
+/// - Mode 5 #Ranged Animation
+C03 #Start attack animation; need 07 right after this.
+C07 #Start attack animation; need 03 right before this.
+
+1 p- standing frame
+frames up to the attack going off
+
+C05 #Call spell associated with equipped weapon
+
+Everything between the attack going off and waiting for hp to deplete
+
+L
+frames you want to loop while spell is being cast
+
+C01 #NOP
+C06 #Begin opponent's turn after hit.next code 0D.
+
+Return to standing animation after hp depletes
+
+C0D #End of dodge animation. preceeded by 0x06
+
+For our mage here, instead of just the C01 command, it might look like
+
+L
+2 p- loop1.png
+2 p- loop2.png
+2 p- loop3.png
+2 p- loop4.png
+C01
+Adding effects
+The script we've created is bare bones and only has a hit noise. Most animations will need more than that to be complete. So, here is how to add any additional effects.
+
+You may want to save this until you've confirmed that your animation works and the timing looks good. If so, see the section below first.
+
+As noted above, lines beginning with C are instructions for the game to do something. Some of these are necessary, but some are just effects.
+
+Here is a list of all the C commands in FE8.
+
+These can be inserted at any part in the script to add additional effects to it. Simply make a new line and type or paste the command in there.
+
+Some of the ones you may find useful are:
+
+C14 #Heavy vibration of screen
+C15 #Slight vibration of screen
+One of these can be used when a heavy unit walks, or a unit lands from a jump, or anything else that might warrant some oomph.
+
+C22 #Play short sword swinging SFE
+C23 #Play shorter sword swinging SFE
+C24 #Play sword slashing air SFE
+C25 #Play wing flap SFE
+C35 #Play longer wing flapping SFE
+Assorted "woosh" noises which can be used when, for example, a weapon is swung.
+
+C19 #Play bow pulling SFE
+C1B #Play quick "heavy step" SFE
+C1C #Play light horse stepping SFE; pitch decreases
+C1D #Play light horse stepping SFE; pitch increases
+C28 #Play electrical charging SFE
+C2B #Play armored unit "leaping" SFE
+C34 #Play heavy stepping SFE
+C36 #Play sword unsheathing SFE
+C37 #Play sword clicking SFE
+C38 #Play heavy spear spinning SFE
+And some assorted sounds that may be useful for various things.
+
+You can also insert any sound in the game by using
+
+S####
+which allows you to play anything in the song table (click the "song table" button in febuilder) which despite the name also contains sound effects. Simply replace #### with the number of the sound you want. However, the list is long, so it's harder to find what you're looking for.
+
+There are no particular rules for using sounds and effects, just slap them in where you think they'll work. It may also be useful to look at the scripts for existing animations and see how they do things.
+
+Make sure you test the animation after making changes to make sure it looks and sounds how you want it to.

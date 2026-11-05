@@ -1,0 +1,121 @@
+/// - Mode 1               #Melee Animation
+C03                               #Start attack animation; need 07 right after this.
+C07                               #Start attack animation; need 03 right before this.
+
+1 p- frame_01_248x160.png
+2 p- frame_02_248x160.png
+2 p- frame_03_248x160.png
+2 p- frame_04_248x160.png
+2 p- frame_05_248x160.png
+2 p- frame_06_248x160.png
+2 p- frame_07_248x160.png
+2 p- frame_08_248x160.png
+3 p- frame_09_248x160.png
+3 p- frame_10_248x160.png
+3 p- frame_11_248x160.png
+2 p- frame_12_248x160.png
+
+C04                               #Prepare HP depletion routine; needed to animate return to standing frame after hit
+C1A                               #Normal hit
+C1F                               #Play hit SFE (sounds like Eliwood with sword's hit)
+
+2 p- frame_13_248x160.png
+2 p- frame_14_248x160.png
+2 p- frame_15_248x160.png
+2 p- frame_16_248x160.png
+
+C01                               #NOP
+
+2 p- frame_17_248x160.png
+
+C06                               #Begin opponent's turn after hit.next code 0D.
+
+C0D                               #End of dodge animation. preceeded by 0x06
+~~~
+/// - Mode 3               #Melee Critical Animation
+C03                               #Start attack animation; need 07 right after this.
+C07                               #Start attack animation; need 03 right before this.
+
+C04                               #Prepare HP depletion routine; needed to animate return to standing frame after hit
+
+C0A                               #Critical hit
+C1F                               #Play hit SFE (sounds like Eliwood with sword's hit)
+
+C01                               #NOP
+
+C06                               #Begin opponent's turn after hit.next code 0D.
+
+C0D                               #End of dodge animation. preceeded by 0x06
+~~~
+/// - Mode 5               #Ranged Animation 
+C03                               #Start attack animation; need 07 right after this.
+C07                               #Start attack animation; need 03 right before this.
+
+C05                               #Call spell associated with equipped weapon
+
+C01                               #NOP
+C06                               #Begin opponent's turn after hit.next code 0D.
+
+C0D                               #End of dodge animation. preceeded by 0x06
+~~~
+/// - Mode 6               #Ranged Critical Animation
+C03                               #Start attack animation; need 07 right after this.
+C07                               #Start attack animation; need 03 right before this.
+
+C05                               #Call spell associated with equipped weapon
+
+C01                               #NOP
+C06                               #Begin opponent's turn after hit.next code 0D.
+
+C0D                               #End of dodge animation. preceeded by 0x06
+~~~
+/// - Mode 7               #Dodge Melee Attack
+C02                               #Start of dodge
+
+C0E                               #Start of dodging frames (should go after standing frame and before dodging animation)
+
+C01                               #NOP
+
+C0D                               #End of dodge animation. preceeded by 0x06
+~~~
+/// - Mode 8               #Dodge Ranged Attack
+C02                               #Start of dodge
+
+C0E                               #Start of dodging frames (should go after standing frame and before dodging animation)
+
+C01                               #NOP
+
+C0D                               #End of dodge animation. preceeded by 0x06
+~~~
+/// - Mode 9               #Equiped with Melee Weapon
+
+1 p- frame_01_248x160.png
+
+C01                               #NOP
+~~~
+/// - Mode 10               #Standing motions
+
+1 p- frame_01_248x160.png
+
+C01                               #NOP
+~~~
+/// - Mode 11               #Equiped with Ranged weapon
+
+1 p- frame_01_248x160.png
+
+C01                               #NOP
+~~~
+/// - Mode 12               #Attack Missed Animation
+C03                               #Start attack animation; need 07 right after this.
+C07                               #Start attack animation; need 03 right before this.
+
+C04                               #Prepare HP depletion routine; needed to animate return to standing frame after hit
+
+C01                               #NOP
+
+C06                               #Begin opponent's turn after hit.next code 0D.
+
+
+C0D                               #End of dodge animation. preceeded by 0x06
+~~~
+/// - End of animation

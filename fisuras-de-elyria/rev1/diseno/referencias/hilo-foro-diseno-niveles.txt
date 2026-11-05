@@ -1,0 +1,810 @@
+I'm a high school student who's taking a game development course, and for one of my projects I'm required to design a game and/or concept for a game and have discussions with outside contacts (generally those in the game design industry) on what would make the game better. I'm working as level designer for a Fire Emblem-esque game, and I would like to know what kind of levels are generally the most popular. I know about some specific chapters that are considered to be among the best, like Conquest Chapter 10, but I also want to know the standout qualities of a good level. Personally, I find levels with multiple approaches really cool. For example, one idea I have is a level with high and low paths, with player units starting on the lower one and a "Defeat Commander" objective. The boss is on the bottom path, and enemies manning ballistas/fire orbs/launchers are on the top path. The player can either charge the boss and face the attacks from the long-range weapons, or take time to go high to deal with or even use the ranged weapons on the enemies down below, making the level easier.
+
+Edit: Weird as it may sound considering my example, I have not actually played Conquest; I just know what chapter 10 is like and why it's well liked (or hated by some). I've only played FE7, Awakening, BR, Rev, and 11 chapters of Engage.
+
+
+Upvote
+15
+
+Downvote
+
+33
+Go to comments
+
+Repost
+
+Share
+Join the conversation
+
+Sort by:
+
+Best
+
+Search Comments
+Expand comment search
+Comments Section
+DonnyLamsonx
+•
+1y ago
+What "good" level design means will vary from player to player, but I will explain my opinions using Conquest 10 as a reference point.
+
+Challenging but fair
+
+This is an idea that permeates all game design, but you always want the player to feel like they have a chance even if they get knocked down. When you look at the stats of the enemies in Conquest 10, they're actually a fair bit weaker than what you'd probably expect. Your units aren't realistically taking that much damage, but they also don't exactly have the luxury of always having a healer around either. The "challenge" of the map comes from the fact that you're pretty much forced to split your army up to account for the multiple angles the enemies are coming from. With such a limited squad of units, you're really forced to push units to their absolute limits. If I fail and I feel like there was nothing I could do to stop it, that's when I stop playing.
+
+No dead air
+
+One of the things that makes Conquest 10 so memorable is that there's just about something for every unit to do every turn even if the map is hard capped to end after 11 turns. Even if a unit isn't directly fighting enemies, they can take time to heal up with vulneraries, visit the houses, put themselves into an advantageous position for the following turn or help units move around via pair up just to name a few things. Every move is important and even being 1 tile off when it comes to positioning can make things difficult in future turns. Maps in Revelation often catch flack for having long stretches where nothing is really happening because the player has to deal with the map gimmicks that add more tedium than strategic interest.
+
+Encourages proactive play
+
+If I'm playing a strategy game, I expect my input to be important. If I can just sit in one spot and hit end turn and win, then there was no point in me being there in the first place. Now it should be noted that proactive play doesn't necessarily mean just player phase combat. Moving units into position to lure in enemies so that you control the pace of the map is just as important. Conquest 10 is designed in a way that encourages you to break out of the literal box the map starts your units in to take the fight to the enemies despite the objective being Defend. If you just sit there and let the enemies come to you, the enemies will have time to group up and your resources will be stretched too thin trying to both kill enemies and defend the objective due to the sheer volume of enemies.
+
+No single "correct" way to victory
+
+Conquest 10 is as famous as it is in large part because there are so many different ways to tackle it. Sure, some methods may be "better" than others, but no two strategies for victory are quite the same. Even if you've played the map before, depending on your goals of the playthrough you may have to "discover" a new way to do things. Some strategies elect to defeat Conquest 10 Takumi before he can drain the water while others intentionally allow him to do so. Camilla is a very powerful resource in Conquest 10 and where you choose to send her will dramatically shift how you choose to handle the rest of the map. Some strategies may elect to use the Master Seal available on the map while others won't. I am of the opinion that you can tell a lot about a FE player based on how they choose to tackle Conquest 10 and I think that's a hallmark of great level design.
+
+
+Upvote
+30
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+Prince_Uncharming
+•
+1y ago
+emoji:Anna_Eng:
+emoji:Maiko:
+emoji:Dorothy_P2:
+emoji:Canas-2:
+emoji:Amber:
+Like you said, chapters that are complex with multiple objectives or multiple viable strategies are generally considered as good as long as they’re well tuned.
+
+Conquest 10 is hailed as one of if not the best defense chapters because while it’s a defense map, you can not win by turtling. Players must be aggressive in taking space without overextending, and are also rewarded for taking space with the item drops from the villages. It’s basically a hint to the player that sitting at the defense point is no good.
+
+Contrast that with awful defense maps like RD 3-5, where you can win by undeploying everyone, unequipping Ike, and mashing end turn with him on the single defense point. It’s a boring chapter, it’s poorly designed, and there’s nothing in the map to properly incentive the player to push outside of the fort. Even if not cheesing it, you can just clog the chokes and spam end turn.
+
+
+Upvote
+12
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+I've never actually played RD yet (or even Conquest, for that matter; I beat fe7, Awakening, BR, and Rev, and am 11 chapters through Engage), but I think I've heard about how those chapters having way too many enemies for the early game. I also remember really disliking Unfulfilled Heart from fe7, which I just tanked with Oswin while retreating everyone else, so I understand the essence of terrible defense maps.
+
+
+Upvote
+3
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/Squidaccus avatar
+Squidaccus
+•
+1y ago
+emoji:Deen:
+emoji:Stefan-4:
+emoji:Patty:
+emoji:Geese:
+emoji:Metodey:
+Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter
+People say its good because "you cant turtle" but fail to mention that it doesn't make this clear until the point of no return, where "turtling" will likely lose you the map, or a unit. A map shouldn't require pre-existing knowledge that you'd only know from looking stuff up or playing the game before to be good.
+
+So while the map might end up fun for people who spend all their time optimizing fates, a lot of first-timers are gonna hate it cause of being suddenly punished for something they wouldn't be able to tell was wrong.
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+Prince_Uncharming
+•
+1y ago
+•
+Edited 1y ago
+emoji:Anna_Eng:
+emoji:Maiko:
+emoji:Dorothy_P2:
+emoji:Canas-2:
+emoji:Amber:
+Nah you can tell by turn 2 that you can’t turtle simply because you’ll start getting overwhelmed, and because you haven’t gotten any of the buildings. There’s a ton of signs not to turtle.
+
+The water receding isn’t an instant gotcha against turtlers and first timers, it makes an already tense situation harder. It also takes effect at the end of enemy phase, importantly giving the player the first turn of playing around that rather than just letting the enemies go. A good player that had been turtling up to that point will still be just fine, it’s just harder.
+
+Plus the real seize worry is the Pegasus knights flying by, and they’re not affected by the water anyways.
+
+
+Upvote
+3
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+QcSlayer
+•
+1y ago
+emoji:Seliph-4:
+Personally I think giving the player an incentive to get out of their confort zone is quite a +.
+
+It might be in the form of a village or a treasure to secure, a map could be a lot easier to turtle throught but you might miss golds, a stat booster, a weapon etc...
+
+Enemy positioning is also extremelly important to make a good level, there shouldn't be same turn reinforcement with siege weapons, that's fairly cheap on the designers end. Forcing the player to adapt on the fly is not a bad thing, but it should still feel "fair" in my opinion, the player should at least have 1 turn to adapt to reinforcements.
+
+I love Awakening, but if you need example of bad level design, look no further, same turn reinfocement, uninspired map, broken battle system etc.
+
+Sometimes the player has to manipulate the ennemy AI to achieve the desire outcome. Take Ayra for example, in FE4 she is recruited if your lord talks to her when the fortress she is defending is taken. You must find a way to split her from her main group and take the fortress while keeping her alive. She has the skill astra, if it activates she will kill whoever is facing her 99% of the time, however the player is given Alec, an unit with Nihil which will prevent skill activation.
+
+Growth rate also affects game design as a whole.
+
+With low growth, base stats matters more and with high growth, growths tend to be a lot more important.
+
+A lv 1 soldier could have a 20% growth with 5 base speed.
+
+A lv 6 soldier would have on average 6 base speed.
+
+Now let's bump the it to the modern standar.
+
+A lv 1 soldier has 65% growth with 5 base speed, a lv 6 soldier would have 8 (8.25) speed on average
+
+In case 1, the lv 6 soldier is 20% faster then the lv 1 soldier.
+
+In case 2, the lv 6 soldier is 60% faster then the lv 1 soldier.
+
+That's in part why in FE7 Marcus is such a good unit, his base stats are good enough to be serviceable the whole game (the other reason is because he is a paladin).
+
+Now for a more obscure point let's talk about Fates.
+
+In Fates, characters can unlock the class of their support partner when they max their support lv.
+
+Odin, a dark mage, can class change to mercenary if he reaches an S support with Selena or an A support with Laslow. To raise support points, units must participate in a round of combat together (you could also heal them or use the sing command on them).
+
+Since the units must spend time together, it will influence your decision making in the incoming chapters. On each playthrough you may want to try new classes on your units, in order to max your support points, you may change your usual strategy. It is a very small aspect of the game, but every little bits add up.
+
+I'm not native in english, my thoughs are all over the place, but I hope it may have given you some ideas.
+
+
+Upvote
+5
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+That was actually an amazing read, at least in my opinion.
+
+For reference I've only played fe7, Awakening, BR, Rev, and a bit of Engage, but I knew enough about CQ chapter 10 to mention it here. You mentioned Awakening level design being horrible, despite loving the game, and I feel exactly the same. I recall chapter 14 being a flier cheese-fest. I played it twice, once in my file and once for a friend, and both times I just flew to the boss in 1~2 turn and killed him right away. To this day I hardly know how the level feels played normally...
+
+I also know about the sheer annoyance ambush spawns are (the mention of Awakening reminded me of them). The only possible use I can see for them is to create tension when they're super far from the player, but for actual level design they just don't do anything.
+
+Again, thanks for the response. It was honestly helpful.
+
+
+Upvote
+2
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+oIovoIo
+•
+1y ago
+•
+Edited 1y ago
+If you haven’t seen it, I would give pandan’s Map Design Framework a watch. (He is probably most known for the FE8 rom hack Vision Quest, and has good thoughts about FE design). I think he hits a lot of really good points.
+
+I think it’s also worth mentioning, different maps can be designed to do different things. A map that comes toward the beginning of a game may mostly be there to teach basic mechanics, while maps that come later in a game can push you harder to use those mechanics.
+
+I forget if it’s in that video as well, but I also think pacing is a really big deal. Conquest Chapter 10 is a map that gets cited as a favorite by a lot of people, but I’m of the opinion that if every map pushed you in the same way that map can, it would fatigue players and really change player experience. Sometimes the games throw maps at you that push a time pressure and either reward moving quickly/punish turtling too much, but then they will throw some maps at you that let you take your time a bit more, or are a little bit more about story, or allowing the player to have an easier time allocating exp to different units, etc
+
+
+Upvote
+5
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/Squidaccus avatar
+Squidaccus
+•
+1y ago
+emoji:Deen:
+emoji:Stefan-4:
+emoji:Patty:
+emoji:Geese:
+emoji:Metodey:
+Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter
+I don't trust the guy who made Vision Quest's ideas on map design...
+
+
+Upvote
+-1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/Saver_Spenta_Mainyu avatar
+Saver_Spenta_Mainyu
+•
+1y ago
+No dead time. 
+
+The chapter should have side/main objectives for you to push to or have the enemies pushing you so that you're always moving forward and doing something. If not, the optimal strategy is usually going to be slowly turtling your way through one enemy's range at a time. 
+
+Feel overwhelming or scary at the beginning but becomes manageable as you survive.
+
+It turns that initial dread into a feeling of triumph. Elincia's Gambit is technically a great example of this. You're beset on all sides but a horse of enemies, but eventually you can push through the ranks and take Ludwig's head. 
+
+
+Upvote
+4
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/Slow_Security6850 avatar
+Slow_Security6850
+•
+1y ago
+emoji:Mareeta-2:
+emoji:Dorias-2:
+ambush spawns, thracia fog, invisible tiles that teleport you to a death room, 50 ballistas/siege tomes, mages spamming status staves…
+
+trust me bro it makes thracia peak
+
+
+Upvote
+3
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+Too bad I never got to experience such peak design.
+
+I did have the "luxury" of experiencing the peak that is waiting for elevators in Valla, though.
+
+(So I know what makes a really bad level)
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+profuse_wheezing
+•
+1y ago
+emoji:Hicks-2:
+emoji:Hicks-2:
+emoji:Hicks-2:
+emoji:Hicks-2:
+Lategame Thracia is a little scuffed, but I actually think the Munster chapters are really well done, at least in concept, for how much that put the player out of their depth through resource scarcity (you’re given just enough items to barely scrape by and don’t have the early game juggernauts to work with). It makes for great gameplay story integration too. Plus having a capped prepromote appear with very little warning on a chapter as an ambush spawn is really fucking hilarious.
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+Sir_Scorcho
+•
+1y ago
+ for one of my projects I'm required to design a game and/or concept for a game and have discussions with outside contacts (generally those in the game design industry) on what would make the game better. 
+
+You really should reach out to professional developers on places like gamedeveloper.com or Newgrounds instead of asking some shlub on Reddit. 
+
+
+Upvote
+5
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+I need two contacts so I decided to ask professionals for one and have general discussions for the other for more variety. I could try the ones you recommended though.
+
+
+Upvote
+4
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+Sir_Scorcho
+•
+1y ago
+Hate to break it to you, but "I made a Reddit thread" doesn't count as a contact. Not a good look. 
+
+
+Upvote
+-1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+One of my teacher's examples was discussing on a "coding forum". And yes, I know Reddit is not one of those (at ALL), but I could mention it as something I did for more info. And some of the stuff people said were informative, even if there are better places to get responses from. I don't know if you're saying this to actually get me to find better contacts or not, but I don't want to start an argument online over that. 
+
+(Also I know Reddit doesn't look good. That's why I simply mentioned a forum in my list of contacts.)
+
+
+Upvote
+4
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+MrWillyP
+•
+1y ago
+Not the final mission of awakening, thats what.
+
+Its everything that I DISPISE in a level in a fire emblem. Objectively the worst level, and is what has killed my opinion of the game.
+
+
+Upvote
+2
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+Okay, but what about it? Infinite enemy spawn that you can just invalidate by rushing the boss with Chrom?
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+MrWillyP
+•
+1y ago
+Not if you didnt do anything other than lord to great lord. He can not solo those enemies. They will kill him before he gets to grima.
+
+The game soft locks if you don't min max classes. Its pretty ridiculous
+
+
+Upvote
+2
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+buyingcheap
+•
+1y ago
+Maps that have lots going on with additional incentives to prevent the player from turtling and from moving all units in a big group. Stuff like strong reinforcements and/or thieves stealing treasure or bandits ravaging villages, or recruitable units in danger.
+
+Seize objectives are probably the best for this type of thing bc it requires your lord to move with the group (unless your game has infinite warp range lol), and it gives a goal to strive for that isn’t tedious. Rout maps rarely work in many games because the need to defeat every enemy on a map is often annoying and feels like a waste of time. A solid example of rout being fun though is the gorgon egg map from FE8. If you play fast, you can get through the chapter without the strong enemies even spawning, but if you turtle, the map becomes much harder.
+
+
+Upvote
+2
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/dryzalizer avatar
+dryzalizer
+•
+1y ago
+emoji:Glade-2:
+emoji:Altena-3:
+emoji:Ishtar-3:
+emoji:Mareeta:
+emoji:Kane:
+In addition to the answers so far, you can search the subreddit for "good map design" and get plenty more answers.
+
+
+Upvote
+2
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+Thanks for letting me know!
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+Puzzleheaded-Rain640
+•
+1y ago
+Think of every level as being a chekov’s gun weather the player knows it or not
+
+Each unit obtained and every enemy placed needs to fill a role, a group of units may just be there to slow you down but it might have been placed specifically to threaten a specific unit the player might use
+
+Every weapon choice matters, every wall, terrain type, where the boss is, where units start and how far they can move at maximum speed across the map, are their good viable side objectives or chokehold in the map? Are some enemies stationary or do they move and does this make the map feel like a mini defense map or a siege? 
+
+Lots of little things go along way, for good examples of this youll want to compare large open maps in fe 9 like clash! To more tightly packed maps like conquests’ ch 10
+
+
+Upvote
+2
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/Magnusfluerscithe987 avatar
+Magnusfluerscithe987
+•
+1y ago
+emoji:Joachim:
+emoji:Citrinne:
+emoji:Lyon:
+emoji:Lowen-2:
+emoji:Sigrun-2:
+One important part to Conquest chapter 10, is that is followed by chapter 11. While chapter 10 applied a lot of pressure to the player with aggressive enemies and rewards in pushing out, chapter 11 let's a player take this map at their pace. But, it showcase Lubge chains, counter, tight enemy formations, and rewards players for having trained a diverse army.
+
+I really like Engage chapter 4, not particularly challenging but showcases Louis and Chloe really well in a tutorial. Engage 5 I'm not as fond of because it has chests really out of the way and the tip they give about breaking the side wall feels like a trap.
+
+I also really like Radiant Dawn part 1 endgame. Black Knight and Nailah make it so it is a guaranteed win, but relying on them too much leaves you in a tough spot on some of the part 3 maps. But it still has a great feel with it being a literal uphill fight.
+
+
+Upvote
+2
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+I totally know what your saying with the break-the-wall thing. I did it and was forced to tank with Louis afterwards. On the other hand, while 4 showcased Cèline's retainers nicely, I also felt using Warp Ragnarok was way more dangerous than the game tried to make it look. Also, I'm not done with Engage yet, so anything after chapter 11 would be a spoiler to me.
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+SweatyStation7699
+•
+1y ago
+emoji:Fir-2:
+Glad I read it otherwise I would have written something about engage chapter 17
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/Squidaccus avatar
+Squidaccus
+•
+1y ago
+emoji:Deen:
+emoji:Stefan-4:
+emoji:Patty:
+emoji:Geese:
+emoji:Metodey:
+Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter
+That its bad or good?
+
+It starts solidly but immediately becomes boring since most enemies wont move without going into the group's range, so you can pick off groups one by one with no threat. Mauvier hits hard but is still not particularly threatening, Marni is bulky but not particularly powerful, the rest are rather easy.
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/Squidaccus avatar
+Squidaccus
+•
+1y ago
+emoji:Deen:
+emoji:Stefan-4:
+emoji:Patty:
+emoji:Geese:
+emoji:Metodey:
+Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter
+Engage Chapter 5 is great, and a good showcase of Sigurd's and Louis's strengths, while being totally doable without the latter (Vander is a good substitute for his role. If you lost both on a higher difficulty, runs probably fucked anyway due to earlygame problems).
+
+
+Upvote
+0
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/sarrick21 avatar
+sarrick21
+•
+1y ago
+emoji:Zihark:
+Having a lone ally (not player) character until charge in, preferably an archer, and then shocking live longer and kill more enemies than they were ever expected to.
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/FEA_Player avatar
+FEA_Player
+OP
+•
+1y ago
+emoji:Etie:
+emoji:Petra_P2:
+emoji:Lyn-2:
+emoji:Cynthia-2:
+emoji:Selena-3:
+That's just Pent, except he's not an archer.
+
+I know that was a joke, but I guess(?) it does add to the level.
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+u/OsbornWasRight avatar
+OsbornWasRight
+•
+1y ago
+Romantic supports
+
+
+Upvote
+-1
+
+Downvote
+
+Reply
+
+Award
+
+Share
+
+[deleted]
+•
+1y ago

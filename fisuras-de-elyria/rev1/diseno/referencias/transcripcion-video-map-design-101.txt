@@ -1,0 +1,621 @@
+0:00
+Welcome to Map Design 101, where we talk
+0:02
+about the finer details of map and area
+0:04
+design to show how they make the gaming
+0:06
+experience better or worse. Whether
+0:08
+you're a designer or merely want to know
+0:10
+why you love or hate the maps you do,
+0:11
+this resource is for you. This week, we
+0:14
+are taking on the idea of monotype maps.
+0:17
+Maps that feature primarily or solely
+0:19
+one type of unit. What makes them
+0:21
+interesting, boring, frustrating, or
+0:23
+terrifying? and why I think a good
+0:26
+monotype map can be the perfect showcase
+0:28
+of what your game is all about. Monotype
+0:32
+maps are fairly common throughout the
+0:33
+series. Most Fire Emblem games begin
+0:36
+with maps featuring mostly, if not
+0:38
+entirely, pirates, fighters, or
+0:40
+briggins, and many have at least one map
+0:42
+in the mid or late game highlighting a
+0:44
+new fearsome type of enemy. When
+0:47
+considering map design, you have
+0:48
+multiple avenues to drive engagement and
+0:50
+force particular strategies from
+0:52
+objectives to terrain to enemy type and
+0:55
+placement. By removing some of these
+0:57
+considerations, a map designer can
+0:59
+narrow down the effective strategies
+1:01
+available to the player, thus
+1:02
+highlighting what the core set of
+1:04
+optimal interactions can become. For
+Starter Enemy
+1:07
+instance, the cave maps in Giden limit
+1:09
+both the enemy type and available
+1:11
+terrain, having your army fight a group
+1:13
+of one type of foe in a small
+1:15
+featureless square map. This directly
+1:18
+exposes the matchups your units have
+1:20
+against the enemy type being fought.
+1:22
+Zombies are easy for anyone to fight,
+1:24
+but skeletons have higher defense and
+1:26
+speed. Gargoyles are incredibly fast and
+1:28
+mobile, and necro dragons are made of
+1:30
+nightmares. But not all monotype maps
+1:33
+are empty squares. Most exist as a
+1:35
+showcase of their featured foe and
+1:37
+either highlight their strengths or
+1:39
+emphasize their weaknesses. Take the
+1:41
+opening pirate or brigaden maps we
+1:43
+mentioned earlier. Pirates generally
+1:45
+have slow, inaccurate attacks with low
+1:47
+defense but decent hit points. This
+1:49
+means a new player will immediately be
+1:51
+able to see the difference in attack
+1:53
+strength of their units while still
+1:55
+requiring at least two rounds of combat
+1:57
+for most of their units to take one
+1:59
+down. Their low accuracy also means
+2:01
+players get a noticeable increase in
+2:03
+evasion from any terrain features they
+2:05
+use. In games with a weapon triangle,
+2:07
+the lord and cavaliers swords will be
+2:10
+highlighted against the bandits axes,
+2:12
+providing an extra boost similar to that
+2:14
+of terrain. Bandits can also be given
+2:16
+hand axes to teach the player to look at
+2:19
+inventories and be aware of indirect
+2:21
+attacks. All in all, a very good starter
+2:24
+enemy and a good monotype briged map
+2:26
+acts as a hidden tutorial, teaching all
+2:29
+of these things to the player without
+2:30
+necessarily having to say everything
+2:32
+explicitly in a text box. The midame
+Midgame
+2:35
+monotype maps are more of a mixed bag
+2:38
+because the player's army is more
+2:39
+developed at this point and they are
+2:41
+used to tackling multiple different
+2:43
+strategic objectives every map. Having a
+2:45
+single drawnout encounter with only one
+2:48
+enemy type can easily become either
+2:50
+boring if the player is prepared for it
+2:52
+or infuriating if they are not. Wooden
+2:55
+cavalry in Fire Emblem 11 showcases this
+2:58
+boring to frustrating arc perfectly.
+3:00
+While the original Fire Emblem 1
+3:02
+incarnation ballistas had two range just
+3:04
+like any other archer, Fire Emblem 11
+3:06
+gives ballistas 3 to 10 range without
+3:09
+changing the structure of the map at
+3:11
+all. As such, especially on higher
+3:13
+difficulties, this map becomes either a
+3:15
+free win or a frustrating mess.
+3:18
+Depending on how the player has
+3:19
+progressed through the game, if the
+3:21
+player has been relying on forged
+3:23
+effective weaponry like the wingspear,
+3:25
+they may be frustrated that ballistas
+3:26
+are not vulnerable to any type of weapon
+3:28
+beyond the thunderbolt, which is first
+3:30
+available on a unit recruited on the
+3:32
+middle of the map. If the player has
+3:34
+been relying on flying units, they may
+3:36
+be frustrated by the aerospace effective
+3:38
+damage. If they have been relying on
+3:40
+powerful player phase nukes like mages,
+3:42
+the massive range of ballistas will
+3:44
+prevent their mages from approaching.
+3:46
+However, if the player has been using
+3:48
+defensive super tanks such as General
+3:50
+Reclass Wolf or Sedgar, the map will be
+3:52
+a boring slog of moving their general
+3:54
+forward through a storm of projectiles
+3:56
+and eventually clearing a path. Or a
+3:59
+player may decide that this isn't worth
+4:00
+it and simply use a warp staff to skip
+4:03
+to killing the boss and capturing the
+4:05
+gate. A strategy that Fire Emblem 11
+4:07
+barely restricts with limited staff
+4:09
+uses, so the player cannot simply skip
+4:11
+every map in the game on a single run.
+4:14
+While warp skipping and map play
+4:16
+incentives are a topic for another day,
+4:18
+the fact that Wood and Cavalry is often
+4:19
+considered one of the worst maps in the
+4:21
+entire game, possibly the entire series,
+4:24
+is because none of the ideal play
+4:26
+patterns it presents to the player are
+4:28
+particularly reliable or enjoyable. The
+4:30
+310 range ballastition is simply not an
+4:33
+enemy type designed to make up the
+4:35
+overwhelming majority of foes on a map
+4:37
+made up of three straight lines. While
+4:40
+the original Fire Emblem 1 incarnation
+4:42
+does have its own issues, the FE1
+4:44
+ballista is more welldesigned as a
+4:46
+practical challenge to the player on
+4:47
+this map. With very high defense but
+4:50
+limited offense, this map forces players
+4:52
+to use high strength or magical weapons
+4:54
+to overcome it. Javelins and Handaxes
+4:57
+will fail to do significant damage
+4:58
+except when used by invested powerful
+5:01
+promoted units. Silver weapons,
+5:03
+leavenven swords, Excalibur, aura, and
+5:05
+the devil axe are the only truly viable
+5:08
+options against the low hit point, high
+5:10
+defense enemies. But the player can also
+5:13
+utilize mobility to their advantage to
+5:15
+outrun the ballistas. And since they are
+5:17
+locked to two range, the player can at
+5:19
+least surround them or slowly chip them
+5:21
+down in melee without taking counters.
+5:23
+The map's three narrow lanes also make
+5:25
+more sense in Fire Emblem 1, forcing
+5:27
+players to fight the ballistas head-on
+5:29
+instead of just running around them with
+5:31
+high mobility units. This map is a
+5:33
+strength check, making sure the player
+5:35
+knows about and is using stronger
+5:37
+weapons and magic before forcing them to
+5:39
+fight more than one or two enemies per
+5:40
+map that are doing the same. Another
+5:42
+monotype map that gives players
+5:44
+headaches is chapter 3-6 in Radiant
+5:47
+Dawn. Micaia and the Dawn Brigade are
+5:49
+trapped on a small island in the
+5:51
+southwest with an endless tide of legs
+5:53
+coming through the swamp. The goal is
+5:55
+simple. Defeat a set number of enemies.
+5:57
+The problem? Transform Laguz are among
+6:00
+the highest stated enemies the player
+6:02
+has seen in the campaign and they are
+6:04
+fighting as the Dawn Brigade, a group of
+6:06
+units the player hasn't been using since
+6:08
+the end of act one and which are likely
+6:10
+significantly weaker than the Grail
+6:12
+mercenaries the player was just using
+6:14
+last chapter. The solution? Well, there
+6:17
+are several possibilities. Depending on
+6:18
+the level of preparation players made in
+6:20
+part one, they may have a unit or two
+6:22
+capable of fighting toe-to-toe with
+6:24
+several lakuz per turn. The player also
+6:26
+has access to a variety of powerful
+6:28
+weapons, a beast killer dagger, and even
+6:30
+a master crown from the base
+6:32
+conversation and shops. The water on the
+6:35
+map slows enemy progress so that as long
+6:37
+as the player is able to kill at least a
+6:38
+few lags each turn, they are unlikely to
+6:41
+get overwhelmed. There are also yellow
+6:43
+direct ally units that can help out on
+6:45
+early turns or be directed to plug holes
+6:47
+in your defensive line. Chipping down
+6:49
+enemies or delaying them also forces
+6:51
+their lag gauge to deplete, meaning you
+6:53
+are practically guaranteed to be able to
+6:55
+finish off any enemy eventually. And as
+6:58
+a failafe, the immortal black knight
+7:00
+spawns on turn four, capable of one
+7:02
+rounding just about every unit on the
+7:04
+map while never taking any damage in
+7:06
+return. The game is well aware that this
+7:09
+is the biggest difficulty spike it has
+7:11
+to offer. So, it makes sure to give
+7:13
+players as many tools as it reasonably
+7:15
+can to become equal to the task.
+7:18
+Additionally, both the fish out of water
+7:20
+feeling of the weak dawn brigade joining
+7:21
+a full-blown war and the mechanical
+7:24
+monotony of slogging through wave after
+7:26
+wave of generic seamy enemies reinforce
+7:29
+the emotional feel that the game is
+7:30
+trying to create in the player. That
+7:32
+this isn't in any way an honorable war
+7:34
+or something to cheer. It is a slog of
+7:37
+butchery and cruelty that nobody is
+7:38
+happy about, but that everyone,
+7:40
+including the player, is being forced to
+7:42
+be subjected to. Say what you will about
+7:44
+some of the writing and reasoning behind
+7:46
+it, the luda narrative on display here
+7:48
+is Spec Ops: The Line Level of
+7:50
+Deliberate. Another map full of shape-
+7:52
+shifter butchery in an unfun slog is
+7:54
+Kitsune Layer, chapter 19 of Fire Emblem
+7:57
+Conquest. The terrain is nothing
+7:59
+special. a few peaks only traversible by
+8:01
+flying units, a scattering of mountain
+8:03
+and forest tiles, and some trees that
+8:05
+can be attacked to form bridges across a
+8:06
+river. The enemies are all kitsune, fast
+8:09
+one- range beasts that deal effective
+8:11
+damage against other beast units, most
+8:13
+notably cavalry and pegasai. Many of
+8:15
+them also have pass, meaning your
+8:17
+squishier units will need to be fully
+8:18
+surrounded or risk instant death. The
+8:21
+main gimmick of the map and what turns
+8:23
+this from a common chain of lure and
+8:24
+overwhelm encounters into an enemy phase
+8:26
+hellscape is that many of these kitsune
+8:29
+will go into mirage status after moving,
+8:32
+making them completely unargetable on
+8:33
+player phase, but becoming active again
+8:36
+on enemy phase. This means that one of
+8:38
+the core strategies the player has been
+8:40
+taught to rely on for the entire game,
+8:42
+the lure and overwhelm, becomes entirely
+8:44
+unusable because of a mechanic that has
+8:47
+never existed before and will never
+8:48
+appear again. Additionally, many of the
+8:51
+strongest defensive units a player has
+8:53
+by default, including Xander, Silus,
+8:55
+Leo, and any armored promoted to Great
+8:57
+Knight, will be taken effective damage
+8:59
+if not reclassed, a death sentence in
+9:01
+any Fire Emblem game. The solution?
+9:04
+Either fly all of your units onto the
+9:05
+peaks and reign death from above with a
+9:07
+Kinchi Knight, Malagnite, or Dark Flyer,
+9:10
+or reclass four units to Wyverns or
+9:12
+Bulky Infantry. Move in formation around
+9:14
+a lease or another aura or rallybot and
+9:17
+slowly slog your way through wave after
+9:18
+wave of kitsune. You can beat the map
+9:21
+with a more conventional army, sure, but
+9:23
+your positioning will need to be perfect
+9:25
+to avoid losing a unit to pass or
+9:27
+failing to kill everyone before they go
+9:28
+into mirage and flank your army from an
+9:31
+indefensible angle. The one thing the
+9:33
+map has going for it is that it does
+9:35
+still create a ludo narrative that the
+9:37
+kitsune are to be feared. Except instead
+9:40
+of feeling bad for having to kill them
+9:42
+like the characters are in the story,
+9:43
+the player will likely be feeling a bit
+9:45
+more justified in their whole slaughter
+9:47
+after putting up with their mirage past
+9:49
+shenanigans than the writers seem to
+9:51
+want them to be. The restriction of
+Conclusion
+9:54
+obstacles at a map down to a specific
+9:55
+subset is a tool that needs to be used
+9:57
+carefully. One can consider a monotype
+10:00
+map as if a single encounter on a normal
+10:02
+map was blown up to be an entire map in
+10:04
+and of itself. When done well, monotype
+10:07
+maps can teach the player skills,
+10:09
+reinforce desirable play patterns, or
+10:11
+reinforce a deliberate narrative. When
+10:13
+done poorly, however, monotype maps only
+10:16
+serve to frustrate the player, throw out
+10:18
+a majority of their ability to interact
+10:19
+with the game, or be just incredibly
+10:22
+uninteresting. Thank you for watching
+10:24
+Map Design 101. I have not been able to
+10:26
+record as much recently, so I really
+10:28
+appreciate everyone's continued support,
+10:30
+especially to the YouTube channel
+10:32
+members who kept supporting me through
+10:33
+the small break in uploads. That
+10:35
+includes Royal Luzg Guard members the
+10:38
+forgotten L and Minirop and Legoog Guard
+10:40
+members L, Edigmatic Mr. L, Mad Mo, Ro
+10:44
+Dutderman, Kumi, Miss Mesmeriism,
+10:46
+Drumstep 913, Rea 6, Merlinin, and
+10:50
+Reley. Thank you all so much for
+10:52
+watching and until next time, this is
+10:54
+Mithril Zenith signing out.

@@ -1,0 +1,19 @@
+TAREA PARA CLAUDE CODE
+Repo fireemblem8u (decompilación de FE8). Implementá un mapa de debug que reemplaza el mapa del Prólogo (capítulo 0) y contiene al menos 2 casillas transitables de cada uno de los 64 tipos de terreno de FE8 (IDs 0x01 a 0x40).
+
+Reglas
+- Hacé commit o copia antes de tocar nada. Dejá todo reversible (copias .orig o git).
+- No agregues arte externo. Usá el tileset 9 (ObjectType9 id 108, MapPalette16 id 109, TileConfiguration9 id 110), que es el que más terrenos trae.
+- Para cada terreno que el tileset 9 no tenga, tomá una pieza (metatile) que ningún mapa ni cambio de mapa use, copiale el dibujo de una pieza parecida y escribí el ID de terreno en la tabla de terreno (bytes 0x2000-0x23FF de TileConfiguration9.bin). No cambies src/data_terrains.c.
+- Después de generar todo, verificá por código que terreno = tabla[pieza] coincide con la grilla en cada casilla y que cada terreno aparece al menos 2 veces, accesible desde la llanura por BFS.
+- Mapa de 27x30, dentro del límite de 1023 casillas del búfer.
+- Cambiá el bloque "map" del capítulo 0 en src/data/chapter_settings.json (obj1Id 108, paletteId 109, tileConfigId 110, changeLayerId 0). Reemplazá graphics/map/layout/PrologueMap.mar y .json. Revisá cómo scripts/mar_to_map.py convierte el .mar (valor>>3) y que el índice de pieza sea valor>>5.
+- Agregá lo de la sección 4 de la guía (trampas de balistas, cofres, puertas, aldeas, tiendas) solo si lo pido después. En esta primera pasada solo mapa, tileset y configuración.
+- Compilá con make y confirmá que la ROM genera sin errores.
+- Entregá un resumen corto. Español, sin relleno.
+
+La guía completa, la grilla en IDs hexadecimales y la leyenda con coordenadas siguen abajo.
+Nota: la sección 2 menciona un script debug_mapa.py. Si no lo tenés, ignorá esa parte y escribí tu propio instalador.
+
+==================== GUÍA ====================
+

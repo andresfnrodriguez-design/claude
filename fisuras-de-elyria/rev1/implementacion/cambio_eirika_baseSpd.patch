@@ -1,0 +1,13 @@
+diff --git a/src/data_characters.c b/src/data_characters.c
+index e045e92..d8d08e7 100755
+--- a/src/data_characters.c
++++ b/src/data_characters.c
+@@ -20,7 +20,7 @@ CONST_DATA struct CharacterData gCharacterData[] = {
+         .baseHP  = 0,
+         .basePow = 0,
+         .baseSkl = 0,
+-        .baseSpd = 0,
++        .baseSpd = 10,
+         .baseDef = 0,
+         .baseRes = 0,
+         .baseLck = 5,

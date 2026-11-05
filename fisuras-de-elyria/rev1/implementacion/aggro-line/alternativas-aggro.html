@@ -1,0 +1,108 @@
+<title>Aggro Line GBA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: grid of four GBA screens (240x160, scaled 2x) with notes; single dark "handheld" look */
+:root{
+  --bg:#16181f; --panel:#20232d; --fg:#e8e6df; --muted:#9a9cab; --accent:#e8b84a; --line:#33374a;
+  --display:"Press Start 2P", ui-monospace, monospace; --body:"IBM Plex Sans", system-ui, sans-serif;
+  color-scheme:dark;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+h1{font-family:var(--display);font-size:18px;line-height:1.5;margin:0;color:var(--accent);text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:65ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:24px}
+figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px;display:grid;gap:12px;min-width:0}
+canvas{width:100%;max-width:480px;aspect-ratio:3/2;image-rendering:pixelated;background:#000;border-radius:2px;justify-self:center}
+figcaption{display:grid;gap:6px}
+.tag{font-family:var(--display);font-size:10px;letter-spacing:.06em;color:var(--accent)}
+figcaption h2{margin:0;font-size:17px}
+figcaption p{margin:0;color:var(--muted)}
+.cost{font-size:13px;color:var(--fg)}
+.cost b{color:var(--accent);font-weight:600}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Press+Start+2P&display=swap">
+
+<div class="wrap">
+  <header style="display:grid;gap:10px">
+    <h1>Aggro line en GBA: 4 maquetas</h1>
+    <p class="lead">Resolución real de GBA (240×160, tiles de 16 px), escalada. El cursor está sobre la unidad azul. Hay cuatro enemigos y solo dos pueden alcanzarla este turno: el soldado de la izquierda y el arquero de arriba. Los otros dos están fuera de alcance.</p>
+  </header>
+  <div class="grid">
+    <figure><canvas id="c1" width="240" height="160"></canvas><figcaption><span class="tag">OPCIÓN 1</span><h2>Ícono sobre el enemigo</h2><p>Un "!" sobre cada enemigo que amenaza, con un pequeño rebote.</p><p class="cost">Costo: <b>1 sprite OAM por enemigo</b>. Lo más barato y legible.</p></figcaption></figure>
+    <figure><canvas id="c2" width="240" height="160"></canvas><figcaption><span class="tag">OPCIÓN 2</span><h2>Casilla resaltada</h2><p>La casilla del enemigo parpadea en rojo, como el rango de ataque que ya existe.</p><p class="cost">Costo: <b>reutiliza la capa de rangos</b>. Puede chocar con el rango azul de movimiento.</p></figcaption></figure>
+    <figure><canvas id="c3" width="240" height="160"></canvas><figcaption><span class="tag">OPCIÓN 3</span><h2>Líneas punteadas</h2><p>Puntos animados desde cada amenaza hasta la unidad, al estilo de Engage.</p><p class="cost">Costo: <b>~6–10 sprites por línea</b>. Con muchos enemigos se acerca al límite de 128.</p></figcaption></figure>
+    <figure><canvas id="c4" width="240" height="160"></canvas><figcaption><span class="tag">OPCIÓN 4</span><h2>Flechas cortas</h2><p>Flechas pegadas a la unidad que apuntan hacia cada amenaza.</p><p class="cost">Costo: <b>1 sprite por amenaza</b>. Se lee bien, pero se encima si hay amenazas en direcciones parecidas.</p></figcaption></figure>
+  </div>
+</div>
+
+<script>
+const T=16, W=15, H=10;
+// map: g grass, f forest, w water, m mountain, r road
+const MAP=[
+"gggfffgggggwwww",
+"ggfffggrrrggwww",
+"ggggggrrggggggw",
+"gmmgggrggggfggg",
+"gmgggrrggggffgg",
+"ggggrrgggggggmm",
+"gfggrggggggggmm",
+"ffggrgggggfgggg",
+"fgggrrrrgggggww",
+"gggggggrrggggww"];
+const PLAYER={x:7,y:5};
+const ENEMIES=[{x:3,y:5,k:"lance",threat:true},{x:8,y:1,k:"bow",threat:true},{x:13,y:7,k:"axe",threat:false},{x:1,y:1,k:"sword",threat:false}];
+const COL={g:["#5fa84a","#549a40"],f:["#2f6e32","#3d8a3c"],w:["#3a78c8","#5a98e0"],m:["#8c7a5a","#a8926a"],r:["#c8b07a","#b89e68"]};
+
+function px(c,x,y,w,h,col){c.fillStyle=col;c.fillRect(x,y,w,h)}
+function tile(c,t,x,y){const[a,b]=COL[t];px(c,x,y,T,T,a);
+  if(t==="g"){px(c,x+3,y+4,1,1,b);px(c,x+11,y+9,1,1,b);px(c,x+6,y+13,1,1,b)}
+  if(t==="f"){px(c,x+2,y+3,12,8,b);px(c,x+5,y+1,6,3,b);px(c,x+7,y+11,2,3,"#5a3a20")}
+  if(t==="w"){px(c,x+2,y+5,5,1,b);px(c,x+9,y+10,5,1,b)}
+  if(t==="m"){c.fillStyle=b;c.beginPath();c.moveTo(x+1,y+15);c.lineTo(x+8,y+2);c.lineTo(x+15,y+15);c.fill();px(c,x+7,y+3,2,2,"#eee")}
+  if(t==="r"){px(c,x+4,y+7,2,1,b);px(c,x+10,y+3,2,1,b)}}
+function unit(c,u,col,dark,f){const x=u.x*T,y=u.y*T,bob=(f>>4)&1;
+  px(c,x+4,y+13,8,2,"rgba(0,0,0,.35)");
+  px(c,x+5,y+5-bob,6,8,col);px(c,x+5,y+11-bob,6,2,dark);
+  px(c,x+5,y+1-bob,6,5,"#f2c9a0");px(c,x+5,y+1-bob,6,2,dark);
+  px(c,x+6,y+3-bob,1,1,"#000");px(c,x+9,y+3-bob,1,1,"#000");
+  const wx=x+12,wy=y+2-bob;
+  if(u.k==="lance"){px(c,wx,wy,1,12,"#ddd");px(c,wx-1,wy,3,2,"#fff")}
+  else if(u.k==="bow"){px(c,wx,wy+1,1,10,"#a06a30");px(c,wx-2,wy+5,2,1,"#ddd")}
+  else if(u.k==="axe"){px(c,wx,wy,1,12,"#a06a30");px(c,wx-2,wy,4,4,"#ccc")}
+  else {px(c,wx,wy,1,9,"#eee");px(c,wx-1,wy+8,3,1,"#c9a030")}}
+function cursor(c,f){const x=PLAYER.x*T,y=PLAYER.y*T,o=(f>>3)&1?0:1,col="#fff";
+  for(const[dx,dy,sx,sy]of[[0,0,1,1],[T,0,-1,1],[0,T,1,-1],[T,T,-1,-1]]){
+    const cx=x+dx-sx*o-(sx<0?1:0),cy=y+dy-sy*o-(sy<0?1:0);
+    px(c,cx,cy,sx*4,sy*1||1,col);px(c,cx,cy,1,sy*4,col);}}
+function base(c,f){for(let j=0;j<H;j++)for(let i=0;i<W;i++)tile(c,MAP[j][i],i*T,j*T);}
+function units(c,f){for(const e of ENEMIES)unit(c,e,"#c83a3a","#7a1c1c",f);unit(c,{...PLAYER,k:"sword"},"#3a6ad8","#1c347a",f);}
+function hud(c,label){px(c,2,142,96,16,"rgba(16,20,48,.85)");c.strokeStyle="#c8b878";c.strokeRect(2.5,142.5,95,15);
+  c.fillStyle="#fff";c.font="8px monospace";c.fillText(label,7,153);}
+const center=u=>[u.x*T+8,u.y*T+8];
+
+const DRAW={
+ c1(c,f){base(c);units(c,f);
+  for(const e of ENEMIES.filter(e=>e.threat)){const x=e.x*T+4,y=e.y*T-10+((f>>3)%2);
+   px(c,x,y,8,9,"#000");px(c,x+1,y+1,6,7,"#f0c020");px(c,x+3,y+2,2,3,"#000");px(c,x+3,y+6,2,1,"#000");}
+  cursor(c,f);hud(c,"Amenazas: 2");},
+ c2(c,f){base(c);const a=0.25+0.25*Math.sin(f/8);
+  for(const e of ENEMIES.filter(e=>e.threat)){c.fillStyle=`rgba(230,40,40,${a+0.2})`;c.fillRect(e.x*T,e.y*T,T,T);
+   c.strokeStyle="#ff6060";c.strokeRect(e.x*T+.5,e.y*T+.5,T-1,T-1);}
+  units(c,f);cursor(c,f);hud(c,"Amenazas: 2");},
+ c3(c,f){base(c);units(c,f);const[px2,py2]=center(PLAYER);
+  for(const e of ENEMIES.filter(e=>e.threat)){const[ex,ey]=center(e);const d=Math.hypot(px2-ex,py2-ey),n=Math.floor(d/10);
+   for(let i=1;i<n;i++){const t=((i+(f/6)%1)/n);const x=ex+(px2-ex)*t,y=ey+(py2-ey)*t;
+    px(c,Math.round(x)-2,Math.round(y)-2,4,4,"#000");px(c,Math.round(x)-1,Math.round(y)-1,2,2,"#ff5050");}}
+  cursor(c,f);hud(c,"Amenazas: 2");},
+ c4(c,f){base(c);units(c,f);const[cx,cy]=center(PLAYER);
+  for(const e of ENEMIES.filter(e=>e.threat)){const[ex,ey]=center(e);const ang=Math.atan2(ey-cy,ex-cx),r=13+((f>>3)&1);
+   c.save();c.translate(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r);c.rotate(ang);
+   c.fillStyle="#000";c.beginPath();c.moveTo(6,0);c.lineTo(-4,-5);c.lineTo(-4,5);c.fill();
+   c.fillStyle="#ff4040";c.beginPath();c.moveTo(4,0);c.lineTo(-3,-3);c.lineTo(-3,3);c.fill();c.restore();}
+  cursor(c,f);hud(c,"Amenazas: 2");}
+};
+const ctxs=Object.keys(DRAW).map(id=>[id,document.getElementById(id).getContext("2d")]);
+const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let f=0;function loop(){for(const[id,c]of ctxs)DRAW[id](c,f);f++;if(!still)requestAnimationFrame(loop)}loop();
+</script>

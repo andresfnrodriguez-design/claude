@@ -1,0 +1,317 @@
+<title>Fisuras de Elyria — Revisión</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: una columna de lectura tipo cuaderno de editor; leyenda fija arriba, misiones como fichas con citas marcadas por color de problema */
+:root{
+  --bg:#f6f3ee; --paper:#fffdf9; --fg:#2a2420; --muted:#6f6359; --rule:#ddd3c7; --garnet:#7d2331;
+  --c-giro:#c62828; --c-giro-bg:#fde3e1;
+  --c-arco:#b26a00; --c-arco-bg:#fdefd6;
+  --c-sobre:#7b3fb0; --c-sobre-bg:#efe3fa;
+  --c-tramas:#1f5fae; --c-tramas-bg:#e0ebfa;
+  --c-tesis:#2e7d32; --c-tesis-bg:#e2f3e2;
+  --c-decir:#5d6670; --c-decir-bg:#e9ecef;
+  --c-hueco:#c2185b; --c-hueco-bg:#fbe1ec;
+  --display:"Cormorant Garamond",Georgia,serif; --body:"Source Serif 4",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1a1614; --paper:#231e1b; --fg:#ece4da; --muted:#a89a8c; --rule:#3a322c; --garnet:#e07a88;
+  --c-giro:#ff7b72; --c-giro-bg:#4a1f1d; --c-arco:#f0b450; --c-arco-bg:#3f2e12;
+  --c-sobre:#c39af0; --c-sobre-bg:#33234a; --c-tramas:#7fb2f0; --c-tramas-bg:#1c2c45;
+  --c-tesis:#7fcf83; --c-tesis-bg:#1d3520; --c-decir:#b2bac3; --c-decir-bg:#2e3236;
+  --c-hueco:#f48fb1; --c-hueco-bg:#45192b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1a1614; --paper:#231e1b; --fg:#ece4da; --muted:#a89a8c; --rule:#3a322c; --garnet:#e07a88;
+  --c-giro:#ff7b72; --c-giro-bg:#4a1f1d; --c-arco:#f0b450; --c-arco-bg:#3f2e12;
+  --c-sobre:#c39af0; --c-sobre-bg:#33234a; --c-tramas:#7fb2f0; --c-tramas-bg:#1c2c45;
+  --c-tesis:#7fcf83; --c-tesis-bg:#1d3520; --c-decir:#b2bac3; --c-decir-bg:#2e3236;
+  --c-hueco:#f48fb1; --c-hueco-bg:#45192b; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1{font:700 2.6rem/1.05 var(--display);margin:0;text-wrap:balance;color:var(--garnet)}
+h2{font:700 1.8rem/1.15 var(--display);margin:0;text-wrap:balance}
+h3{font:600 1.05rem/1.3 var(--body);margin:0}
+p{margin:0}
+.sub{color:var(--muted)}
+.eyebrow{font:500 .72rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.legend{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);padding-block:10px;display:flex;flex-wrap:wrap;gap:6px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.chip{font:500 .72rem/1 var(--mono);padding:6px 8px;border-radius:4px;border-left:4px solid;white-space:nowrap}
+.k-giro{--k:var(--c-giro);--kb:var(--c-giro-bg)} .k-arco{--k:var(--c-arco);--kb:var(--c-arco-bg)}
+.k-sobre{--k:var(--c-sobre);--kb:var(--c-sobre-bg)} .k-tramas{--k:var(--c-tramas);--kb:var(--c-tramas-bg)}
+.k-tesis{--k:var(--c-tesis);--kb:var(--c-tesis-bg)} .k-decir{--k:var(--c-decir);--kb:var(--c-decir-bg)}
+.k-hueco{--k:var(--c-hueco);--kb:var(--c-hueco-bg)}
+.chip{background:var(--kb);border-color:var(--k);color:var(--fg)}
+.keys{display:grid;gap:10px}
+.key{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.key .chip{min-width:0}
+.part{display:flex;flex-direction:column;gap:14px;padding-top:12px;border-top:2px solid var(--garnet)}
+.m{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.m .num{font:500 .75rem/1 var(--mono);color:var(--garnet);letter-spacing:.06em}
+.m.clean{background:transparent;border-style:dashed}
+mark{background:var(--kb);border-left:3px solid var(--k);padding:1px 4px;color:var(--fg);border-radius:2px}
+.note{font-size:.93rem;padding-left:12px;border-left:3px solid var(--k);color:var(--fg)}
+.note b{font:500 .7rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--k);display:block;margin-bottom:3px}
+.verdict{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:10px}
+ol,ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.stat{font-variant-numeric:tabular-nums}
+@media (max-width:480px){h1{font-size:2rem}.key{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <span class="eyebrow">Revisión crítica · boceto de novela completo · M1–M40 + apéndice</span>
+    <h1>Fisuras de Elyria</h1>
+    <p class="sub">Resumen misión por misión con los problemas de guion marcados donde más se notan. Las citas son textuales del boceto. Las misiones sin problemas relevantes aparecen con borde punteado.</p>
+  </header>
+
+  <nav class="legend" aria-label="Leyenda">
+    <span class="chip k-giro">Giro sin postura</span>
+    <span class="chip k-arco">Arco de Kairon</span>
+    <span class="chip k-sobre">Sobrenatural</span>
+    <span class="chip k-tramas">Tramas que compiten</span>
+    <span class="chip k-tesis">Tesis / ludonarrativa</span>
+    <span class="chip k-decir">Dice en vez de mostrar</span>
+    <span class="chip k-hueco">Hueco de guion</span>
+  </nav>
+
+  <section class="keys">
+    <h2>Qué significa cada color</h2>
+    <div class="key"><span class="chip k-giro">Giro sin postura</span><p>Orestion es un mentiroso que confiesa, no alguien que tenía razón en algo. El misterio funciona una sola vez.</p></div>
+    <div class="key"><span class="chip k-arco">Arco de Kairon</span><p>Kairon sí tiene un defecto en la novela (resuelve el duelo con la cabeza), pero se lo <em>dicen</em> otros y nunca le cuesta nada jugable.</p></div>
+    <div class="key"><span class="chip k-sobre">Sobrenatural</span><p>Érebos, Tálos, el Olvido. Ya decidiste eliminar esta capa: todo lo marcado acá hay que reescribirlo.</p></div>
+    <div class="key"><span class="chip k-tramas">Tramas que compiten</span><p>Facciones y antagonistas que aparecen tarde o sin ligarse a la pregunta central.</p></div>
+    <div class="key"><span class="chip k-tesis">Tesis / ludonarrativa</span><p>"Nadie se abandona" no aparece en todo el texto, y la mitad de las misiones no tienen combate.</p></div>
+    <div class="key"><span class="chip k-decir">Dice en vez de mostrar</span><p>Personajes que enuncian el tema en voz alta como si leyeran la biblia.</p></div>
+    <div class="key"><span class="chip k-hueco">Hueco de guion</span><p>Preguntas que la historia plantea y nunca responde.</p></div>
+  </section>
+
+  <!-- PARTE I -->
+  <section class="part">
+    <span class="eyebrow">Parte I · M1–M10 · El encargo</span>
+    <h2>Un caso de asesinato en el campamento</h2>
+
+    <article class="m k-sobre">
+      <span class="num">M1 · Prólogo</span>
+      <p>Cold open en la nieve: Kairon frente a un Halvard enmascarado. "No tenías que llegar hasta acá." Corte a negro.</p>
+      <p>Las notas de mapa piden <mark>"la sombra imposible del enemigo… la primera pista visual de Érebos"</mark>.</p>
+      <p class="note k-sobre"><b>Sobrenatural</b>El recurso del cold open es bueno y vale la pena conservarlo. Pero lo primero que ve el jugador es una pista de una amenaza que vas a eliminar. Hay que reemplazar la sombra por otro detalle humano: el yelmo de Kaldholt con un lazo elirio, por ejemplo.</p>
+    </article>
+
+    <article class="m clean">
+      <span class="num">M2 · El asentamiento</span>
+      <p>Vida ordinaria: Kairon, Nemira y Demetria. Sin gancho. Es de las mejores escenas del boceto: el diálogo tiene textura y presenta a los personajes por cómo hablan.</p>
+    </article>
+
+    <article class="m k-giro">
+      <span class="num">M3 · El regreso</span>
+      <p>Orestion le encarga a Kairon investigar la muerte de Feron. Demetria: <mark>"Qué rápido tenía todo eso preparado para alguien que se acaba de enterar."</mark></p>
+      <p class="note k-giro"><b>Giro sin postura</b>La pista es demasiado visible: en la primera escena de Orestion, un personaje ya lo señala como sospechoso. La nota de editor dice "invisible en una primera lectura", y no lo es. Además, el nombre Orestion (Orestes) ya lo delata.</p>
+      <p class="note k-tesis"><b>Tesis</b>Kairon acepta el caso porque su tío se lo pide. Todavía no hay nada que <em>él</em> quiera.</p>
+    </article>
+
+    <article class="m k-tesis">
+      <span class="num">M4–M6 · Interrogatorios</span>
+      <p>Dessin, el agente de Ferannor, Ilse. Kairon resuelve el caso y encuentra a <mark>"un hombre menor que actuó por miedo"</mark>.</p>
+      <p class="note k-tesis"><b>Ludonarrativa</b>Son tres misiones seguidas de interrogatorio en un juego táctico. Fire Emblem no tiene una mecánica de deducción: el jugador mira diálogo, no investiga. O inventas una mecánica (por ejemplo, conversaciones en el mapa que revelan pistas) o comprimes esto en una sola misión.</p>
+      <p class="note k-hueco"><b>Hueco</b>Nota de M6: <mark>"el 'casi' que casi implica a Kairon mismo… No hace falta ponerlo en diálogo"</mark>. En M35 Orestion confiesa que iba a culpar a Kairon. Pero el jugador nunca sintió ese peligro, así que la confesión no paga nada.</p>
+    </article>
+
+    <article class="m clean">
+      <span class="num">M7 · Consejo dividido</span>
+      <p>Demetria insinúa nepotismo; Orestion la corta.</p>
+    </article>
+
+    <article class="m k-tramas">
+      <span class="num">M8 · Frontera de humo</span>
+      <p>Primer combate real del juego, contra Los Quebrados. Kairon deja escapar a un chico.</p>
+      <p class="note k-tramas"><b>Tramas</b>Los Quebrados aparecen sin explicación y vuelven en M19 como relleno. ¿Quiénes son? Si son elirios desesperados, son tu mejor material temático (refugiados contra refugiados) y no los estás usando.</p>
+      <p class="note k-tesis"><b>Ludonarrativa</b>El primer combate llega en la misión 8. Siete misiones sin pelear es demasiado para un Fire Emblem.</p>
+    </article>
+
+    <article class="m k-sobre">
+      <span class="num">M9 · La última noche</span>
+      <p>Nemira encontró fechas que no cierran. <mark>"No te pido que uses el Olvido."</mark></p>
+      <p class="note k-sobre"><b>Sobrenatural</b>Primera mención del Olvido (magia que borra recuerdos). Toda la economía de magia del juego depende de esto, y el clímax también.</p>
+    </article>
+
+    <article class="m k-hueco">
+      <span class="num">M10 · Lo que falta</span>
+      <p>Nemira desaparece. Fin de la Parte I.</p>
+      <p class="note k-hueco"><b>Hueco / fridging</b>La nota de M9 dice "siembra del anti-fridging". No alcanza: Nemira sigue siendo la pareja del protagonista que muere fuera de cámara para motivarlo. Que muera investigando no cambia la estructura. Peor aún, el texto nunca dice <em>quién</em> la mató (Orestion: "No la maté yo directamente").</p>
+    </article>
+  </section>
+
+  <!-- PARTE II -->
+  <section class="part">
+    <span class="eyebrow">Parte II · M11–M20 · Lo que cuesta olvidar</span>
+    <h2>La búsqueda en Kaldholt</h2>
+
+    <article class="m k-tramas">
+      <span class="num">M11–M13</span>
+      <p>Cruce a Kaldholt, Los Hijos del Hielo, Vask contratado, primer rumor del culto del Lete.</p>
+      <p class="note k-tramas"><b>Tramas</b>Para M13 ya hay seis grupos: consejo elirio, Ferannor, Quebrados, Hijos del Hielo, culto del Lete y Sombra Rota. Ninguno está ligado todavía a la pregunta central.</p>
+      <p class="note k-hueco"><b>Nombres</b>Vask y Voss se confunden: son casi el mismo nombre en personajes del mismo grupo. Lo mismo pasa con Kairon, Kallion y Orestion/Ilarion. Uno de cada par tiene que cambiar.</p>
+    </article>
+
+    <article class="m k-tesis">
+      <span class="num">M14 · Lo que Vask no dijo</span>
+      <p>Mapa separado: Sombra Rota amenaza a la hermana de Vask y el jugador decide cuánta información entrega.</p>
+      <p class="note k-tesis"><b>Ludonarrativa: la mejor idea del boceto</b>El jugador traiciona con sus propias manos. Pero después no pasa nada: lo que entregaste no tiene consecuencias visibles, y en M33 Kairon dice <mark>"entiendo por qué no pudiste"</mark>. La elección tiene que costar algo en el mapa.</p>
+    </article>
+
+    <article class="m k-hueco">
+      <span class="num">M15 · La nieve no miente</span>
+      <p>Encuentran el cuerpo de Nemira, <mark>"sin marcas de violencia visibles"</mark>, y el cuaderno chico.</p>
+      <p class="note k-hueco"><b>Hueco</b>¿Cómo murió? ¿Frío, Olvido, asesinato? Nunca se responde.</p>
+    </article>
+
+    <article class="m k-decir">
+      <span class="num">M16 · Lo que se elige cargar</span>
+      <p>Entra Sael. <mark>"Tu costumbre de resolver todo con la cabeza no es solo estrategia. Es una forma de no sentir del todo."</mark></p>
+      <p class="note k-decir"><b>Dice en vez de mostrar</b>Sael conoce a Kairon hace un día y le diagnostica el defecto central del protagonista en voz alta. Es la autora hablando por un personaje.</p>
+      <p class="note k-arco"><b>Arco</b>Corrijo lo que te dije antes: Kairon <em>sí</em> tiene un defecto en la novela. El problema es que solo existe en esta línea de diálogo y nunca cambia una decisión suya en el mapa.</p>
+    </article>
+
+    <article class="m k-tramas">
+      <span class="num">M17–M19</span>
+      <p>Brandt aparece; se suman Sten, Riona, Voss, Marcus y Livia. M19: tres facciones en un día.</p>
+      <p class="note k-tramas"><b>Tramas</b>Seis reclutas en dos misiones, presentados en una línea de acotación cada uno. Esto va contra tu objetivo estilo Three Houses.</p>
+      <p class="note k-tramas"><b>Ferannor</b>Voss explica que <mark>"alguien decidiendo no mirar"</mark>. Ese "alguien" de Ferannor nunca recibe nombre ni cara en todo el juego.</p>
+    </article>
+
+    <article class="m k-giro">
+      <span class="num">M20 · Dos verdades (punto medio)</span>
+      <p>Kairon lee el documento descifrado: <mark>"Orestion ordenó matar a Feron."</mark> Y queda gente en el resto de Elyria, condenada.</p>
+      <p class="note k-giro"><b>Giro sin postura</b>El punto medio revela el <em>quién</em> (lo que el jugador ya sospechaba desde M3), pero no el <em>por qué</em>. Además, se resuelve leyendo un papel: el protagonista no hace nada para obtener la verdad.</p>
+      <p class="note k-hueco"><b>Hueco central</b>¿Qué ocultaba Orestion? El documento dice que silenció a un testigo. Pero el secreto que el testigo conocía nunca se nombra en toda la novela.</p>
+    </article>
+  </section>
+
+  <!-- PARTE III -->
+  <section class="part">
+    <span class="eyebrow">Parte III · M21–M30 · Vivir con la fecha puesta</span>
+    <h2>Halvard, los cultos y la caída</h2>
+
+    <article class="m k-giro">
+      <span class="num">M21–M22 · Halvard</span>
+      <p>Halvard se une en M21. En M22 explica su conflicto: <mark>"no sé si lo que me enseñó todavía sirve para el mundo que tenemos"</mark>.</p>
+      <p class="note k-giro"><b>Estructura</b>Halvard entra en M21 y traiciona en M30: son nueve misiones. Es muy poco para que la traición duela, y la Parte III "de Halvard" es en realidad de Tálos, Kallion, Ilarion y Selene.</p>
+      <p class="note k-decir"><b>Dice en vez de mostrar</b>Zephyr resume a Halvard para el jugador: <mark>"Esa clase de lealtad partida en dos es la más peligrosa de cargar."</mark></p>
+    </article>
+
+    <article class="m k-giro">
+      <span class="num">M20 → M29 · Nueve misiones de silencio</span>
+      <p class="note k-giro"><b>Ritmo</b>Kairon sabe en M20 que su tío mandó matar a alguien y no hace nada al respecto hasta M29. Es el problema de ritmo más grave del boceto.</p>
+    </article>
+
+    <article class="m k-sobre">
+      <span class="num">M24, M26 · Tálos</span>
+      <p><mark>"una figura de cara elirio, sonriendo, con los ojos sin brillo. Su sombra cae hacia el lado equivocado."</mark></p>
+      <p class="note k-sobre"><b>Sobrenatural</b>Es exactamente el problema de Those Who Slither de Three Houses. Ya lo eliminamos.</p>
+    </article>
+
+    <article class="m k-tramas">
+      <span class="num">M25 · Kallion</span>
+      <p>El sacerdote del Lete: <mark>"Encontré algo mejor que respuestas. Encontré alivio."</mark></p>
+      <p class="note k-tramas"><b>Tramas</b>Es el antagonista mejor escrito del boceto: tiene una postura defendible, que es justamente lo que le falta a Orestion. Pero aparece en una sola misión. Kallion debería <em>ser</em> la forma del argumento de Orestion, o fusionarse con él.</p>
+    </article>
+
+    <article class="m k-tramas">
+      <span class="num">M27 · Ilarion y Selene</span>
+      <p>La Orden del Cenit tienta a Selene. En M29 se va del grupo.</p>
+      <p class="note k-tramas"><b>Tramas</b>Selene no aparece antes de M27 en ningún texto, y la conversión ocurre en dos misiones. Es una traición sin construcción. El apéndice incluso admite el nombre repetido de Ilarion como un chiste del campamento: eso es un parche, no worldbuilding.</p>
+    </article>
+
+    <article class="m k-tesis">
+      <span class="num">M28 · La amenaza</span>
+      <p>Mapa separado con Halvard aislado y Brandt presionándolo.</p>
+      <p class="note k-tesis"><b>Ludonarrativa: bien encaminado</b>Es la idea de "el jugador controla al traidor". Pero la traición real ocurre en M30, cuando ya no lo controlas. Cambia el orden: que el jugador ejecute la decisión de Halvard.</p>
+    </article>
+
+    <article class="m k-giro">
+      <span class="num">M29 · Lo que admitió</span>
+      <p>Orestion: <mark>"Sí. Lo ordené… tomé una decisión que no te voy a pedir que entiendas."</mark> Luego se va.</p>
+      <p class="note k-giro"><b>Giro sin postura</b>Primera de tres veces que Orestion dice "no te voy a pedir que entiendas". Es un villano que se niega a argumentar, y por eso no hay debate.</p>
+      <p class="note k-hueco"><b>Hueco</b>Kairon deja ir al hombre que mandó matar a alguien y quizás a Nemira, sin intentar detenerlo. ¿Por qué?</p>
+    </article>
+
+    <article class="m k-hueco">
+      <span class="num">M30 · Todo está perdido</span>
+      <p>Mismo campo que M1; se repite el diálogo y el combate se juega completo.</p>
+      <p class="note k-hueco"><b>Hueco</b>Halvard "duda un turno" y después pelea, pero el texto nunca dice qué decidió ni por qué. Las notas de M36 dan a entender que se volvió contra el grupo, pero M30 no lo muestra.</p>
+      <p class="note k-sobre"><b>Sobrenatural</b>Las notas de mapa piden <mark>"la misma sombra imposible"</mark>. Hay que reemplazarla junto con M1.</p>
+    </article>
+  </section>
+
+  <!-- PARTE IV -->
+  <section class="part">
+    <span class="eyebrow">Parte IV · M31–M40 · Lo que queda</span>
+    <h2>La segunda caída</h2>
+
+    <article class="m k-tesis">
+      <span class="num">M32 · A quién salvar</span>
+      <p>Mapa dividido: escuadrón A evacua civiles, escuadrón B rescata a la hermana de Vask.</p>
+      <p class="note k-tesis"><b>Tesis: tu mejor escena</b>Acá está toda la tesis del juego: no se puede salvar a todos. Pero nadie la nombra, Kairon no toma la decisión y la elección de Orestion nunca se compara con esta. El jugador hace aquí exactamente lo que hizo Orestion hace quince años, y la historia no se da cuenta.</p>
+    </article>
+
+    <article class="m k-decir">
+      <span class="num">M33 · Lo que quedó</span>
+      <p>Duelo colectivo. Vask confiesa M14; Kairon lo perdona a medias.</p>
+      <p class="note k-decir"><b>Dice en vez de mostrar</b>La confesión pasa fuera de cámara (<mark>"Se lo cuenta todo."</mark>), justo en la escena que más necesitaba diálogo.</p>
+    </article>
+
+    <article class="m k-giro">
+      <span class="num">M35 · Quince años</span>
+      <p>Orestion confiesa: <mark>"cualquier costo era aceptable con tal de no volver a perder de esa forma… calculé que era mejor sacrificarte a vos que exponerme yo."</mark></p>
+      <p class="note k-giro"><b>Giro sin postura: el problema principal</b>Su motivo es el trauma, y su método es el egoísmo ("exponerme yo"). No hay nada que defender. Con la decisión que tomaste, Orestion tiene que llegar a M35 diciendo: <em>"Hice lo que vos hiciste en M32, solo que antes y con más gente."</em></p>
+      <p class="note k-hueco"><b>Hueco</b>"Algo que llevo ocultando hace quince años." Sigue sin decir <em>qué</em> era.</p>
+    </article>
+
+    <article class="m k-tramas">
+      <span class="num">M36–M37</span>
+      <p>Halvard vuelve. Fenn y otros revelan <mark>"nuestros nombres de verdad"</mark>.</p>
+      <p class="note k-tramas"><b>Tramas</b>¿Quién es Fenn? No aparece antes en ningún lugar del texto. Es una revelación sin pista previa.</p>
+      <p class="note k-tesis"><b>Tesis</b>La vuelta de Halvard es buena. Pero Selene no tiene esa misma posibilidad: sus seguidores mueren en M38. Si la tesis es "nadie se abandona", recuperar o no a Selene tiene que ser una decisión del jugador.</p>
+    </article>
+
+    <article class="m k-sobre">
+      <span class="num">M38–M39 · Clímax</span>
+      <p>Tálos y los cultos al borde de la fisura. Kairon usa "Su Nombre" contra Érebos y olvida a Nemira: <mark>"Ya no recuerdo el color exacto de su pelo."</mark></p>
+      <p class="note k-sobre"><b>Sobrenatural</b>El clímax completo es una pelea contra un dios. Con tu decisión, hay que reescribirlo de cero.</p>
+      <p class="note k-arco"><b>Arco</b>El defecto de Kairon (resolver con la cabeza en vez de sentir) se resuelve <em>usando magia para dejar de sentir</em>. Eso contradice su arco: es la solución de Kallion, no la de Sael.</p>
+      <p class="note k-giro"><b>Giro</b>Orestion no está en el clímax. El antagonista humano termina en M35 y el juego sigue cuatro misiones contra otra cosa.</p>
+    </article>
+
+    <article class="m clean">
+      <span class="num">M40 · Epílogo</span>
+      <p>Meses después, el mismo campamento. Kairon guarda el cuaderno de Nemira. Es un cierre sobrio y bien medido; consérvalo.</p>
+    </article>
+  </section>
+
+  <section class="verdict">
+    <span class="eyebrow">Números del boceto</span>
+    <h2>Lo que muestran los totales</h2>
+    <ul class="stat">
+      <li><b>18 de 40</b> misiones no tienen combate, y otras 2 (M4 y M5) son interrogatorios. Más de la mitad del juego no es jugable como táctico.</li>
+      <li><b>0</b> veces aparece la frase "nadie se abandona" en la novela. La tesis de la biblia no llegó al texto.</li>
+      <li><b>0</b> menciones de Cassaria en las cuatro Partes; solo aparece en el apéndice de naciones.</li>
+      <li><b>~9</b> facciones antagonistas para 40 misiones.</li>
+      <li><b>3</b> veces Orestion dice alguna versión de "no te voy a pedir que entiendas".</li>
+    </ul>
+  </section>
+
+  <section class="verdict">
+    <span class="eyebrow">Lo que funciona</span>
+    <h2>Qué conservar</h2>
+    <ul>
+      <li>El cold open de M1 que se repite en M30.</li>
+      <li>M2 y M9–M10: el mismo espacio con distinta luz.</li>
+      <li>El mapa separado de Vask (M14) y la división en dos escuadrones de M32.</li>
+      <li>Kallion como antagonista con razones.</li>
+      <li>Las cartas de Brandt a Halvard en el apéndice: es la relación mejor escrita de todo el material.</li>
+      <li>El tono del epílogo.</li>
+    </ul>
+  </section>
+</div>

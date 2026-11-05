@@ -1,0 +1,28 @@
+{
+  // clangd hace el autocompletado y "ir a definicion" usando compile_flags.txt del repo.
+  // cpptools queda solo para depurar, por eso se apaga su IntelliSense.
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "clangd.arguments": ["--header-insertion=never"],
+
+  // Los eventos estan en .h y los datos en .c con macros. Asi se ven como C.
+  "files.associations": {
+    "*.h": "c",
+    "*.inc": "arm",
+    "*.s": "arm"
+  },
+
+  // Oculta archivos de compilacion para que el arbol quede limpio
+  "files.exclude": {
+    "**/*.o": true,
+    "**/*.d": true,
+    "**/*.lz": true
+  },
+  "search.exclude": {
+    "**/*.o": true,
+    "**/*.s.d": true,
+    "_site": true,
+    "tools/agbcc": true
+  },
+
+  "editor.rulers": [100]
+}

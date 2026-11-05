@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // Ctrl+Shift+B. Compila fireemblem8.gba y fireemblem8.elf con tus cambios.
+      "label": "Compilar ROM",
+      "type": "shell",
+      "command": "make fireemblem8.gba -j$(nproc)",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$gcc"
+    },
+    {
+      // Solo para la primera vez. Confirma que el entorno genera la ROM original exacta.
+      "label": "Compilar y verificar que sea identica a la original",
+      "type": "shell",
+      "command": "make compare -j$(nproc)",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Limpiar (rapido)",
+      "type": "shell",
+      "command": "make clean_fast",
+      "problemMatcher": []
+    },
+    {
+      "label": "Abrir juego en mGBA (normal)",
+      "type": "shell",
+      "command": "mgba-qt fireemblem8.gba",
+      "windows": { "command": "mGBA.exe fireemblem8.gba" },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Abrir juego en mGBA (esperando depurador)",
+      "type": "shell",
+      "command": "mgba-qt -g fireemblem8.gba",
+      "windows": { "command": "mGBA.exe -g fireemblem8.gba" },
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

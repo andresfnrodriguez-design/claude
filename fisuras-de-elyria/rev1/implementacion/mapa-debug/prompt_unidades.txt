@@ -1,0 +1,40 @@
+TAREA PARA CLAUDE CODE
+Repo fireemblem8u. El mapa de debug del Prólogo (27x30) ya está instalado. Ahora hay que ubicar las unidades en ese mapa. Leé primero src/events/prologue-eventinfo.h, prologue-eventscript.h y prologue-eventudefs.h, que tienen las coordenadas y las definiciones de unidades (UnitDef) del prólogo original, y reemplazá lo necesario. Hacé copia o commit antes de tocar nada y dejá todo reversible.
+
+CONVENCIÓN DE COORDENADAS
+El núcleo del mapa copia un mapa de 21x20 y está desplazado +3 en x y +3 en y dentro del mapa 27x30. Abajo van las dos coordenadas. "Núcleo" es la del dibujo de referencia y "Debug" es la que se usa en el juego (x,y desde 0, arriba a la izquierda).
+
+ENEMIGOS (equipo enemigo, IA agresiva normal)
+- Jefe. Guerrero (Warrior) con Hacha de hierro (Iron Axe). Núcleo (15,1), Debug (18,4). Es la unidad marcada con rombo en la referencia. Es el jefe del mapa.
+- Mercenarios con Espada de hierro (Iron Sword), todos iguales.
+  Núcleo (14,1) → Debug (17,4)
+  Núcleo (15,2) → Debug (18,5)
+  Núcleo (8,7)  → Debug (11,10)
+  Núcleo (9,7)  → Debug (12,10)
+  Núcleo (7,8)  → Debug (10,11)
+  Núcleo (10,13) → Debug (13,16)
+
+UNIDADES DEL JUGADOR (equipo azul, controlables)
+Orden de aparición, de izquierda a derecha y luego hacia abajo.
+  1. Gerik   Núcleo (9,17)  → Debug (12,20)
+  2. Eirika  Núcleo (10,17) → Debug (13,20)
+  3. Ephraim Núcleo (11,17) → Debug (14,20)
+  4. Innes   Núcleo (10,18) → Debug (13,21)
+  5. Seth    Núcleo (9,19)  → Debug (12,22)
+Seth tiene que ser unidad del jugador (azul). En el prólogo original es aliado verde, así que revisá el equipo y la IA que tiene definidos y pasalo al equipo del jugador.
+
+ZONA EXTRA (personajes postgame)
+En la zona sur del núcleo hay espacio libre, entre x 1-18 e y 17-19 en coordenadas del núcleo, es decir Debug x 4-21, y 20-22. Agregá ahí como unidades del jugador a los personajes postgame de FE8.
+- Valter. Núcleo (5,18) → Debug (8,21)
+- Riev. Núcleo (6,18) → Debug (9,21)
+Usá sus IDs de personaje y sus clases de FE8 (CHARACTER_VALTER, CHARACTER_RIEV) y revisá en data si sus datos de unidad base son jugables o necesitan equipamiento propio. Si hay otros personajes postgame o de jefe con datos en el repo, dejá una lista corta de candidatos y no los agregues sin que lo pida.
+
+TERRENO
+Todas las casillas verdes de la referencia son Bosque (Forest, ID 0x0C). La grilla del mapa ya las tiene como 0x0C (111 casillas). Verificá por código que cada una de esas casillas resuelva a Forest con la tabla de terreno del tileset 9, y corregí lo que no coincida.
+
+REVISIONES NECESARIAS
+- Ninguna unidad puede quedar sobre una casilla intransitable para su clase. Verificalo contra los costos de src/data_terrains.c.
+- Los mercenarios y el jefe no deben pisarse con las unidades del jugador ni entre sí.
+- El prólogo original tiene movimientos de cámara (CAMERA) y escenas con coordenadas fijas del mapa viejo (Seth en (13,9), Eirika en (8,5)). Desactivá o ajustá lo que se rompa para que el mapa cargue y se pueda jugar.
+- La condición de victoria puede dejarse como derrotar al jefe.
+- Compilá con make y confirmá que no hay errores. Entregá un resumen corto en español, sin relleno.

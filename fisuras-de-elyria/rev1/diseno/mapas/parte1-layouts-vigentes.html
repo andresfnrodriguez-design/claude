@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Fisuras de Elyria — Parte I, layouts desde cero</title>
+<style>
+  body { font-family: -apple-system, sans-serif; background: #e8e6e0; margin: 0; padding: 40px 20px; }
+  .mapa { max-width: 720px; margin: 0 auto 50px auto; background: white; border-radius: 8px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  h2 { font-size: 18px; margin: 0 0 4px 0; font-family: Georgia, serif; }
+  .concepto { font-size: 13px; color: #555; margin: 4px 0 12px 0; }
+  svg { width: 100%; height: auto; display: block; }
+  .ts { font-size: 11px; font-family: -apple-system, sans-serif; fill: #2a2a2a; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+<defs>
+  <pattern id="snowTex" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#dce8f5"/><circle cx="4" cy="4" r="0.9" fill="#fff" opacity="0.9"/><circle cx="13" cy="9" r="1" fill="#fff" opacity="0.7"/></pattern>
+  <pattern id="rockTex" width="22" height="22" patternUnits="userSpaceOnUse"><rect width="22" height="22" fill="#7d8590"/><path d="M0 11 L8 5 L13 13 L22 8" stroke="#565f6b" stroke-width="1.4" fill="none" opacity="0.7"/></pattern>
+  <pattern id="mountainTex" width="34" height="34" patternUnits="userSpaceOnUse"><rect width="34" height="34" fill="#565e6b"/><path d="M0 34 L11 8 L19 22 L26 5 L34 34 Z" fill="#828b99"/></pattern>
+  <pattern id="woodTex" width="28" height="10" patternUnits="userSpaceOnUse"><rect width="28" height="10" fill="#a8794f"/><line x1="0" y1="0" x2="0" y2="10" stroke="#856038" stroke-width="1"/></pattern>
+  <pattern id="dirtTex" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#c9a876"/><circle cx="5" cy="5" r="0.8" fill="#a8845a" opacity="0.6"/></pattern>
+  <pattern id="stoneTex" width="24" height="15" patternUnits="userSpaceOnUse"><rect width="24" height="15" fill="#8a7a5c"/><line x1="0" y1="7" x2="24" y2="7" stroke="#6b5d42" stroke-width="1"/></pattern>
+  <pattern id="forestTex" width="26" height="26" patternUnits="userSpaceOnUse"><rect width="26" height="26" fill="#3d6b45"/><circle cx="7" cy="7" r="5" fill="#2d5533"/><circle cx="18" cy="14" r="6" fill="#2d5533"/></pattern>
+  <pattern id="scrubTex" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="#c8d4c0"/><circle cx="5" cy="6" r="2" fill="#8a9a7a" opacity="0.6"/><circle cx="14" cy="13" r="2.2" fill="#8a9a7a" opacity="0.5"/></pattern>
+  <filter id="ds" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
+</defs>
+</svg>
+
+<div class="mapa">
+<h2>M1 — Prólogo</h2>
+<p class="concepto">Concepto: un único obstáculo grande divide el campo, no varias rocas sueltas. Kairon tiene que elegir un lado, no zigzaguear. La figura espera sobre una cresta que corre a lo largo de todo el borde superior, no en una esquina aislada.</p>
+<svg viewBox="0 0 580 460">
+<rect x="40" y="40" width="380" height="260" fill="url(#snowTex)"/>
+<rect x="40" y="40" width="380" height="55" fill="url(#mountainTex)" filter="url(#ds)"/>
+<path d="M230 95 L180 220 L280 220 L260 300 L340 220 L280 220 L310 95 Z" fill="url(#rockTex)" filter="url(#ds)"/>
+<g stroke="#a8b8c8" stroke-width="0.5" opacity="0.5">
+<line x1="75" y1="95" x2="75" y2="300"/><line x1="110" y1="95" x2="110" y2="300"/><line x1="145" y1="95" x2="145" y2="300"/><line x1="180" y1="95" x2="180" y2="300"/><line x1="215" y1="95" x2="215" y2="300"/><line x1="250" y1="95" x2="250" y2="300"/><line x1="285" y1="95" x2="285" y2="300"/><line x1="320" y1="95" x2="320" y2="300"/><line x1="355" y1="95" x2="355" y2="300"/><line x1="390" y1="95" x2="390" y2="300"/>
+<line x1="40" y1="130" x2="420" y2="130"/><line x1="40" y1="165" x2="420" y2="165"/><line x1="40" y1="200" x2="420" y2="200"/><line x1="40" y1="235" x2="420" y2="235"/><line x1="40" y1="270" x2="420" y2="270"/>
+</g>
+<path d="M60 315 Q140 290 155 240" fill="none" stroke="#0d7d72" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+<path d="M155 240 Q160 160 195 90" fill="none" stroke="#0d7d72" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+<path d="M85 335 L74 319 L81 307 L89 307 L96 319 Z" fill="#0d7d72" stroke="#0a5d55" stroke-width="1.3" filter="url(#ds)"/>
+<text x="85" y="352" class="ts" text-anchor="middle">Kairon</text>
+<path d="M300 65 L289 49 L296 37 L304 37 L311 49 Z" fill="#3a1a52" stroke="#7a3fb0" stroke-width="1.3" filter="url(#ds)"/>
+<text x="300" y="20" class="ts" text-anchor="middle">??? (Halvard)</text>
+<text x="40" y="380" class="ts" font-weight="600">Un solo bloque rocoso central obliga a rodear por izquierda</text>
+<text x="40" y="396" class="ts" font-weight="600">(más corto, más expuesto) o derecha (más largo, más cubierto).</text>
+<text x="40" y="412" class="ts">Kairon — Guantelete (única). Enemigo — Escudo de Kaldholt (sin revelar).</text>
+<text x="40" y="426" class="ts" font-weight="600">Evento: el intercambio final ("Alguien tenía que hacerlo") ocurre</text>
+<text x="40" y="440" class="ts" font-weight="600">justo en la cresta — el mismo tile donde Halvard cae en M30.</text>
+</svg>
+</div>
+
+<div class="mapa">
+<h2>M2 — El asentamiento</h2>
+<p class="concepto">Concepto: un círculo de entrenamiento marcado con postes, no un patio genérico. Los dos combatientes empiezan en polos opuestos del círculo, no en una esquina.</p>
+<svg viewBox="0 0 480 340">
+<rect x="40" y="40" width="300" height="200" fill="url(#dirtTex)"/>
+<circle cx="190" cy="140" r="95" fill="none" stroke="#8a7250" stroke-width="3" stroke-dasharray="8 6"/>
+<rect x="98" y="70" width="8" height="20" fill="url(#woodTex)"/>
+<rect x="270" y="70" width="8" height="20" fill="url(#woodTex)"/>
+<rect x="98" y="190" width="8" height="20" fill="url(#woodTex)"/>
+<rect x="270" y="190" width="8" height="20" fill="url(#woodTex)"/>
+<g stroke="#8a7250" stroke-width="0.4" opacity="0.4">
+<line x1="80" y1="40" x2="80" y2="240"/><line x1="120" y1="40" x2="120" y2="240"/><line x1="160" y1="40" x2="160" y2="240"/><line x1="200" y1="40" x2="200" y2="240"/><line x1="240" y1="40" x2="240" y2="240"/><line x1="280" y1="40" x2="280" y2="240"/><line x1="320" y1="40" x2="320" y2="240"/>
+<line x1="40" y1="80" x2="340" y2="80"/><line x1="40" y1="120" x2="340" y2="120"/><line x1="40" y1="160" x2="340" y2="160"/><line x1="40" y1="200" x2="340" y2="200"/>
+</g>
+<path d="M105 140 L94 124 L101 112 L109 112 L116 124 Z" fill="#0d7d72" stroke="#0a5d55" stroke-width="1.3" filter="url(#ds)"/>
+<text x="105" y="105" class="ts" text-anchor="middle">Kairon</text>
+<path d="M275 140 L264 124 L271 112 L279 112 L286 124 Z" fill="#7a5fb0" stroke="#5a3f8a" stroke-width="1.3"/>
+<text x="275" y="105" class="ts" text-anchor="middle">Nemira</text>
+<text x="40" y="270" class="ts" font-weight="600">Círculo marcado con postes, no un patio abierto genérico —</text>
+<text x="40" y="286" class="ts" font-weight="600">se ve como un lugar donde se entrena a propósito.</text>
+<text x="40" y="302" class="ts">Kairon — Guantelete. Nemira — Guardián del Recuerdo (sin promoción).</text>
+</svg>
+</div>
+
+<div class="mapa">
+<h2>M3 — Taller de Feron</h2>
+<p class="concepto">Concepto: taller en forma de L, no un cuadrado simétrico. Un solo mesón de trabajo largo contra la pared del fondo, el mueble de documentos en un rincón trasero (no en el centro geométrico). Kairon entra por el frente; los que se suman entran por una puerta trasera lateral.</p>
+<svg viewBox="0 0 560 500">
+<path d="M40 40 L400 40 L400 200 L280 200 L280 340 L40 340 Z" fill="url(#dirtTex)"/>
+<rect x="60" y="40" width="320" height="35" fill="url(#woodTex)" filter="url(#ds)"/>
+<rect x="330" y="150" width="60" height="50" fill="#8a1628" filter="url(#ds)"/>
+<rect x="340" y="160" width="40" height="8" fill="#e8d9a8"/><rect x="340" y="172" width="40" height="8" fill="#e8d9a8"/>
+<rect x="40" y="300" width="40" height="40" fill="none" stroke="#6b5d42" stroke-width="3" stroke-dasharray="4 3"/>
+<text x="60" y="325" class="ts">Puerta</text>
+<rect x="230" y="200" width="30" height="40" fill="none" stroke="#6b5d42" stroke-width="3" stroke-dasharray="4 3"/>
+<text x="196" y="255" class="ts">Entrada trasera</text>
+<g stroke="#8a7250" stroke-width="0.4" opacity="0.4">
+<line x1="76" y1="75" x2="76" y2="340"/><line x1="112" y1="75" x2="112" y2="340"/><line x1="148" y1="75" x2="148" y2="340"/><line x1="184" y1="75" x2="184" y2="340"/><line x1="220" y1="75" x2="220" y2="340"/><line x1="256" y1="75" x2="256" y2="340"/><line x1="292" y1="40" x2="292" y2="200"/><line x1="328" y1="40" x2="328" y2="200"/><line x1="364" y1="40" x2="364" y2="200"/>
+<line x1="40" y1="112" x2="400" y2="112"/><line x1="40" y1="148" x2="400" y2="148"/><line x1="40" y1="184" x2="280" y2="184"/><line x1="40" y1="220" x2="280" y2="220"/><line x1="40" y1="256" x2="280" y2="256"/><line x1="40" y1="292" x2="280" y2="292"/>
+</g>
+<path d="M60 320 L49 304 L56 292 L64 292 L71 304 Z" fill="#0d7d72" stroke="#0a5d55" stroke-width="1.3" filter="url(#ds)"/>
+<text x="60" y="286" class="ts" text-anchor="middle">Kairon</text>
+<path d="M115 320 L104 304 L111 292 L119 292 L126 304 Z" fill="#7a5fb0" stroke="#5a3f8a" stroke-width="1.1"/>
+<text x="115" y="286" class="ts" text-anchor="middle">Nemira</text>
+<path d="M245 220 L234 204 L241 192 L249 192 L256 204 Z" fill="#c9973a" stroke="#a8792a" stroke-width="1.3" filter="url(#ds)"/>
+<text x="245" y="186" class="ts" text-anchor="middle">Demetria/Yannis/Elana</text>
+<path d="M360 100 L349 84 L356 72 L364 72 L371 84 Z" fill="#a52020" stroke="#7a1414" stroke-width="1.1"/>
+<text x="360" y="66" class="ts" text-anchor="middle">Rurik</text>
+<path d="M320 130 L311 117 L316 108 L322 108 L327 117 Z" fill="#c0504d" stroke="#8a3a37" stroke-width="1" opacity="0.85"/>
+<path d="M355 175 L346 162 L351 153 L357 153 L362 162 Z" fill="#c0504d" stroke="#8a3a37" stroke-width="1" opacity="0.85"/>
+<text x="337" y="145" class="ts" font-size="9">2 Quebrados</text>
+<text x="40" y="380" class="ts" font-weight="600">El mesón largo contra la pared del fondo obliga a rodearlo</text>
+<text x="40" y="396" class="ts" font-weight="600">para llegar al mueble — no es una carrera en línea recta.</text>
+<text x="40" y="414" class="ts">Kairon (Guantelete), Nemira (Guardián del Recuerdo) desplegados.</text>
+<text x="40" y="428" class="ts">Reclutas: Demetria (Guardián del Recuerdo), Yannis (Bastión),</text>
+<text x="40" y="442" class="ts">Elana (Guardia de Chatarra).</text>
+<text x="40" y="456" class="ts">Enemigo: Rurik (Filo) + 2 Quebrados genéricos junto al mueble.</text>
+<text x="40" y="470" class="ts" font-weight="600">Evento: si Rurik cae antes que sus dos hombres, el resto huye</text>
+</svg>
+</div>
+
+<div class="mapa">
+<h2>M5 — El agente</h2>
+<p class="concepto">Concepto: la maquinaria peligrosa forma una línea de producción real, no zonas sueltas. Caminar junto a la línea es rápido pero arriesgado; rodearla por detrás es más lento pero seguro.</p>
+<svg viewBox="0 0 560 390">
+<rect x="40" y="40" width="380" height="220" fill="url(#stoneTex)" opacity="0.3"/>
+<rect x="90" y="120" width="280" height="40" fill="#c9973a" opacity="0.25"/>
+<rect x="100" y="128" width="24" height="24" fill="url(#stoneTex)" filter="url(#ds)"/><circle cx="112" cy="140" r="4" fill="#e8b84a"/>
+<rect x="170" y="128" width="24" height="24" fill="url(#stoneTex)" filter="url(#ds)"/><circle cx="182" cy="140" r="4" fill="#e8b84a"/>
+<rect x="240" y="128" width="24" height="24" fill="url(#stoneTex)" filter="url(#ds)"/><circle cx="252" cy="140" r="4" fill="#e8b84a"/>
+<rect x="310" y="128" width="24" height="24" fill="url(#stoneTex)" filter="url(#ds)"/><circle cx="322" cy="140" r="4" fill="#e8b84a"/>
+<g stroke="#8a7250" stroke-width="0.4" opacity="0.4">
+<line x1="75" y1="40" x2="75" y2="260"/><line x1="110" y1="40" x2="110" y2="260"/><line x1="145" y1="40" x2="145" y2="260"/><line x1="180" y1="40" x2="180" y2="260"/><line x1="215" y1="40" x2="215" y2="260"/><line x1="250" y1="40" x2="250" y2="260"/><line x1="285" y1="40" x2="285" y2="260"/><line x1="320" y1="40" x2="320" y2="260"/><line x1="355" y1="40" x2="355" y2="260"/><line x1="390" y1="40" x2="390" y2="260"/>
+<line x1="40" y1="75" x2="420" y2="75"/><line x1="40" y1="110" x2="420" y2="110"/><line x1="40" y1="160" x2="420" y2="160"/><line x1="40" y1="195" x2="420" y2="195"/><line x1="40" y1="230" x2="420" y2="230"/>
+</g>
+<path d="M65 240 L54 224 L61 212 L69 212 L76 224 Z" fill="#0d7d72" stroke="#0a5d55" stroke-width="1.3" filter="url(#ds)"/>
+<text x="65" y="206" class="ts" text-anchor="middle">Kairon + escuadra</text>
+<path d="M395 90 L384 74 L391 62 L399 62 L406 74 Z" fill="#2f6fb8" stroke="#1f4f8a" stroke-width="1.1"/>
+<text x="395" y="56" class="ts" text-anchor="middle">Agente (NPC)</text>
+<text x="40" y="290" class="ts" font-weight="600">La línea de máquinas atraviesa el mapa entero — el camino rápido</text>
+<text x="40" y="306" class="ts" font-weight="600">pasa pegado a ella (riesgo), el lento la bordea por el fondo.</text>
+<text x="40" y="322" class="ts">Desplegados: Kairon, Nemira, Demetria, Yannis, Elana. El agente es</text>
+<text x="40" y="336" class="ts">un NPC de diálogo, no un enemigo con clase — la amenaza es la maquinaria.</text>
+<text x="40" y="352" class="ts" font-weight="600">Evento: el agente avisa "va a sobrecalentar" un turno antes de que</text>
+<text x="40" y="366" class="ts" font-weight="600">la zona de riesgo se duplique — telegrafiado, nunca sorpresa.</text>
+</svg>
+</div>
+
+<div class="mapa">
+<h2>M6 — Callejón nocturno</h2>
+<p class="concepto">Concepto: un codo, no un tubo recto. El callejón dobla una vez a mitad de camino, así que Kairon pierde de vista al ejecutor por un instante antes de encontrarlo cara a cara. Sigue siendo angosto de punta a punta — la excepción de diseño se mantiene.</p>
+<svg viewBox="0 0 340 465">
+<path d="M60 380 L60 220 L260 220 L260 40 L200 40 L200 160 L60 160 Z" fill="url(#dirtTex)"/>
+<path d="M0 380 L0 40 L200 40 L200 0 L260 0 L260 160 L340 160 L340 380 Z" fill="url(#stoneTex)" filter="url(#ds)" fill-rule="evenodd"/>
+<g stroke="#8a7250" stroke-width="0.5" opacity="0.5">
+<line x1="100" y1="220" x2="100" y2="380"/><line x1="140" y1="220" x2="140" y2="380"/><line x1="60" y1="260" x2="140" y2="260"/><line x1="60" y1="300" x2="140" y2="300"/><line x1="60" y1="340" x2="140" y2="340"/>
+</g>
+<path d="M100 355 L89 339 L96 327 L104 327 L111 339 Z" fill="#0d7d72" stroke="#0a5d55" stroke-width="1.3" filter="url(#ds)"/>
+<text x="100" y="392" class="ts" text-anchor="middle" font-size="10">Kairon</text>
+<path d="M230 65 L219 49 L226 37 L234 37 L241 49 Z" fill="#a52020" stroke="#7a1414" stroke-width="1.3" filter="url(#ds)"/>
+<text x="230" y="30" class="ts" text-anchor="middle" font-size="10">Ejecutor</text>
+<text x="20" y="405" class="ts" font-size="10">Codo a mitad de camino oculta al ejecutor.</text>
+<text x="20" y="418" class="ts" font-size="10">Sin clase asignada — enemigo civil menor, único.</text>
+<text x="20" y="432" class="ts" font-size="10" font-weight="600">Evento: la confesión ("no quería hacerlo") ocurre</text>
+<text x="20" y="444" class="ts" font-size="10" font-weight="600">apenas dobla el codo, antes del combate mismo.</text>
+</svg>
+</div>
+
+<div class="mapa">
+<h2>M8 — Frontera de humo</h2>
+<p class="concepto">Concepto: asimétrico a propósito. Un flanco tiene bosque denso (lento, protegido), el otro tiene terreno rocoso abierto (rápido, expuesto) — cada flanco le conviene a un tipo de unidad distinto, no son dos copias espejadas. El punto a defender está corrido hacia el lado del bosque, no en el centro exacto.</p>
+<svg viewBox="0 0 580 440">
+<rect x="40" y="40" width="400" height="260" fill="url(#dirtTex)"/>
+<rect x="40" y="140" width="160" height="160" fill="url(#forestTex)" filter="url(#ds)"/>
+<rect x="330" y="40" width="110" height="140" fill="url(#rockTex)" filter="url(#ds)"/>
+<rect x="130" y="230" width="70" height="70" fill="url(#stoneTex)" filter="url(#ds)"/>
+<rect x="145" y="245" width="40" height="40" fill="#6b5d42" opacity="0.4"/>
+<rect x="290" y="200" width="40" height="30" fill="url(#woodTex)" filter="url(#ds)"/>
+<text x="310" y="222" class="ts" text-anchor="middle">Carro</text>
+<g stroke="#8a7250" stroke-width="0.4" opacity="0.4">
+<line x1="75" y1="40" x2="75" y2="300"/><line x1="110" y1="40" x2="110" y2="300"/><line x1="145" y1="40" x2="145" y2="300"/><line x1="180" y1="40" x2="180" y2="300"/><line x1="215" y1="40" x2="215" y2="300"/><line x1="250" y1="40" x2="250" y2="300"/><line x1="285" y1="40" x2="285" y2="300"/><line x1="320" y1="40" x2="320" y2="300"/><line x1="355" y1="40" x2="355" y2="300"/><line x1="390" y1="40" x2="390" y2="300"/>
+<line x1="40" y1="75" x2="440" y2="75"/><line x1="40" y1="110" x2="440" y2="110"/><line x1="40" y1="145" x2="440" y2="145"/><line x1="40" y1="180" x2="440" y2="180"/><line x1="40" y1="215" x2="440" y2="215"/><line x1="40" y1="250" x2="440" y2="250"/><line x1="40" y1="285" x2="440" y2="285"/>
+</g>
+<path d="M240 45 L230 130" stroke="#a52020" stroke-width="1.8" stroke-dasharray="5 3"/>
+<path d="M380 45 L380 130" stroke="#a52020" stroke-width="1.8" stroke-dasharray="5 3"/>
+<path d="M165 320 L154 304 L161 292 L169 292 L176 304 Z" fill="#c9973a" stroke="#a8792a" stroke-width="1.3" filter="url(#ds)"/>
+<text x="165" y="286" class="ts" text-anchor="middle" font-size="10">Costas (recluta)</text>
+<path d="M60 280 L49 264 L56 252 L64 252 L71 264 Z" fill="#0d7d72" stroke="#0a5d55" stroke-width="1.3" filter="url(#ds)"/>
+<text x="60" y="246" class="ts" text-anchor="middle" font-size="10">Escuadra (5)</text>
+<path d="M400 65 L389 49 L396 37 L404 37 L411 49 Z" fill="#a52020" stroke="#7a1414" stroke-width="1.3"/>
+<text x="400" y="30" class="ts" text-anchor="middle" font-size="10">Hallmar</text>
+<path d="M355 100 L346 87 L351 78 L357 78 L362 87 Z" fill="#c0504d" stroke="#8a3a37" stroke-width="1" opacity="0.85"/>
+<path d="M430 110 L421 97 L426 88 L432 88 L437 97 Z" fill="#c0504d" stroke="#8a3a37" stroke-width="1" opacity="0.85"/>
+<circle cx="500" cy="55" r="14" fill="#888" opacity="0.35"/>
+<text x="500" y="59" class="ts" text-anchor="middle" font-size="9">humo</text>
+<text x="40" y="345" class="ts" font-weight="600">Bosque a la izquierda favorece infantería; roca abierta a la</text>
+<text x="40" y="361" class="ts" font-weight="600">derecha favorece caballería rápida — cada flanco pide algo distinto.</text>
+<text x="40" y="377" class="ts">Desplegados: Kairon, Nemira, Demetria, Yannis, Elana. Recluta: Costas</text>
+<text x="40" y="391" class="ts">(Cazador). Hallmar (Furia) + 2 Quebrados genéricos.</text>
+<text x="40" y="407" class="ts" font-weight="600">Evento: el humo en el horizonte telegrafía 1 turno antes de que</text>
+<text x="40" y="421" class="ts" font-weight="600">lleguen refuerzos — nunca ambush spawn.</text>
+</svg>
+</div>
+
+<div class="mapa">
+<h2>M10 — Lo que falta</h2>
+<p class="concepto">Concepto: los puntos de búsqueda están atados a accidentes reales del terreno (un árbol caído, un cruce de arroyo helado), no flotando en la nieve vacía. La distribución es irregular, no una grilla pareja.</p>
+<svg viewBox="0 0 560 440">
+<rect x="40" y="40" width="380" height="260" fill="url(#snowTex)"/>
+<path d="M180 40 L210 90 L170 130" fill="none" stroke="#6b5040" stroke-width="6" stroke-linecap="round"/>
+<path d="M300 180 L340 300" fill="none" stroke="#a8c8e0" stroke-width="10" opacity="0.6"/>
+<g stroke="#a8b8c8" stroke-width="0.5" opacity="0.5">
+<line x1="75" y1="40" x2="75" y2="300"/><line x1="110" y1="40" x2="110" y2="300"/><line x1="145" y1="40" x2="145" y2="300"/><line x1="180" y1="40" x2="180" y2="300"/><line x1="215" y1="40" x2="215" y2="300"/><line x1="250" y1="40" x2="250" y2="300"/><line x1="285" y1="40" x2="285" y2="300"/><line x1="320" y1="40" x2="320" y2="300"/><line x1="355" y1="40" x2="355" y2="300"/><line x1="390" y1="40" x2="390" y2="300"/>
+<line x1="40" y1="75" x2="420" y2="75"/><line x1="40" y1="110" x2="420" y2="110"/><line x1="40" y1="145" x2="420" y2="145"/><line x1="40" y1="180" x2="420" y2="180"/><line x1="40" y1="215" x2="420" y2="215"/><line x1="40" y1="250" x2="420" y2="250"/><line x1="40" y1="285" x2="420" y2="285"/>
+</g>
+<circle cx="185" cy="95" r="13" fill="#c9973a" filter="url(#ds)" stroke="#7a5fb0" stroke-width="2.5"/><text x="185" y="100" class="ts" text-anchor="middle" fill="white" font-weight="700">?</text>
+<circle cx="320" cy="220" r="11" fill="#c9973a" filter="url(#ds)"/><text x="320" y="225" class="ts" text-anchor="middle" fill="white" font-weight="700">?</text>
+<circle cx="90" cy="230" r="11" fill="#c9973a" filter="url(#ds)"/><text x="90" y="235" class="ts" text-anchor="middle" fill="white" font-weight="700">?</text>
+<circle cx="390" cy="90" r="11" fill="#c9973a" filter="url(#ds)"/><text x="390" y="95" class="ts" text-anchor="middle" fill="white" font-weight="700">?</text>
+<path d="M250 150 L239 134 L246 122 L254 122 L261 134 Z" fill="#a52020" stroke="#7a1414" stroke-width="1.1"/>
+<path d="M150 180 L139 164 L146 152 L154 152 L161 164 Z" fill="#a52020" stroke="#7a1414" stroke-width="1.1"/>
+<path d="M65 270 L54 254 L61 242 L69 242 L76 254 Z" fill="#0d7d72" stroke="#0a5d55" stroke-width="1.3" filter="url(#ds)"/>
+<text x="65" y="236" class="ts" text-anchor="middle" font-size="10">Kairon + 5</text>
+<text x="150" y="180" class="ts" font-size="10">Quebrados</text>
+<text x="40" y="330" class="ts" font-weight="600">Árbol caído y arroyo helado marcan dos de los puntos —</text>
+<text x="40" y="346" class="ts" font-weight="600">no son marcadores flotantes, son lugares reales del paisaje.</text>
+<text x="40" y="362" class="ts">Desplegados: Kairon, Demetria, Yannis, Elana, Costas, Selene.</text>
+<text x="40" y="376" class="ts">Nemira no está — es a quien están buscando. Hostiles: Los</text>
+<text x="40" y="389" class="ts">Quebrados, sin líder nombrado.</text>
+<text x="40" y="405" class="ts" font-weight="600">Evento: el punto marcado con borde violeta (junto al árbol caído)</text>
+<text x="40" y="419" class="ts" font-weight="600">es el único con el cuaderno chico — los otros tres son decoy.</text>
+</svg>
+</div>
+
+</body>
+</html>

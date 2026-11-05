@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // 1) Correr la tarea "Abrir juego en mGBA (esperando depurador)"
+      //    o en mGBA ir a Herramientas > Iniciar servidor GDB (puerto 2345).
+      // 2) Apretar F5 con esta configuracion elegida.
+      "name": "Depurar en mGBA",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/fireemblem8.elf",
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb-multiarch",
+      "windows": { "miDebuggerPath": "arm-none-eabi-gdb.exe" },
+      "miDebuggerServerAddress": "localhost:2345",
+      "stopAtConnect": false,
+      "externalConsole": false,
+      "setupCommands": [
+        { "text": "set architecture armv4t" },
+        { "text": "set print pretty on" }
+      ]
+    }
+  ]
+}

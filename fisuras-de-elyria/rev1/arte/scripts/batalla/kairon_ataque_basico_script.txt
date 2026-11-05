@@ -1,0 +1,40 @@
+; ============================================================
+; Kairon - Ataque cuerpo a cuerpo básico (Mode 1)
+; Basado en el diseño ya acordado: arranca del lado derecho,
+; esprinta hacia la izquierda, golpea con el guante (mano
+; izquierda), vapor de liberación al conectar.
+; Renombrá los .png de abajo para que coincidan exactamente
+; con tus archivos - el orden es lo único que importa acá.
+; ============================================================
+
+/// - Mode 1 #Melee Animation
+C03 #Start attack animation; need 07 right after this.
+C07 #Start attack animation; need 03 right before this.
+
+; --- FRAME PARADO (lado derecho del cuadro) ---
+1 p- kairon_standing.png
+
+; --- SPRINT / LLEGADA (hacia la izquierda, guante en alto) ---
+; Movimiento rápido: frames cortos.
+3 p- kairon_atk_001_sprint.png
+C1B #Play quick "heavy step" SFE - pisada al arrancar el sprint
+3 p- kairon_atk_002_sprint.png
+3 p- kairon_atk_003_llegada.png
+
+; --- IMPACTO ---
+C04 #Prepare HP depletion routine; needed to animate return to standing frame after hit
+C1A #Normal hit
+C1F #Play hit SFE (sounds like Eliwood with sword's hit) - es el sonido de espada de la plantilla; si tenés un SFE mecánico propio via S####, reemplazá esta línea por ese código
+2 p- kairon_atk_004_impacto.png
+
+; --- VAPOR / LIBERACIÓN ---
+3 p- kairon_atk_005_vapor.png
+
+C01 #NOP
+
+; --- REGRESO A POSICIÓN NORMAL ---
+3 p- kairon_atk_006_vuelta.png
+
+C06 #Begin opponent's turn after hit. next code 0D.
+C0D #End of dodge animation. preceeded by 0x06
+~~~

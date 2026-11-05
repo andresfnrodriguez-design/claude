@@ -1,0 +1,737 @@
+0:01
+Map design. A word you may hear
+0:03
+frequently in discussions revolving
+0:05
+around Fire Emblem, particularly from
+0:07
+people involved in the hacking
+0:08
+community. But what is map design and
+0:11
+why is it important?
+0:13
+Quickly puts, map design is how well a
+0:15
+particular level in Fire Emblem is
+0:17
+designed to create an enjoyable and
+0:19
+memorable experience for the player.
+0:21
+from everywhere to where your character
+0:23
+start outs, where, how many, and how
+0:25
+frequently the enemies are placed to
+0:27
+terrain, hidden items, objectives,
+0:29
+reinforcements, all the way to the boss
+0:31
+at the end. In this video, I will
+0:34
+explain what I think makes a good map.
+0:36
+I'm no hacker, but I have over 12 years
+0:38
+of Fire Emblem experience under my belt,
+0:40
+and I like to think that has taught me a
+0:41
+little bit. I'll show you both some good
+0:44
+and some bad maps from earlier Fire
+0:45
+Emblem games, and I'll try to explain
+0:47
+why map design is some of the most
+0:49
+important aspects of designing a Fire
+0:51
+Emblem game or hack.
+Story
+0:54
+First, let's talk about what a good map
+0:56
+needs. One, a story. A good map needs a
+1:00
+good story behind it. The first thing a
+1:02
+designer should think about when
+1:03
+designing a particular map is why are we
+1:06
+here? Why are we on this particular
+1:08
+piece of land? And why are we fighting
+1:10
+whoever is out to get us? I personally
+1:12
+think that a map should be designed
+1:13
+around a story and not the other way
+1:15
+around. Throughout my years of being
+1:16
+involved in the Fire Emblem community,
+1:18
+I've seen many designers make maps first
+1:20
+and then write the story later. And I
+1:23
+think that's a bad idea. I think that a
+1:25
+map can become 10 times better if the
+1:27
+story fits the landscape. If the group
+1:29
+is traveling through a dangerous
+1:30
+mountain range, the landscape should be
+1:32
+designed to reflect this. If the battle
+1:34
+is taking place next to a famous river,
+1:36
+the river should be present and play a
+1:38
+pivotal role in the fights. Use the
+1:40
+landscape. Give it some backstory. Have
+1:42
+the characters talk about it beforehand.
+1:45
+Make whatever world you're in seem alive
+1:47
+and like a real world. There is nothing
+1:50
+more forgettable than a generic grassy
+1:52
+map where the party simply fights
+1:54
+against a bunch of random bandits with
+1:56
+no story tied into the landscape
+1:58
+whatsoever. Try to always make the map
+2:00
+look alive and have some backstory
+2:02
+reflecting the landscape we're fighting
+2:04
+in. It adds so much to the general feel
+2:07
+of the level.
+Gimmicks
+2:11
+Two, a gimmick. Every map should have a
+2:14
+gimmick. What do I mean by that? As a
+2:16
+map designer, you need to think about
+2:17
+what kind of battle will be fought on
+2:19
+your map. Is it a clash of two armies
+2:21
+facing off on the grand battlefield? A
+2:23
+skirmish with the city guards in an
+2:25
+urban area, a defense chapter where we
+2:27
+have to hold out against waves of
+2:29
+encroaching enemies, or simply a generic
+2:31
+fight with bandits in the mountains.
+2:33
+Either way, a gimmick is important, and
+2:36
+the map design should reflect this
+2:37
+gimmick. If we're fighting in a pirate
+2:39
+town, you should add lots of taverns,
+2:41
+maybe a ship resting near the pier,
+2:43
+possibly an arena where the pirates
+2:44
+fight for money. You should try your
+2:46
+best to give your map a very distinct
+2:49
+feel. Remember the gayen chapter in Fire
+2:51
+Emblem 7 where you fight against Fargo
+2:53
+and his crew? Me, too. It's a very
+2:56
+memorable map because it truly feels
+2:57
+like you're fighting in a pirate town.
+2:59
+The music, the enemy pirates mocking
+3:01
+about, the buildings, and the layout of
+3:03
+the map almost makes me taste the salt
+3:05
+water in the air as I'm playing. How
+3:08
+about a fight that takes place in a dark
+3:09
+forest? Well, make it dark, god damn it.
+3:12
+Give it fog of war and have it take
+3:14
+place during the nighttime. Add lots of
+3:16
+forest everywhere and have the enemies
+3:18
+come from all sides to make your players
+3:20
+paranoid. Also, make sure the music fits
+3:24
+the map. Make it reflect the state of
+3:27
+your character's mind. If they are
+3:29
+paranoid and afraid, give the players
+3:31
+music that strengthens these feelings. I
+3:33
+feel like one of the most basic mistakes
+3:35
+made by map designers is to not properly
+3:38
+consider the correct music for each map.
+3:40
+It is so important.
+Objective
+3:44
+Three, an objective. Most maps in Fire
+3:47
+Emblem are either route or seize maps.
+3:49
+This means that you simply have to clear
+3:50
+out all the enemies to win or reach a
+3:53
+throne or a gates. This works for the
+3:55
+most part, but there is so much more to
+3:57
+Fire Emblem than just killing enemies.
+3:59
+There's a lot of missed opportunities to
+4:00
+make fantastic objectives with the tools
+4:03
+already available by the map designers.
+4:05
+One of the best examples of creative
+4:07
+objective design in a Fire Emblem hack
+4:09
+comes from Midnight Sun, a hack made by
+4:11
+Alfred Cam, where you have to take out
+4:13
+three enemy generals with an extremely
+4:15
+small army and then get the hell out of
+4:17
+there before you're overrun. I'd like to
+4:19
+see more creative objective design in
+4:22
+Fire Emblem maps. Escorting a civilian
+4:24
+to a specific area, cracking open a
+4:26
+number of set walls so a friendly army
+4:28
+can enter a city. Stealing an important
+4:30
+item from an incredibly strong opponent
+4:32
+with your thief and try to escape
+4:33
+without being killed. Capturing and
+4:35
+holding multiple forts at once. Escape
+4:37
+chapters like in Tracia 776. The list
+4:40
+goes on and on. Before making a simple
+4:43
+route chapter, think about creative
+4:45
+objectives to spice up the map. Just try
+4:47
+not to go overboard and have too many
+4:49
+silly and complicated objectives for
+4:51
+each and every map as that can quickly
+4:52
+become tedious for the players.
+Turtling
+4:56
+Four anti- turtling incentives. Unless
+4:59
+you are going for a ranked run and are
+5:01
+trying to complete a game in a set
+5:03
+amount of turns, there is no real reason
+5:05
+to rush in most Fire Emblem maps. You
+5:07
+can usually bind your time and slowly
+5:09
+leaprog your army forward, taking on the
+5:11
+minimal amount of enemy units at once
+5:13
+with no fear of losing anything other
+5:14
+than your time. This is where an anti-
+5:16
+turtling incentive comes in. An anti-
+5:19
+turtling incentive can come in multiple
+5:21
+forms, but mainly it's a mechanic in the
+5:23
+map design that threatens to take away
+5:24
+either rewards or simply forcing a game
+5:27
+over if the player isn't fast enough.
+5:29
+Thieves going for treasure chests is one
+5:32
+of the oldest anti- turtling incentives
+5:34
+in Fire Emblem and was seen as early as
+5:36
+the first game. With thieves threatening
+5:38
+to swipe away treasure, you simply
+5:40
+cannot take your time to turtle and are
+5:42
+forced to charge to enemies and place
+5:43
+your characters in dangerous situations.
+5:45
+You can, of course, choose to ignore the
+5:47
+thieves and simply keep on turtling, but
+5:49
+you might lose out on valuable items
+5:51
+such as stat boosters, gold, and
+5:53
+promotional items. However, there's many
+5:56
+more ways to incentivize your players to
+5:57
+move forward. A gaden chapter
+5:59
+requirement that either demands you
+6:01
+complete a chapter in a set amount of
+6:02
+turns or forces you to keep a specific
+6:04
+unit alive, such as a green units in
+6:06
+order to unlock the mission is a good
+6:08
+way to do it. When designing this, make
+6:10
+sure you make it obvious that the player
+6:12
+has to hurry. Make the boss of the
+6:14
+chapter utter some sort of dialogue that
+6:15
+he'll kill the civilians after a set
+6:17
+time passes or something along those
+6:19
+lines to show the players that they have
+6:21
+to hurry.
+6:23
+Another creative way to prevent players
+6:25
+from turtling is to place them in danger
+6:27
+by having strong reinforcements appear
+6:29
+after a set amount of turns and start
+6:30
+hunting them down. Fire Emblem 3 book 2
+6:33
+did this a lot by having Astria and his
+6:35
+mercenaries come chasing after you if
+6:36
+you took too much time. The hack Dream
+6:38
+of Five also did this a lot, but I felt
+6:40
+they overdid it by having it happen too
+6:42
+many times in a row. Having dangerous
+6:45
+reinforcements spawn right behind the
+6:47
+player and force them to move forward
+6:49
+can be quite nerve-wracking if done
+6:50
+right. Just make sure you don't overdo
+6:52
+it, as it can quickly become more of an
+6:54
+annoyance than exciting. I think that
+6:57
+most maps should have some form of
+6:59
+incentive to push the players forward,
+7:01
+though some can be more serious than
+7:03
+others. Anti- turtling incentives that
+7:05
+forces a game over should be used very
+7:08
+sparringly. But taking away a stat
+7:10
+booster as a punishment for not
+7:11
+completing a chapter quickly enough is a
+7:13
+healthy way to motivate the player into
+7:15
+playing more aggressively.
+Multiple Paths
+7:18
+Five, multiple paths. Most maps require
+7:21
+you to go from point A to point B, and
+7:23
+you seldom get much choice on how to get
+7:24
+there. The maps that allows you to
+7:26
+choose between two paths or more, stick
+7:28
+out as more memorable to me, as I have
+7:30
+more choice about where to move my
+7:31
+characters. I particularly love it when
+7:33
+you have to split up the party into two
+7:35
+or more groups. The last map of Shadow
+7:37
+Dragon, where you have to attack Medio
+7:38
+Stronghold from four different angles,
+7:40
+is a map that I remember fondly. As a
+7:43
+map designer, make sure you give the
+7:44
+player some freedom of choice when it
+7:46
+comes to movements. Add multiple
+7:47
+hallways, breakable walls, and doors
+7:49
+that can be opened. It really adds a lot
+7:52
+to the enjoyment of a map.
+Lengths
+7:55
+Six, length. This is a big one and one
+7:59
+that many people need to seriously think
+8:01
+about. In about nine out of 10 hacks
+8:03
+that I play, the maps are simply too
+8:06
+long. A map should be short enough to
+8:08
+make you enjoy it from start to finish,
+8:10
+and occasionally you can throw in the
+8:11
+big map full of enemies to really test
+8:13
+your players endurance and skill. As the
+8:15
+game progresses towards the end, you can
+8:17
+add larger and larger maps as the story
+8:19
+builds up to its climax. But please do
+8:22
+not make me sit through several
+8:23
+enormously long maps as the introduction
+8:25
+to your game. Avoid using Fire Emblem
+8:28
+Tre's map design as an example. Cut away
+8:31
+that doesn't need to be there. If I
+8:33
+have to spend three to four turns moving
+8:35
+my entire party from one pack of enemies
+8:37
+to the other, the map is too large and
+8:39
+not enjoyable to play on. There should
+8:41
+always be something happening at any
+8:42
+given corner of a map. Else it's just a
+8:45
+waste of space. Rather have your map be
+8:47
+shorter than longer, particularly the
+8:49
+first five to 10 maps of any given hack.
+Terrain
+8:53
+Seven. Terrain. You may find it weird
+8:56
+that I waited so long to talk about
+8:58
+terrain, but I feel like there's so much
+8:59
+more to a map than simply placing
+9:01
+forests, mountains, forts, and cities.
+9:03
+I'm not going to talk about how to make
+9:05
+an aesthetically pleasing map that's
+9:06
+nice to look at because at the end of
+9:08
+the day, I'm no artist, and this is
+9:10
+really outside of my field of
+9:11
+experience. What I'm more interested in
+9:13
+talking about is where and how to place
+9:15
+defensive terrain. When placing terrain,
+9:18
+you have to think about how and when
+9:19
+they'll be used. Will those pillars in
+9:21
+the entrance really make a difference,
+9:23
+or are they just for aesthetics? There's
+9:25
+nothing wrong with having terrain be
+9:26
+purely cosmetical, but in my opinion,
+9:28
+you should design assign it to be both
+9:30
+visually pleasing to the eye and
+9:31
+relevant to the map at the same time.
+9:33
+Have the pillars be in locations where
+9:35
+there are enemies. Have the enemies use
+9:37
+said pillars against you, and then allow
+9:39
+you to use those pillars against an
+9:41
+encroaching wave of enemy reinforcements
+9:43
+moving in to reinforce their friends. If
+9:45
+you're facing ballista, allow the
+9:47
+players to take a path through the
+9:48
+forest to reach it, where they'll
+9:49
+receive some defensive cover. Have
+9:52
+mountains be placed in strategic
+9:53
+locations so you can place your infantry
+9:55
+there to meet a bunch of charging
+9:56
+enemies. Make sure the players have
+9:58
+plenty of terrain to work with and not
+10:00
+be stuck in an open field surrounded by
+10:01
+enemies forced to rely on the RNG to win
+10:04
+the day like Awakening did. Think about
+10:06
+where you place the terrain, not just to
+10:08
+look pretty, but how it will actually be
+10:10
+used on the map, and you will create a
+10:12
+map that's both visually pleasing to the
+10:13
+eye and fun to play at the same time.
+Reinforcements
+10:18
+Eight. Reinforcements. Many map
+10:21
+designers don't know how to properly
+10:23
+utilize reinforcements. In many maps,
+10:25
+they just seem to appear randomly out of
+10:26
+nowhere to draw it out, and this is a
+10:28
+terrible way to utilize them. I think
+10:30
+that reinforcements should always have a
+10:32
+backstory and a reason to appear. Simply
+10:34
+having a bunch of cavaliers charging out
+10:36
+from a fort adds little excitement to
+10:38
+the map. It's just more enemies in a
+10:40
+place you didn't expect them to be. If
+10:42
+you're going to include reinforcements,
+10:44
+make sure the player gets a small hint
+10:45
+about when and where they'll arrive.
+10:48
+Maybe the enemy commander issues a
+10:49
+battalion of cavaliers to ride around
+10:51
+and charge the player's units from
+10:52
+behind. Maybe the player gets informed
+10:54
+that a squad of Pegasus knights are
+10:56
+closing in on their location and will be
+10:57
+upon them soon. Or the boss might shout
+10:59
+out for more reinforcements to be
+11:01
+summoned when the player comes closer to
+11:02
+his or her position. These are all story
+11:04
+elements that can make reinforcements
+11:06
+appear more sensible and logical instead
+11:08
+of just random enemies appearing out of
+11:10
+nowhere. I highly advise you to never
+11:12
+utilize ambush spawns in your map.
+11:14
+Ambush spawns are units that can move
+11:16
+and attack on the same turn they appear,
+11:18
+often taking you by surprise. There's
+11:20
+nothing more frustrating than having a
+11:22
+cavalier spawn and kill your healer on
+11:24
+the same turn. This is the sort of
+11:25
+that can make your players rage quit and
+11:27
+never play or hack again out of pure
+11:29
+frustration, and you don't want that.
+11:32
+When placing reinforcements in the map,
+11:34
+you have to first think about why you
+11:35
+want them there. Why not just have them
+11:37
+there from the start? Will making them
+11:39
+appear later serve any points? What do
+11:41
+you hope to achieve by having them
+11:42
+arrive from this particular location?
+11:44
+These are all important factors to take
+11:46
+into consideration when designing a map
+11:48
+with reinforcements.
+Outro
+11:52
+I could probably go on for quite some
+11:53
+time about this, but these are the major
+11:55
+highlights of what I think is important
+11:57
+related to map design. I hope you found
+11:59
+this video informative, and I'd love to
+12:00
+hear your opinions about what you think
+12:02
+makes a good map. Let me know what is
+12:04
+your favorite and least favorite map in
+12:06
+Fire Emblem. And if you like and share
+12:08
+this video with your friends, I'd
+12:10
+appreciate it a lot because it really
+12:11
+helps out the channel. At any rate, my
+12:13
+name has been Mangs. Thank you for
+12:14
+watching and I'll see you guys next
+12:16
+time. Goodbye.

@@ -1,0 +1,106 @@
+TAREA PARA CLAUDE CODE · Corrección del mapa debug del Prólogo y ubicación de unidades
+Repo fireemblem8u. Hacé commit antes de tocar nada.
+
+1. CORREGIR EL TERRENO
+La versión instalada del mapa está mal. El núcleo usaba Acantilado (0x26) donde va Muro y Cerca (0x19) donde va Mar. Reemplazá el mapa completo por la grilla de la sección 4.
+- Bosque = 0x0C (Forest)
+- Llanura = 0x01 (Plains)
+- Mar = 0x15 (Sea)
+- Muro = 0x1A (Wall)
+Si usás debug_mapa.py, usá la versión nueva adjunta (ya trae esta grilla) y corré
+    python3 debug_mapa.py --revertir
+    python3 debug_mapa.py
+    make
+Si no, escribí graphics/map/layout/PrologueMap.mar con esta grilla usando, para cada ID, una pieza del tileset 9 cuya entrada en la tabla de terreno sea ese ID.
+Verificá por código, casilla por casilla, que tabla_terreno[pieza] == grilla[y][x] en las 810 casillas.
+
+2. UNIDADES
+Las coordenadas son las del mapa del juego (x,y desde 0, arriba a la izquierda, mapa 27x30). Usalas tal cual, sin sumar ni restar nada.
+
+Enemigos (equipo enemigo, IA de ataque normal)
+  Jefe Guerrero (CLASS_WARRIOR), Hacha de hierro (ITEM_AXE_IRON)   (18,4)
+  Mercenario (CLASS_MERCENARY), Espada de hierro (ITEM_SWORD_IRON) (17,4)
+  Mercenario                                                       (18,5)
+  Mercenario                                                       (11,10)
+  Mercenario                                                       (12,10)
+  Mercenario                                                       (10,11)
+  Mercenario                                                       (13,16)
+
+Jugador (equipo azul, todos controlables)
+  Gerik   (12,20)
+  Eirika  (13,20)
+  Ephraim (14,20)
+  Innes   (13,21)
+  Seth    (12,22)   En el original es aliado verde. Pasalo a equipo del jugador.
+  Valter  (8,21)    Postgame
+  Riev    (9,21)    Postgame
+
+Todas esas casillas son Llanura (0x01). Si alguna unidad aparece en otra casilla, el error está en la carga de unidades, no en el mapa.
+
+3. EVENTOS DEL PRÓLOGO
+- Reemplazá las UnitDef del prólogo (src/events/prologue-eventudefs.h) por estas unidades. Una sola carga de jugador y una de enemigos al inicio, sin MOVE ni escenas que las reubiquen.
+- Quitá o desactivá CAMERA, MOVE y tutoriales con coordenadas del mapa original. Si una escena mueve a Seth o a Eirika, sacala.
+- Victoria al derrotar al jefe.
+- Revisá los REDA y que las unidades no se pisen. Compilá con make y confirmá que no hay errores.
+
+4. REFERENCIA VISUAL (núcleo x 3-23, y 3-22)
+Encabezado = columna x. Izquierda = fila y. Letras = unidades sobre Llanura.
+  .  Llanura   F  Bosque   ~  Mar   #  Muro
+  J  Jefe   M  Mercenario   1 Gerik  2 Eirika  3 Ephraim  4 Innes  5 Seth  V Valter  R Riev
+
+      000000011111111112222
+      345678901234567890123
+  03  ....FFFFFFFFF.......F
+  04  ......FFFF.F#.MJ....F
+  05  ........F.F....M...FF
+  06  F.........F........FF
+  07  FF................FFF
+  08  FFF.....F......F.FFFF
+  09  FF.......F....F.FFFFF
+  10  FF...F..MM...F.FFFFFF
+  11  FF...FFM....F.FFFFFFF
+  12  FF..FF#..#.....FFFFFF
+  13  FF...FFF.F.F....FFFFF
+  14  FF...FF#F.......FFFFF
+  15  F.....FF.........FFFF
+  16  ..........M........FF
+  17  ....................F
+  18  ~~~~~~~~~...~~~~~~~~~
+  19  #########...#########
+  20  #........123.......#.
+  21  #....VR...4........##
+  22  #........5.....######
+
+Grilla completa 27x30 en IDs hexadecimales (fila = y, columna = x)
+01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+01 02 02 03 03 04 04 05 05 06 06 07 07 01 08 08 09 09 0A 0A 0B 0B 0C 0C 0D 0D 01
+01 2E 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 0E 01
+01 2E 01 01 01 01 01 0C 0C 0C 0C 0C 0C 0C 0C 0C 01 01 01 01 01 01 01 0C 01 0E 01
+01 2D 01 01 01 01 01 01 01 0C 0C 0C 0C 01 0C 1A 01 01 01 01 01 01 01 0C 01 0F 01
+01 2D 01 01 01 01 01 01 01 01 01 0C 01 0C 01 01 01 01 01 01 01 01 0C 0C 01 0F 01
+01 2C 01 0C 01 01 01 01 01 01 01 01 01 0C 01 01 01 01 01 01 01 01 0C 0C 01 10 01
+01 2C 01 0C 0C 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 0C 0C 0C 01 10 01
+01 2B 01 0C 0C 0C 01 01 01 01 01 0C 01 01 01 01 01 01 0C 01 0C 0C 0C 0C 01 11 01
+01 2B 01 0C 0C 01 01 01 01 01 01 01 0C 01 01 01 01 0C 01 0C 0C 0C 0C 0C 01 11 01
+01 2A 01 0C 0C 01 01 01 0C 01 01 01 01 01 01 01 0C 01 0C 0C 0C 0C 0C 0C 01 12 01
+01 2A 01 0C 0C 01 01 01 0C 0C 01 01 01 01 01 0C 01 0C 0C 0C 0C 0C 0C 0C 01 12 01
+01 01 01 0C 0C 01 01 0C 0C 1A 01 01 1A 01 01 01 01 01 0C 0C 0C 0C 0C 0C 01 01 01
+01 29 01 0C 0C 01 01 01 0C 0C 0C 01 0C 01 0C 01 01 01 01 0C 0C 0C 0C 0C 01 13 01
+01 29 01 0C 0C 01 01 01 0C 0C 1A 0C 01 01 01 01 01 01 01 0C 0C 0C 0C 0C 01 13 01
+01 28 01 0C 01 01 01 01 01 0C 0C 01 01 01 01 01 01 01 01 01 0C 0C 0C 0C 01 14 01
+01 28 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 0C 0C 01 14 01
+01 27 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 0C 01 15 01
+01 27 01 15 15 15 15 15 15 15 15 15 01 01 01 15 15 15 15 15 15 15 15 15 01 15 01
+01 26 01 1A 1A 1A 1A 1A 1A 1A 1A 1A 01 01 01 1A 1A 1A 1A 1A 1A 1A 1A 1A 01 16 01
+01 26 01 1A 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 1A 01 01 16 01
+01 25 01 1A 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 1A 1A 01 17 01
+01 25 01 1A 01 01 01 01 01 01 01 01 01 01 01 01 01 01 1A 1A 1A 1A 1A 1A 01 17 01
+01 24 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 18 01
+01 24 23 23 22 22 21 21 20 20 1F 1F 1E 01 1E 1D 1D 1C 1C 1B 1B 1A 1A 19 19 18 01
+01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+2F 2F 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 3A 3A 3B 3B 3C
+01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+3C 3D 3D 3E 3E 3F 3F 40 40 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+
+Entregá un resumen corto en español, sin relleno.
