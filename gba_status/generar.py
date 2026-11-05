@@ -138,11 +138,14 @@ def hombro(x0, letra, izq):
 # (se desplazan 1 px hacia afuera en cuadros alternos; T = cuadro)
 _off = int(float(os.environ.get("T", "0")) / 6) % 2
 def punta(cx, izq):
-    for i in range(5):                       # i = distancia a la fila central (y = 6)
-        x_ = cx + i if izq else cx + 4 - i   # "<": punta a la izquierda; ">": punta a la derecha
-        for yy in {6 - i, 6 + i}:
-            d.point((x_, yy), fill=(0, 0, 0)); d.point((x_ + 1, yy), fill=(0, 0, 0))
-punta(3 - _off, True); punta(231 + _off, False)
+    # flecha rellena con muesca atras (chevron grueso), negra con un brillo gris arriba
+    pts = [(0, 1), (3, 1), (8, 6), (3, 11), (0, 11), (4, 6)]          # ">" en caja 9x11
+    if izq: pts = [(8 - px_, py_) for px_, py_ in pts]                 # espejo para "<"
+    d.polygon([(cx + px_, py_) for px_, py_ in pts], fill=(0, 0, 0))
+    luz = [(1, 2), (2, 2), (3, 3), (4, 4)]                               # brillo en el borde superior
+    for px_, py_ in luz:
+        d.point((cx + (8 - px_ if izq else px_), py_), fill=c(88, 88, 96))
+punta(2 - _off, True); punta(229 + _off, False)
 t(40, 1, "Kairos"); t(41, 1, "Kairos")  # mas grueso (doble pasada) y corrido a la derecha
 for x0, x1, lab in [(140, 156, "LV"), (178, 198, "EXP")]:
     d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
