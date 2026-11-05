@@ -15,13 +15,35 @@ DARK, FR = c(48, 8, 20), c(200, 64, 88)
 img = Image.new("RGB", (W, H))
 f = ImageFont.load_default()
 
-# fondo: luz tinta que sale de la esquina superior izquierda
-for y in range(H):
-    for x in range(W):
-        dist = math.hypot(x, y * 1.2)
-        ang = abs(math.atan2(y, x) - math.radians(35))  # haz hacia abajo-derecha
-        k = dist / 260 + ang * 0.35
-        img.putpixel((x, y), lerp((150, 40, 60), (36, 5, 12), min(1, k)))
+import os, random
+FONDO = os.environ.get("FONDO", "luz")
+def fondo_fisuras(c_izq, c_der, c_centro):
+    """Degradado diagonal de dos colores con un centro oscuro + esquirlas de cristal (fisuras)."""
+    for y in range(H):
+        for x in range(W):
+            u = (x + y * 0.6) / (W + H * 0.6)                  # diagonal
+            base = lerp(c_izq, c_der, u)
+            k = max(0, 1 - abs(u - 0.5) / 0.35)                # oscurece el centro
+            img.putpixel((x, y), lerp(base, c_centro, k * 0.75))
+    rnd = random.Random(7); dd = ImageDraw.Draw(img)
+    for _ in range(38):                                      # esquirlas triangulares
+        x0, y0 = rnd.randrange(W), rnd.randrange(H); L = rnd.randint(6, 22)
+        a0 = rnd.random() * math.tau
+        pts = [(x0 + L * math.cos(a0 + t), y0 + L * math.sin(a0 + t) * 0.6) for t in (0, 2.4, 3.6)]
+        p = img.getpixel((x0, y0)); f = rnd.choice((1.35, 0.7))
+        dd.polygon(pts, fill=c(*(min(255, v * f) for v in p)))
+if FONDO == "luz":
+    # fondo: luz tinta que sale de la esquina superior izquierda
+    for y in range(H):
+        for x in range(W):
+            dist = math.hypot(x, y * 1.2)
+            ang = abs(math.atan2(y, x) - math.radians(35))  # haz hacia abajo-derecha
+            k = dist / 260 + ang * 0.35
+            img.putpixel((x, y), lerp((150, 40, 60), (36, 5, 12), min(1, k)))
+elif FONDO == "fisuras":   # teal a la izquierda, brasa a la derecha
+    fondo_fisuras((40, 150, 150), (216, 88, 48), (14, 26, 30))
+elif FONDO == "negro":
+    pass
 
 # retrato (arte del usuario, fondo morado transparente)
 RX, RY = -26, 17  # ojos alineados con la guia
@@ -228,6 +250,7 @@ d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
 suf = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ""
+if FONDO != "luz": suf += "_" + FONDO
 if not ICONOS_ON: suf += "_sin_iconos"
 img.save(f"estado_gba{suf}.png")
 img.resize((W * 4, H * 4), Image.NEAREST).save(f"estado_gba{suf}_x4.png")
