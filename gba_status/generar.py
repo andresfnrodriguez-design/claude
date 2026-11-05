@@ -231,7 +231,7 @@ d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs,
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
 STY = 57  # bloque de stats centrado entre el fin de la franja negra (30) y el inicio de los botones (139)
-for x in range(61): smd.line([(x, STY), (x, STY + 74)], fill=int(255 * (1 - x / 60)))  # negro puro a la izquierda, se desvanece parejo hasta x 60
+for x in range(61): smd.line([(x, STY), (x, STY + 74)], fill=int(205 * (1 - x / 60)))  # negro al 80% a la izquierda (no tan cerrado), parejo hasta x 60
 img.paste(Image.new("RGB", (W, H), (0, 0, 0)), (0, 0), sm)
 stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
          ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
