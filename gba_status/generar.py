@@ -24,7 +24,7 @@ def fondo_fisuras(c_izq, c_der, c_centro):
       - su color sale del fondo que tienen DETRAS en ese momento (un poco mas claro u oscuro),
         asi sobre cyan solo hay esquirlas cyan y sobre magenta solo magenta; nunca blanco."""
     def raw(x, y):
-        u = (x + y * 0.6) / (W + H * 0.6)
+        u = (x + y * 1.732) / (W + H * 1.732)   # franjas a 30 grados
         b_ = [c_izq[i] + (c_der[i] - c_izq[i]) * u for i in range(3)]
         k = max(0, 1 - abs(u - 0.5) / 0.35) * 0.75
         return [b_[i] + (c_centro[i] - b_[i]) * k for i in range(3)]
@@ -148,8 +148,11 @@ def punta(cx, izq):
 punta(2 - _off, True); punta(229 + _off, False)
 t(40, 1, "Kairos"); t(41, 1, "Kairos")  # mas grueso (doble pasada) y corrido a la derecha
 for x0, x1, lab in [(140, 156, "LV"), (178, 198, "EXP")]:
-    d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
-tr(172, 1, "8"); tr(222, 1, "99")
+    d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK)
+    fl = ImageFont.load_default(size=9)                      # un punto mas chica
+    bb_ = d.textbbox((0, 0), lab, font=fl)
+    d.text((x0 + (x1 - x0 + 1 - (bb_[2] - bb_[0])) // 2 - bb_[0], 2 + (10 - (bb_[3] - bb_[1])) // 2 - bb_[1]), lab, font=fl, fill=LBL)
+tr(170, 1, "8"); tr(219, 1, "99")
 
 # HP: franja vinotinto translucida bajo el HP, con extremo derecho curvo
 fr = Image.new("L", (W, H), 0); fd = ImageDraw.Draw(fr)
@@ -158,7 +161,7 @@ fd.pieslice([120, 14, 152, 46], 270, 360, fill=220)
 img.paste(Image.new("RGB", (W, H), c(28, 2, 8)), (0, 0), fr)
 # HP
 fb = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 15)
-mini(4, 18, "HP", LBL)  # fuente 3x5, la mas chica legible
+mini(8, 20, "HP", LBL)  # fuente 3x5; centrada en la franja (y 14-30) y corrida a la derecha
 def tinta(x, y, txt, fnt):  # dibuja con la esquina de la tinta en (x, y)
     bx = d.textbbox((0, 0), txt, font=fnt); d.text((x - bx[0], y - bx[1]), txt, font=fnt, fill=TXT)
 HP_ACT, HP_MAX = 13, 19
@@ -211,14 +214,15 @@ tmd.text((0, 0), "Leather Shield", font=fs, fill=255); ib = tm.getbbox()
 tw, th = ib[2] - ib[0], ib[3] - ib[1]
 FX0, FX1 = 64, 176                                   # extremos reales de la figura
 blk = 10 + 4 + tw
-bx = FX0 + (FX1 - FX0 + 1 - blk) // 2                 # margen izq == margen der (+-0.5)
+tx = FX0 + (FX1 - FX0 + 1 - tw) // 2                  # texto centrado solo
+bx = tx - 14                                          # escudo a su izquierda
 my = (BY0 + BY1) / 2
 if ICONOS_ON: d.ellipse([bx, round(my - 5), bx + 9, round(my + 4)], fill=c(208, 176, 128), outline=c(96, 72, 40))
 d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs, fill=c(248, 224, 232))
 
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
-STY = 39  # bloque de stats centrado en vertical entre la barra superior y los botones
+STY = 58  # bloque de stats centrado entre el borde inferior (160) y el fin de la franja negra (30)
 for x in range(35): smd.line([(x, STY), (x, STY + 74)], fill=int(170 - x * 3))  # translucido, se desvanece
 img.paste(Image.new("RGB", (W, H), c(30, 4, 10)), (0, 0), sm)
 stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),

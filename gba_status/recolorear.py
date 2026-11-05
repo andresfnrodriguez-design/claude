@@ -24,6 +24,7 @@ def rampa(stops, t):
 mb = Image.open("mascara_banner.png").convert("L")
 FR_Q = (206, 66, 90)
 ALFA_BANNER = 0.6
+CONTORNO_BANNER = (240, 120, 40)
 for nombre in (sys.argv[1:] or TEMAS):
     stops = TEMAS[nombre]; out = full.copy()
     if stops:
@@ -37,6 +38,8 @@ for nombre in (sys.argv[1:] or TEMAS):
                     if COLOR_ETIQUETAS.get(nombre): out.putpixel((x, y), COLOR_ETIQUETAS[nombre])
                     continue
                 if min(p) > 200 and max(p) - min(p) < 40: continue  # blancos fijos
+                if mb.getpixel((x, y)) and p == FR_Q and ZONAS.get(nombre):   # contorno del recuadro: naranja opaco
+                    out.putpixel((x, y), CONTORNO_BANNER); continue
                 en_banner = mb.getpixel((x, y)) and p != FR_Q   # solo el relleno del recuadro, sin contorno ni arco
                 st = next((r for (x0, y0, x1, y1), r in ZONAS.get(nombre, []) if x0 <= x <= x1 and y0 <= y <= y1 and en_banner), stops)
                 col = rampa(st, (lum(p) - lo) / (hi - lo))
