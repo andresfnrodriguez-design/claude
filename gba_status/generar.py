@@ -195,7 +195,7 @@ for y in range(H):
         u = abs(x - ecx) / (BX1 - ecx)       # 0 centro, 1 extremos (simetrico)
         # mismos tonos y degradado vertical que los botones de abajo, mismo borde
         col = FR if borde else lerp((120, 24, 44), (72, 12, 26), u)  # claro al centro, oscuro a los extremos
-        d.point((x, y), fill=col)
+        if not os.environ.get("SIN_BANNER"): d.point((x, y), fill=col)
 BY0, BY1 = 28, 46
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos
 # tinta real del texto (medida en pixeles) para centrar el bloque escudo+texto
@@ -272,6 +272,7 @@ d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
 suf = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ""
+if os.environ.get("SIN_BANNER"): suf += "_sin_banner"
 if not ICONOS_ON: suf += "_sin_iconos"
 if FONDO != "luz": suf += "_" + FONDO
 img.save(f"estado_gba{suf}.png")
