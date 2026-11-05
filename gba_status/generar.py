@@ -232,7 +232,7 @@ d.text((bx + 14 - ib[0], round(my - th / 2) - ib[1]), "Leather Shield", font=fs,
 # stats: etiquetas alineadas a la izquierda, valores a la derecha
 sm = Image.new("L", (W, H), 0); smd = ImageDraw.Draw(sm)
 STY = 55  # bloque de stats centrado entre el fin de la franja negra (30) y el inicio de los botones (139)
-for x in range(80): smd.line([(x, STY), (x, STY + 74)], fill=int(230 if x < 44 else max(0, 230 - (x - 44) * 6.4)))  # opaco bajo los numeros, se desvanece despues
+for x in range(57): smd.line([(x, STY), (x, STY + 74)], fill=int(230 if x < 44 else max(0, 230 - (x - 44) * 19)))  # opaco bajo los numeros, se desvanece hasta el final del +3 (x 56)
 img.paste(Image.new("RGB", (W, H), c(30, 4, 10)), (0, 0), sm)
 stats = [("ATK", "11"), ("SKL", "6"), ("SPD", "7"), ("LCK", "10"),
          ("DEF", "2"), ("RES", "13"), ("MOV", "4")]
