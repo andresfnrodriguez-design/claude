@@ -139,7 +139,7 @@ def hombro(x0, letra, izq):
     d.rounded_rectangle([x0, 1, x1, 11], 3, fill=c(232, 216, 216))
     b_ = _tinta(letra); t(x0 + (13 - (b_[2] - b_[0])) // 2 - (b_[0] - 10), 1, letra, c(48, 8, 20))
 hombro(1, "L", True); hombro(226, "R", False)
-t(17, 1, "Kairos")
+t(40, 1, "Kairos"); t(41, 1, "Kairos")  # mas grueso (doble pasada) y corrido a la derecha
 for x0, x1, lab in [(140, 156, "LV"), (178, 198, "EXP")]:
     d.rounded_rectangle([x0, 2, x1, 11], 3, fill=DARK); t(x0 + (x1 - x0 - d.textlength(lab, font=f)) // 2, 1, lab, LBL)
 tr(172, 1, "8"); tr(222, 1, "99")
