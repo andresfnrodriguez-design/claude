@@ -1,0 +1,32 @@
+{
+  "hoja": "104x112",
+  "arte_x": 2,
+  "boca": {
+    "x": 32,
+    "y": 32,
+    "w": 32,
+    "h": 16,
+    "tile_x": 4,
+    "tile_y": 4,
+    "orden_frames": [
+      "sonrisa abierta",
+      "sonrisa media",
+      "sonrisa cerrada",
+      "normal abierta",
+      "normal media",
+      "normal cerrada (= base)"
+    ]
+  },
+  "ojos": {
+    "x": 32,
+    "y": 16,
+    "w": 32,
+    "h": 16,
+    "tile_x": 4,
+    "tile_y": 2,
+    "orden_frames": [
+      "entrecerrados",
+      "cerrados"
+    ]
+  }
+}
