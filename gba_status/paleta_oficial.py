@@ -82,3 +82,5 @@ TURQUESA = [(10, 20, 24), (28, 56, 60), (40, 120, 116), (40, 184, 160), (200, 24
 ZONAS["gris_dual"] = [((0, 0, 239, 13), TURQUESA), ((60, 26, 180, 48), CARMESI)]
 TEMAS["gris_final"] = TEMAS["gris"]
 ZONAS["gris_final"] = [((60, 26, 180, 48), CARMESI)]  # solo el arma equipada en carmesi
+# sin contorno rosa: el tono mas claro del recuadro queda igual al carmesi
+ZONAS["gris_final"] = [((60, 26, 180, 48), [(12, 12, 16), (96, 8, 32), (150, 16, 48), (150, 16, 48), (150, 16, 48)])]
