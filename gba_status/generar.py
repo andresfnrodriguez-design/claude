@@ -146,9 +146,10 @@ _off = int(float(os.environ.get("T", "0")) / 18) % 2  # cambia cada 3 cuadros
 def punta(cx, izq):
     # flecha rellena con muesca atras (chevron grueso), negra con un brillo gris arriba
     pts = [(0, 1), (3, 1), (8, 6), (3, 11), (0, 11), (4, 6)]          # ">" en caja 9x11
-    if izq:   # compensacion optica leve: sobre el fondo claro se ve mas grande
-        pts = [(0, 1), (3, 1), (7, 6), (3, 11), (0, 11), (3, 6)]   # misma altura y grosor, punta 1 px mas corta
     if izq: pts = [(8 - px_, py_) for px_, py_ in pts]                 # espejo para "<"
+    if izq:   # compensacion optica: contorno de 1 px con el gris del brillo
+        for ox, oy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            d.polygon([(cx + px_ + ox, py_ + oy) for px_, py_ in pts], fill=c(88, 88, 96))
     d.polygon([(cx + px_, py_) for px_, py_ in pts], fill=(0, 0, 0))
     luz = [(1, 2), (2, 2), (3, 3), (4, 4)]                               # brillo en el borde superior
     for px_, py_ in luz:
