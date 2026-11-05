@@ -136,7 +136,7 @@ def hombro(x0, letra, izq):
     b_ = _tinta(letra); t(x0 + (13 - (b_[2] - b_[0])) // 2 - (b_[0] - 10), 1, letra, c(48, 8, 20))
 # indicadores de cambio de ventana (L/R): solo puntas de flecha negras "<" y ">", animadas
 # (se desplazan 1 px hacia afuera en cuadros alternos; T = cuadro)
-_off = int(float(os.environ.get("T", "0")) / 6) % 2
+_off = int(float(os.environ.get("T", "0")) / 18) % 2  # cambia cada 3 cuadros
 def punta(cx, izq):
     # flecha rellena con muesca atras (chevron grueso), negra con un brillo gris arriba
     pts = [(0, 1), (3, 1), (8, 6), (3, 11), (0, 11), (4, 6)]          # ">" en caja 9x11
