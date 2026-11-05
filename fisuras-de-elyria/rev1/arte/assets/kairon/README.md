@@ -17,7 +17,7 @@ Gemini dibuja el guantelete en la mano derecha y la batalla mirando a la derecha
 | `retratos/kairon_bocas_32x96.png` | 6 cuadros de 32x16 | Bocas dibujadas sobre el retrato base, en su línea de boca |
 | `retratos/kairon_ojos_32x32.png` | 2 cuadros de 32x16 | Ojos entrecerrados y cerrados, dibujados sobre el retrato base |
 | `retratos/kairon_coordenadas.json` | | Posición de la boca y los ojos dentro de la hoja de 104x112 |
-| `retratos/kairon_mini_32x32.png` | 32x32 | Mini retrato sin borde blanco, ojos fijos de líneas verticales y sin cejas |
+| `retratos/kairon_mini_32x32.png` | 32x32 | Mini retrato con la cara lo más grande posible, cortado en los hombros, sin borde blanco, ojos fijos de líneas verticales y sin cejas |
 | `retratos/kairon_retrato.agbpal` | 16 colores | Paleta compartida por escena, espejo, bocas, ojos y mini |
 | `retratos/kairon_estado_80x144.png` | 80x144 | Retrato de la pantalla de estado de cuerpo entero, sale del FRENTE de la hoja 1 |
 | `zoom/kairon_zoom_240x160.png` | 240x160 | Fondo del menú de estado |

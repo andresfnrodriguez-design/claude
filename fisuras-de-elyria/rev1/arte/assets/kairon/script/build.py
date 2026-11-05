@@ -187,7 +187,7 @@ C,M=place(80,144,col,mm,int(round(40-cx)),2); C,M=outline(C,M,do_outer=False)
 estado,_=quantize(C,M,n=15,fixed=[(0,0,0)]+CYAN+HAIR_C); save(estado,'retratos/kairon_estado_80x144.png')
 # Se arma desde el retrato en color antes del contorno, así no lleva borde blanco.
 Cn,Mn=portrait(esc,pe); Cn,Mn=outline(Cn,Mn,do_outer=False)
-ys,xs=np.where(Mn[:50]); hx=int(round((xs.min()+xs.max())/2)); hy=max(0,ys.min()); S0=46
+ys,xs=np.where(Mn[:50]); hx=int(round((xs.min()+xs.max())/2)); hy=max(0,ys.min()); S0=38
 x0=min(max(0,hx-S0//2),104-S0)
 col,mm=reduce(Cn[hy:hy+S0,x0:x0+S0],Mn[hy:hy+S0,x0:x0+S0],32/S0)
 C,M=place(32,32,col,mm,0,1)
@@ -199,7 +199,10 @@ ex0,ey0=mp(EX0,EY-1); ex1,_=mp(EX1,EY)
 for yy in range(max(0,ey0-3),ey0+1):
     for xx in range(ex0-1,ex1+2):
         if 0<=xx<32 and M[yy,xx] and C[yy,xx].sum()<330: C[yy,xx]=C[ey0+3,xx] if C[ey0+3,xx].sum()>330 else SKIN_RGB
-# ojos: dos líneas verticales de 3 px, nunca pestañean
+# ojos: dos líneas verticales de 3 px, nunca pestañean (alrededor queda piel lisa)
+for yy in range(ey0, ey0+3):
+    for xx in range(ex0-1, ex1+2):
+        if 0<=xx<32 and M[yy,xx]: C[yy,xx]=SKIN_RGB
 for xx in (ex0, ex1):
     for yy in range(ey0, ey0+3):
         if 0<=xx<32: C[yy,xx]=(40,24,32)
