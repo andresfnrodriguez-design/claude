@@ -64,6 +64,7 @@ elif FONDO == "negro":
 # (el punto medio entre los ojos cae en ~(110, 84) de la pantalla)
 RETRATOS = {
     "kairos": ("retrato_busto.png", (77, 26, 77), -26, 17, 3.2),
+    "3": ("retrato_3.png", (255, 0, 255), -30, -20, 1.0),
     "2": ("retrato_2.png", (169, 203, 166), 1, 25, 2.4),
 }
 _arch, bgc, RX, RY, ESC_R = RETRATOS[os.environ.get("RETRATO", "kairos")]
