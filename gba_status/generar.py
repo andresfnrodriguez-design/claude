@@ -250,8 +250,8 @@ d.text((218, 140), "3", font=fb, fill=TXT)
 
 img = img.point(q5)
 suf = "_sin_retrato" if os.environ.get("SIN_RETRATO") else ""
-if FONDO != "luz": suf += "_" + FONDO
 if not ICONOS_ON: suf += "_sin_iconos"
+if FONDO != "luz": suf += "_" + FONDO
 img.save(f"estado_gba{suf}.png")
 img.resize((W * 4, H * 4), Image.NEAREST).save(f"estado_gba{suf}_x4.png")
 print(len(img.getcolors(4096)), "colores")
