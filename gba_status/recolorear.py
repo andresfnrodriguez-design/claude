@@ -33,7 +33,7 @@ for nombre in (sys.argv[1:] or TEMAS):
                 p, u = full.getpixel((x, y)), ui.getpixel((x, y))
                 if p != u: continue                       # retrato o icono: no se toca
                 if FONDO != "luz" and p != negro.getpixel((x, y)): continue  # fondo o translucido: se deja
-                if p == (255, 231, 239): out.putpixel((x, y), COLOR_ETIQUETAS.get(nombre, (248, 248, 248))); continue  # texto del arma como las etiquetas
+                if p == (255, 231, 239): out.putpixel((x, y), (248, 248, 248)); continue  # texto del arma en blanco
                 if p in TEXTOS_FIJOS:                     # etiquetas
                     if COLOR_ETIQUETAS.get(nombre): out.putpixel((x, y), COLOR_ETIQUETAS[nombre])
                     continue
