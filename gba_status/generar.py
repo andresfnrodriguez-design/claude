@@ -155,8 +155,8 @@ def punta(cx, izq):
                     d.point((xx, yy), fill=c(88, 88, 96))
     d.polygon([(cx + px_, py_) for px_, py_ in pts], fill=(0, 0, 0))
     luz = [(1, 2), (2, 2), (3, 3), (4, 4)]                               # brillo en el borde superior
-    for px_, py_ in luz:
-        d.point((cx + (8 - px_ if izq else px_), py_), fill=c(150, 150, 160) if izq else c(88, 88, 96))  # mas claro en la izquierda
+    for k, (px_, py_) in enumerate(luz):   # en la izquierda solo el 2do y 3er pixel del brillo van mas claros
+        d.point((cx + (8 - px_ if izq else px_), py_), fill=c(150, 150, 160) if izq and k in (1, 2) else c(88, 88, 96))
 punta(2 - _off, True); punta(229 + _off, False)
 t(40, 0, "Kairos"); t(41, 0, "Kairos")  # mas grueso (doble pasada) y corrido a la derecha
 for x0, x1, lab in [(140, 156, "LV"), (178, 198, "EXP")]:
