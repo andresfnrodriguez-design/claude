@@ -21,6 +21,7 @@ Sesión del 2026-11-03 al 2026-11-05. Rama: `claude/inspiring-cray-78kf19` del r
 | `historia/CLAUDE.md` | Instrucciones para Claude Code al usar estos documentos. |
 | `historia/storyboard-elyria.html` | Storyboard de la versión 2 con viñetas ilustradas. |
 | `historia/RESUMEN_SESION.md` | Este archivo. |
+| `historia/CHAT_SESION.md` | Registro cronológico condensado de la conversación. |
 | Scratchpad: `fisuras-recap.html` | Revisión crítica del boceto con colores (publicada). |
 | Scratchpad: `version-2.html` | Versión 2 para leer (publicada). |
 | Scratchpad: `novela.txt` | Texto extraído del PDF de la novela, para leerlo. |
@@ -91,6 +92,12 @@ Mensaje para Claude Code: agregar `@historia/CLAUDE.md`, `@historia/BIBLIA.md` y
 - Rango y tope de la dificultad dinámica.
 - Seis capítulos del storyboard de Path of Radiance escritos de memoria, sin verificar (9, 12, 14, 16, 17 y 27).
 - Los documentos viven en este repositorio y no en el del proyecto en C: hay que copiarlos con la tarea cada vez.
+
+## Críticas recientes (sin resolver)
+
+- El storyboard no dice qué hace el jugador: falta una línea "En el mapa" por capítulo.
+- El mundo no justifica el conflicto. Propuesta: el consejo quemó con aether el recuerdo de la orilla.
+- El ejército no tiene motivo. Propuesta: una expedición colectiva al sur.
 
 ## Próximos pasos
 
