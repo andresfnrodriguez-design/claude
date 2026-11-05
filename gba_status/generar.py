@@ -18,30 +18,29 @@ f = ImageFont.load_default()
 import os, random
 FONDO = os.environ.get("FONDO", "luz")
 def fondo_fisuras(c_izq, c_der, c_centro):
-    """Degradado diagonal de dos colores con un centro oscuro + esquirlas de cristal (fisuras)."""
+    """Degradado diagonal teal -> fucsia con una franja central blanca (zona clara del cristal)
+    + esquirlas que solo usan colores del propio degradado y se mueven con T."""
+    BLANCO = (226, 228, 234)
+    def base(x, y):
+        u = (x + y * 0.6) / (W + H * 0.6)
+        col = lerp(c_izq, c_der, u)
+        k = max(0, 1 - abs(u - 0.5) / 0.22)               # franja blanca en diagonal
+        col = lerp(col, BLANCO, min(1, k * 1.4) * 0.85)
+        return lerp(col, c_centro, max(0, 1 - abs(u - 0.5) / 0.6) * 0.25)
     for y in range(H):
         for x in range(W):
-            u = (x + y * 0.6) / (W + H * 0.6)                  # diagonal
-            base = lerp(c_izq, c_der, u)
-            k = max(0, 1 - abs(u - 0.5) / 0.35)                # oscurece el centro
-            img.putpixel((x, y), lerp(base, c_centro, k * 0.75))
-    # esquirlas: cada una deriva en su propia direccion; T = cuadro de animacion
+            img.putpixel((x, y), base(x, y))
     T = float(os.environ.get("T", "0"))
     rnd = random.Random(7); dd = ImageDraw.Draw(img)
     for n in range(46):
         x0, y0 = rnd.randrange(W), rnd.randrange(H); L = rnd.randint(6, 24)
         a0 = rnd.random() * math.tau; giro = rnd.uniform(-0.03, 0.03)
         vx, vy = rnd.uniform(-1.2, 1.2), rnd.uniform(-0.6, 0.6)
+        sx, sy = rnd.randrange(W), rnd.randrange(H)        # color tomado de otro punto del fondo
         x0 = (x0 + vx * T) % (W + 40) - 20; y0 = (y0 + vy * T) % (H + 40) - 20
         a0 += giro * T
         pts = [(x0 + L * math.cos(a0 + t), y0 + L * math.sin(a0 + t) * 0.6) for t in (0, 2.4, 3.6)]
-        sobre_texto = x0 < 70 and 50 < y0 < 145   # no poner blancas detras de los stats
-        if n % 6 == 0 and not sobre_texto:   # esquirlas blancas: los "espacios blancos" del cristal
-            col = c(236, 236, 240) if n % 12 == 0 else c(196, 200, 208)
-        else:
-            p = img.getpixel((int(min(W - 1, max(0, x0))), int(min(H - 1, max(0, y0)))))
-            col = c(*(min(255, v * rnd.choice((1.35, 0.7))) for v in p))
-        dd.polygon(pts, fill=col)
+        dd.polygon(pts, fill=base(sx, sy))
 if FONDO == "luz":
     # fondo: luz tinta que sale de la esquina superior izquierda
     for y in range(H):
