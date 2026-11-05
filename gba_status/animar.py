@@ -7,7 +7,7 @@ FONDO = os.environ.get("FONDO", "fisuras_fucsia"); sr = "_sin_retrato" if os.env
 cuadros = []
 for i in range(N):
     subprocess.run([sys.executable, "recolorear.py", tema], check=True, capture_output=True,
-                   env={**os.environ, "FONDO": FONDO, "T": str(i * 4)})
+                   env={**os.environ, "FONDO": FONDO, "T": str(i * 6)})
     cuadros.append(Image.open(f"tema_{tema}{sr}_{FONDO}.png").convert("RGB").resize((480, 320), Image.NEAREST))
 nombre = f"anim_{tema}{sr}_{FONDO}.gif"
 cuadros[0].save(nombre, save_all=True, append_images=cuadros[1:], duration=120, loop=0)
