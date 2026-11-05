@@ -24,10 +24,10 @@ def fondo_fisuras(c_izq, c_der, c_centro):
     def raw(x, y):
         u = (x + y * 0.6) / (W + H * 0.6)
         b_ = [c_izq[i] + (c_der[i] - c_izq[i]) * u for i in range(3)]
-        k = max(0, 1 - abs(u - 0.5) / 0.35) * 0.75
+        k = max(0, math.cos(min(1, abs(u - 0.5) / 0.32) * math.pi / 2)) ** 1.5 * 0.85  # centro claro, suave
         return [b_[i] + (c_centro[i] - b_[i]) * k for i in range(3)]
     T = float(os.environ.get("T", "0"))
-    manchas = [(30, 30, 26), (205, 20, 20), (120, 150, 30), (225, 120, 18), (70, 100, 16), (160, 70, 14)]
+    manchas = []
     for y in range(H):
         for x in range(W):
             col = raw(x, y)
@@ -45,6 +45,7 @@ def fondo_fisuras(c_izq, c_der, c_centro):
         x0 = (x0 + vx * T) % (W + 40) - 20; y0 = (y0 + vy * T) % (H + 40) - 20
         a0 += giro * T
         pts = [(x0 + L * math.cos(a0 + t), y0 + L * math.sin(a0 + t) * 0.6) for t in (0, 2.4, 3.6)]
+        sx = rnd.choice((rnd.randrange(0, 60), rnd.randrange(180, W)))  # muestrea en los lados (no en el centro claro)
         col = [min(190, v * f) for v in raw(sx, sy)]          # del degradado, nunca blanco
         dd.polygon(pts, fill=c(*col))
 if FONDO == "luz":
@@ -58,7 +59,7 @@ if FONDO == "luz":
 elif FONDO == "fisuras":   # teal a la izquierda, brasa a la derecha
     fondo_fisuras((40, 150, 150), (216, 88, 48), (14, 26, 30))
 elif FONDO == "fisuras_fucsia":   # teal a la izquierda, fucsia a la derecha
-    fondo_fisuras((40, 150, 150), (200, 24, 96), (14, 26, 30))
+    fondo_fisuras((40, 150, 150), (200, 24, 96), (226, 228, 234))
 elif FONDO == "negro":
     pass
 
@@ -181,6 +182,7 @@ EL = (66, 28, 174, 46)
 ecx, ecy = (EL[0] + EL[2]) / 2, (EL[1] + EL[3]) / 2
 ea, eb = (EL[2] - EL[0]) / 2, (EL[3] - EL[1]) / 2
 fm = Image.new("L", (W, H), 0); fmd = ImageDraw.Draw(fm)
+import atexit; atexit.register(lambda: fm.save("mascara_banner.png"))
 fmd.rounded_rectangle([BX0, BY0, BX1, BY1], 5, fill=255)
 for y in range(EL[1], EL[3] + 1):
     for x in range(EL[0], EL[2] + 1):
@@ -192,7 +194,7 @@ for y in range(H):
         borde = any(not fm.getpixel((x + i, y + j)) for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)))
         u = abs(x - ecx) / (BX1 - ecx)       # 0 centro, 1 extremos (simetrico)
         # mismos tonos y degradado vertical que los botones de abajo, mismo borde
-        col = FR if borde else lerp((120, 24, 44), (72, 12, 26), 1 - u)  # sale de ambos extremos y se junta al medio
+        col = FR if borde else lerp((120, 24, 44), (72, 12, 26), u)  # claro al centro, oscuro a los extremos
         d.point((x, y), fill=col)
 BY0, BY1 = 28, 46
 fs = ImageFont.load_default(size=10)  # letra chica para banner y hechizos

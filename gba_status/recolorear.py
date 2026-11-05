@@ -20,6 +20,8 @@ lo, hi = min(map(lum, uis)), max(lum(p) for p in uis if not min(p) > 200)
 def rampa(stops, t):
     t = max(0, min(1, t)) * (len(stops) - 1); i = min(int(t), len(stops) - 2); k = t - i
     return tuple(q5(stops[i][j] + (stops[i + 1][j] - stops[i][j]) * k) for j in range(3))
+mb = Image.open("mascara_banner.png").convert("L")
+FR_Q = (206, 66, 90)
 for nombre in (sys.argv[1:] or TEMAS):
     stops = TEMAS[nombre]; out = full.copy()
     if stops:
@@ -28,11 +30,13 @@ for nombre in (sys.argv[1:] or TEMAS):
                 p, u = full.getpixel((x, y)), ui.getpixel((x, y))
                 if p != u: continue                       # retrato o icono: no se toca
                 if FONDO != "luz" and p != negro.getpixel((x, y)): continue  # fondo o translucido: se deja
-                if p in TEXTOS_FIJOS:                     # etiquetas y texto del arma
+                if p == (255, 231, 239): out.putpixel((x, y), (248, 248, 248)); continue  # texto del arma en blanco
+                if p in TEXTOS_FIJOS:                     # etiquetas
                     if COLOR_ETIQUETAS.get(nombre): out.putpixel((x, y), COLOR_ETIQUETAS[nombre])
                     continue
                 if min(p) > 200 and max(p) - min(p) < 40: continue  # blancos fijos
-                st = next((r for (x0, y0, x1, y1), r in ZONAS.get(nombre, []) if x0 <= x <= x1 and y0 <= y <= y1), stops)
+                en_banner = mb.getpixel((x, y)) and p != FR_Q   # solo el relleno del recuadro, sin contorno ni arco
+                st = next((r for (x0, y0, x1, y1), r in ZONAS.get(nombre, []) if x0 <= x <= x1 and y0 <= y <= y1 and en_banner), stops)
                 out.putpixel((x, y), rampa(st, (lum(p) - lo) / (hi - lo)))
     out.save(f"tema_{nombre}{sr}{sf}.png"); out.resize((W * 4, H * 4), Image.NEAREST).save(f"tema_{nombre}{sr}{sf}_x4.png")
     print(nombre, len(out.getcolors(4096)), "colores")
