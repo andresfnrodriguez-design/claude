@@ -84,3 +84,8 @@ TEMAS["gris_final"] = TEMAS["gris"]
 ZONAS["gris_final"] = [((60, 26, 180, 48), CARMESI)]  # solo el arma equipada en carmesi
 # sin contorno rosa: el tono mas claro del recuadro queda igual al carmesi
 ZONAS["gris_final"] = [((60, 26, 180, 48), [(12, 12, 16), (96, 8, 32), (150, 16, 48), (150, 16, 48), (150, 16, 48)])]
+
+# color de las etiquetas (HP, ATK, LV, EXP...) y del texto del arma, por tema (si no, quedan las originales)
+COLOR_ETIQUETAS = {"gris_final": (96, 216, 200)}   # teal claro
+NARANJA = [(12, 12, 16), (88, 30, 10), (168, 64, 24), (216, 88, 48), (216, 88, 48)]
+ZONAS["gris_final"] = [((60, 26, 180, 48), NARANJA)]  # arma equipada en naranja brasa, sin contorno claro

@@ -42,6 +42,8 @@ if FONDO == "luz":
             img.putpixel((x, y), lerp((150, 40, 60), (36, 5, 12), min(1, k)))
 elif FONDO == "fisuras":   # teal a la izquierda, brasa a la derecha
     fondo_fisuras((40, 150, 150), (216, 88, 48), (14, 26, 30))
+elif FONDO == "fisuras_fucsia":   # teal a la izquierda, fucsia a la derecha
+    fondo_fisuras((40, 150, 150), (200, 24, 96), (14, 26, 30))
 elif FONDO == "negro":
     pass
 
