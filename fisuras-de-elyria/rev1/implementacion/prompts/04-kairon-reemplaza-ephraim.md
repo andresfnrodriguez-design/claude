@@ -11,13 +11,12 @@ Ya cambiamos en el código el tamaño de algunos gráficos respecto de FE8 origi
 - Zoom de estado de 240x160 como fondo del menú de estado, con una variante HERIDO cuando la vida baja del 25 %.
 - Mini retrato de 32x32.
 - Sprites de mapa de 16x16 quieto y celdas de 32x32 en movimiento.
-- Animación de batalla en lienzo de 248x160, personaje de unos 34 px con los pies en y=102 y centrado en x=140, 16 colores en toda la animación.
 
 Los assets están en `elyria_assets/kairon/` dentro del proyecto. Lee su `README.md` antes de empezar.
 
 ## Tarea
 
-Reemplazar los gráficos de **Ephraim** por los de **Kairon**. El retrato, el mini retrato, las bocas, los ojos, el retrato de estado y el zoom van por personaje. El sprite de mapa y la animación de batalla van por clase, así que reemplazan los de la clase de Ephraim (Lord).
+Reemplazar los gráficos de **Ephraim** por los de **Kairon**. El retrato, el mini retrato, las bocas, los ojos, el retrato de estado y el zoom van por personaje. El sprite de mapa va por clase, así que reemplaza el de la clase de Ephraim (Lord). La animación de batalla no se toca por ahora.
 
 | Asset | Reemplaza a |
 |---|---|
@@ -25,13 +24,12 @@ Reemplazar los gráficos de **Ephraim** por los de **Kairon**. El retrato, el mi
 | `retratos/kairon_bocas_32x96.png` | `portrait_Ephraim_mouth`. El orden de los cuadros ya es el de FE8 |
 | `retratos/kairon_ojos_32x32.png` | Los ojos entrecerrados y cerrados del parpadeo |
 | `retratos/kairon_coordenadas.json` | Los valores `xMouth`, `yMouth`, `xEyes` e `yEyes`. Están en píxeles y en tiles dentro de la hoja de 104x112 |
-| `retratos/kairon_mini_32x32.png` | `portrait_Ephraim_chibi` |
-| `retratos/kairon_retrato.agbpal` | `portrait_Ephraim_palette`. Para `portrait_Ephraim_flashback_palette` genera una versión en tonos sepia de esta |
+| `retratos/kairon_mini_32x32.png` | `portrait_Ephraim_chibi`. Sus ojos no pestañean |
+| `retratos/kairon_retrato.agbpal` | `portrait_Ephraim_palette`. Es la paleta única de Kairon y la usan también el estado y el zoom. Para `portrait_Ephraim_flashback_palette` genera una versión en tonos sepia de esta |
 | `retratos/kairon_estado_80x144.png` | El retrato de la pantalla de estado de Ephraim |
 | `zoom/kairon_zoom_240x160.png` y `zoom/kairon_herido_240x160.png` | El zoom de estado de Ephraim y su variante HERIDO |
 | `mapa/kairon_mapa_quieto_16x48.png` | `unit_icon_wait_Ephraim_Lord_sheet`. Ojo, el de Ephraim es de 16x32 por cuadro y este es de 16x16, así que hay que cambiar el tamaño en la tabla de sprites de mapa |
 | `mapa/kairon_mapa_movimiento_32x480.png` | `unit_icon_move_Ephraim_Lord_sheet` |
-| `batalla/kairon_01` a `kairon_08` y `kairon_batalla.agbpal` | La animación de batalla de la clase de Ephraim |
 
 Los sprites de mapa usan el mismo orden de posiciones de color que la paleta de jugador de FE8. `mapa/paleta_aliados.agbpal` es la paleta de aliados aprobada para el hack. No la apliques sin preguntarme, porque cambia el color de todas las unidades aliadas.
 
@@ -42,9 +40,8 @@ Respóndeme primero, sin implementar nada, con estas secciones.
 1. **Estado actual.** Revisa `git log`, `src/face.c`, `src/portrait_data.c`, la pantalla de estado y los sprites de mapa. Dime qué cambios de tamaño ya están aplicados en el código (retrato de 104x112, estado de 80x144, zoom de 240x160, HERIDO). Si alguno no está, dímelo y no lo implementes todavía.
 2. **Lo que entendiste.** Qué archivo va a qué lugar.
 3. **Viabilidad.** Formato de cada asset, cómo los convierte el Makefile (`gbagfx` u otra herramienta) y dónde hay que cambiar tablas o tamaños.
-4. **Batalla.** Cómo se arma una animación de batalla en la decomp (`graphics/banim`, scripts de modos, datos OAM). Propón una prueba mínima con estos 8 cuadros para los modos de ataque cuerpo a cuerpo, crítico y esquive. Hay que reemplazar la lanza de Ephraim por un ataque con el puño, así que dime qué hace falta para que la clase use otro arma o si conviene probar solo la animación.
-5. **Dudas.** Por ejemplo si cambio también el nombre de Ephraim por Kairon, y si el espejo real (`kairon_espejo_104x112.png`) se implementa ahora. Necesita un segundo ID de retrato y un cambio en `StartFace`.
-6. **Plan.** Archivos y funciones que vas a tocar, en orden, separando lo que es solo cambiar gráficos de lo que necesita código nuevo.
+4. **Dudas.** Por ejemplo si cambio también el nombre de Ephraim por Kairon, y cómo implementar el espejo real (`kairon_espejo_104x112.png`). Cuando el retrato de Kairon aparece del lado que lo voltearía, en vez de voltearlo hay que mostrar este otro. Necesita un segundo ID de retrato y un cambio en `StartFace`.
+5. **Plan.** Archivos y funciones que vas a tocar, en orden, separando lo que es solo cambiar gráficos de lo que necesita código nuevo.
 
 Solo cuando te confirme el plan, implementa.
 

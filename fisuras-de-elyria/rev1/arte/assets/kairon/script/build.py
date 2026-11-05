@@ -6,7 +6,7 @@ from reg import *
 
 SRC=sys.argv[1] if len(sys.argv)>1 else '.'
 OUT=sys.argv[2] if len(sys.argv)>2 else 'out'
-for d in ['retratos','zoom','mapa','batalla','vistas']: os.makedirs(f'{OUT}/{d}',exist_ok=True)
+for d in ['retratos','zoom','mapa','vistas']: os.makedirs(f'{OUT}/{d}',exist_ok=True)
 h1=load(f'{SRC}/h1.jpg'); h2=load(f'{SRC}/h2.jpg'); h3=load(f'{SRC}/h3.jpg'); h4=load(f'{SRC}/h4.jpg'); h5=load(f'{SRC}/h5.jpg')
 CYAN=[(72,224,240),(24,144,168)]
 # ---- paleta única del personaje ----
@@ -47,7 +47,37 @@ C,M=portrait(esc,pe)
 escena,PAL=quantize(C,M,n=15,fixed=[(0,0,0),(248,248,248)]+CYAN+HAIR_C)
 PAL=gba_round(PAL); escena,_=quantize(C,M,pal=PAL)
 save(escena,'retratos/kairon_escena_104x112.png')
-esp=load(f'{SRC}/espejo.png')[4:-4,4:-4]; pp=portrait_params(esp)
+# Espejo real: el mismo dibujo de la escena mirando al otro lado, con el guantelete
+# pasado a la otra mano (el puño del pecho queda desnudo y el que cuelga lleva el guantelete).
+def swap_gauntlet(src, p):
+    S=src.copy(); s=p['s']; top=p['top']
+    m=fgmask(src); xs=np.where(m.any(0))[0]
+    dxu=52-(xs.min()+xs.max())/2*s
+    def box(x0,y0,x1,y1):
+        return (int((x0-dxu)/s),int((y0-3)/s+top),int((x1-dxu)/s),int((y1-3)/s+top))
+    hsv=lambda r: np.asarray(Image.fromarray(r.astype(np.uint8)).convert('HSV')).astype(np.float32)
+    def ramp(L,cols):
+        cols=np.array(cols,np.float32); t=np.clip((L-0.15)/0.7,0,1)*(len(cols)-1)
+        i=np.minimum(t.astype(int),len(cols)-2); f=(t-i)[...,None]
+        return cols[i]*(1-f)+cols[i+1]*f
+    SKIN=[(96,56,40),(170,110,78),(222,160,118),(244,200,160)]
+    BRONZE=[(60,38,22),(112,76,40),(160,112,60),(206,160,96)]
+    # 1) guantelete del pecho -> mano y antebrazo desnudos
+    x0,y0,x1,y1=box(26,42,54,72); R=S[y0:y1,x0:x1]; H=hsv(R); h=H[...,0]*360/255; sat=H[...,1]/255; L=R.mean(2)/255
+    k=((h>10)&(h<60)&(sat>0.22)&(L<0.85)&(L>0.10)) | ((h>150)&(h<220)&(sat>0.25))
+    R[k]=ramp(L[k],SKIN)
+    # 2) puño que cuelga -> guantelete con la gema
+    x0,y0,x1,y1=box(74,86,96,112); R=S[y0:y1,x0:x1]; H=hsv(R); h=H[...,0]*360/255; sat=H[...,1]/255; L=R.mean(2)/255
+    k=(h>8)&(h<35)&(sat>0.30)&(L>0.30)
+    R[k]=ramp(L[k],BRONZE)
+    ys,xx=np.where(k)
+    if len(ys):
+        cy,cx=int(np.median(ys)),int(np.median(xx)); rr=int(0.09*(x1-x0))
+        yy,xg=np.ogrid[:R.shape[0],:R.shape[1]]; d=(yy-cy)**2+(xg-cx)**2
+        R[(d<=rr*rr)&k]=(24,144,168); R[(d<=(rr*0.6)**2)&k]=(72,224,240)
+    return S
+esp=swap_gauntlet(esc,pe)[:, ::-1].copy()   # se voltea para que portrait() lo deje mirando a la derecha
+pp=portrait_params(esp)
 C,M=portrait(esp,pp); espejo,_=quantize(C,M,pal=PAL)
 save(espejo,'retratos/kairon_espejo_104x112.png')
 agbpal(PAL,f'{OUT}/retratos/kairon_retrato.agbpal')
@@ -150,16 +180,29 @@ m=fgmask(fr)&~((rr>150)&(gg<110)&(bb<110)&(rr-gg>60))
 lab,n=ndimage.label(m); sz=ndimage.sum(m,lab,range(1,n+1)); m=lab==(1+int(np.argmax(sz)))
 ys,xs=np.where(m); top=ys.min()
 HEAD=0.135*(ys.max()-top)
-s=28/HEAD; cut=top+int(141/s)
+bot=ys.max(); s=140/(bot-top+1); cut=bot+1     # cuerpo entero, de la coronilla a las botas
 col,mm=reduce(fr[top:cut],m[top:cut],s)
 cx=(np.where(mm.any(0))[0].min()+np.where(mm.any(0))[0].max())/2
-C,M=place(80,144,col,mm,int(round(40-cx)),3); C,M=outline(C,M,do_outer=False)
+C,M=place(80,144,col,mm,int(round(40-cx)),2); C,M=outline(C,M,do_outer=False)
 estado,_=quantize(C,M,n=15,fixed=[(0,0,0)]+CYAN+HAIR_C); save(estado,'retratos/kairon_estado_80x144.png')
-ea=np.asarray(escena); ys,xs=np.where(ea[:50]!=0)
-hx=int(round((xs.min()+xs.max())/2)); hy=max(0,ys.min()); S0=46
-x0=min(max(0,hx-S0//2),104-S0); sub=ea[hy:hy+S0,x0:x0+S0]
-rgb=np.array(PAL,np.float32)[sub]; col,mm=reduce(rgb,sub!=0,32/S0)
+# Se arma desde el retrato en color antes del contorno, así no lleva borde blanco.
+Cn,Mn=portrait(esc,pe); Cn,Mn=outline(Cn,Mn,do_outer=False)
+ys,xs=np.where(Mn[:50]); hx=int(round((xs.min()+xs.max())/2)); hy=max(0,ys.min()); S0=46
+x0=min(max(0,hx-S0//2),104-S0)
+col,mm=reduce(Cn[hy:hy+S0,x0:x0+S0],Mn[hy:hy+S0,x0:x0+S0],32/S0)
 C,M=place(32,32,col,mm,0,1)
+k=32/S0
+def mp(px,py): return int(round((px-x0)*k)), int(round((py-hy)*k))+1
+SKIN_RGB=np.array(max((c for c in PAL if c[0]>c[2]+40 and 200<sum(c)<600), key=sum),np.float32)
+ex0,ey0=mp(EX0,EY-1); ex1,_=mp(EX1,EY)
+# sin cejas: todo lo oscuro entre la frente y los ojos pasa a piel
+for yy in range(max(0,ey0-3),ey0+1):
+    for xx in range(ex0-1,ex1+2):
+        if 0<=xx<32 and M[yy,xx] and C[yy,xx].sum()<330: C[yy,xx]=C[ey0+3,xx] if C[ey0+3,xx].sum()>330 else SKIN_RGB
+# ojos: dos líneas verticales de 3 px, nunca pestañean
+for xx in (ex0, ex1):
+    for yy in range(ey0, ey0+3):
+        if 0<=xx<32: C[yy,xx]=(40,24,32)
 mini,_=quantize(C,M,pal=PAL); save(mini,'retratos/kairon_mini_32x32.png',8)
 
 # ---------- ZOOM DE ESTADO 240x160 y HERIDO ----------
@@ -283,35 +326,6 @@ for fi,(y0,y1) in enumerate(filas):
 sheet(mov,'mapa/kairon_mapa_movimiento_32x480.png',4)
 agbpal(ALLY,f'{OUT}/mapa/paleta_aliados.agbpal')
 
-# ---------- BATALLA 248x160, una sola paleta ----------
-BCOL=[(998,1464),(1494,1960),(1990,2456)]
-BROW=[(290,615),(728,1052),(1155,1478)]
-NOMBRES=['01_quieto','02_ataque_cuerpo','03_critico_cuerpo','04_ataque_distancia','05_critico_distancia','06_esquive','07_ataque_fallado','08_impacto']
-def bmask(r):
-    m=fgmask(r)
-    rr,gg,bb=r[...,0],r[...,1],r[...,2]
-    lines=((rr>150)&(gg<90)&(bb<90))|((bb>120)&(rr<90))     # guías roja y azul
-    return m&~lines
-raw=[]
-for i in range(8):
-    (x0,x1),(y0,y1)=BCOL[i%3],BROW[i//3]
-    r=h3[y0:y1, x0+4:x1-4][:, ::-1].copy(); raw.append((r,bmask(r)))
-q_r,q_m=raw[0]; ys,xs=np.where(q_m)
-S=34/(ys.max()-ys.min()+1); CX=(xs.min()+xs.max())/2; FEET=q_r.shape[0]-1
-frames=[]
-for r,m in raw:
-    col,mm=reduce(r,m,S); h,w=mm.shape
-    C,M=place(248,160,col,mm,int(round(140-CX*S)),int(round(102-FEET*S)))
-    er=ndimage.binary_erosion(M,np.ones((3,3)),border_value=0); C[M&~er]=(40,40,40)
-    frames.append((C,M))
-allfg=np.concatenate([C[M] for C,M in frames]).reshape(1,-1,3).astype(np.uint8)
-q=Image.fromarray(allfg).quantize(colors=13,method=Image.Quantize.MEDIANCUT,kmeans=3).getpalette()[:39]
-BPAL=gba_round([BG,(40,40,40)]+CYAN[:1]+[tuple(q[i:i+3]) for i in range(0,39,3)])
-for n,(C,M) in zip(NOMBRES,frames):
-    im,_=quantize(C,M,pal=BPAL); save(im,f'batalla/kairon_{n}.png',2)
-agbpal(BPAL,f'{OUT}/batalla/kairon_batalla.agbpal')
-print('ok mapa y batalla, escala batalla',round(S,4))
-
 # ---------- VISTAS: hablando y pestañeando ----------
 def frame_with(patch,x,y):
     a=base_idx.copy(); a[y:y+16,x:x+32]=patch; im=Image.fromarray(a,'P'); im.putpalette(escena.getpalette())
@@ -326,7 +340,7 @@ print('ok vistas')
 # ---------- PALETA MAESTRA ----------
 if not os.path.exists(MASTER):
     allpx=np.concatenate(_pool).reshape(1,-1,3)
-    fixed=[(0,0,0),(248,248,248),(40,40,40)]+CYAN+[(96,92,88)]
+    fixed=[(0,0,0),(248,248,248)]+CYAN+[(96,92,88)]
     from sklearn.cluster import KMeans
     X=allpx.reshape(-1,3).astype(float)
     F=np.array(fixed,float); d=np.sqrt(((X[:,None]-F[None])**2).sum(-1)).min(1)
@@ -341,6 +355,6 @@ if not os.path.exists(MASTER):
     print('paleta maestra creada, vuelve a correr el script')
 if os.path.exists(MASTER):
     MP=[tuple(int(v) for v in c) for c in np.load(MASTER)]
-    for p in ['retratos/kairon_retrato.agbpal','batalla/kairon_batalla.agbpal']: agbpal(MP,f'{OUT}/{p}')
+    agbpal(MP,f'{OUT}/retratos/kairon_retrato.agbpal')
     agbpal(MP,f'{OUT}/kairon_paleta.agbpal')
     sw=Image.new('RGB',(16*24,24)); [sw.paste(c,(i*24,0,i*24+24,24)) for i,c in enumerate(MP)]; sw.save(f'{OUT}/vistas/kairon_paleta.png')

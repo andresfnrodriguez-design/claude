@@ -13,7 +13,7 @@ def fgmask(a, tol=55):
     if n==0: return m
     sizes=ndimage.sum(m,lab,range(1,n+1))
     keep=np.isin(lab,1+np.where(sizes>=60)[0])
-    return ndimage.binary_fill_holes(keep) & m | keep
+    return ndimage.binary_fill_holes(keep)   # sin huecos: las sombras verdosas del interior no son fondo
 
 def reduce(rgb, m, scale, out_w=None, out_h=None):
     """Escala con promedio solo sobre el personaje (sin halo verde)."""
