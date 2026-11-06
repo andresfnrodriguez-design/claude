@@ -12,7 +12,7 @@ Ya cambiamos en el código el tamaño de algunos gráficos respecto de FE8 origi
 - Mini retrato de 32x32.
 - Sprites de mapa de 16x16 quieto y celdas de 32x32 en movimiento.
 
-Los assets están en `elyria_assets/kairon/` dentro del proyecto. Lee su `README.md` antes de empezar.
+Los assets están en el repositorio `andresfnrodriguez-design/claude`, rama `claude/nifty-bell-x1mrwv`, carpeta `fisuras-de-elyria/rev1/arte/assets/kairon/`. La subcarpeta `para_decomp/graphics/` ya tiene las rutas y los nombres de la decomp (lee su `LEEME.md`). Si también están copiados en `elyria_assets/kairon/` dentro del proyecto, usa esos. Lee el `README.md` de la carpeta antes de empezar.
 
 ## Tarea
 
