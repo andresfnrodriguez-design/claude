@@ -19,6 +19,7 @@ Hay una copia de este índice en GitHub (rama `claude/nifty-bell-x1mrwv`, `fisur
 | `referencias/guia-scripting-animaciones-original.txt` | Guía original de scripting de animaciones |
 | `referencias/pixel_art_andres_aethrall.png` | **Referencia de estilo.** Hoja de pixel art de Andrés (firma Aethrall), ver "Estilo de pixel art" abajo |
 | `referencias/sprites-mapa/` | Referencias de proporción y de bandos para sprites de mapa (ninja, guitarrista, sprite alto, señor de la capa, bandos, arquero) |
+| `inspo/paletas/` | Paleta del terreno del mapa (7 nov 2026). Imágenes de inspiración, pruebas de cada paleta sobre el capítulo 8 de FE8 y el editor `editor_paleta_mapa.html` (artifact "Paleta del mapa · Fisuras de Elyria"). El terreno usa 5 grupos de 16 colores (75 útiles) y el capítulo 8 usa 68. A Andrés le gustó de momento la de estilo Banner Saga como base. Detalle en su `README.md` |
 
 ## Dirección de arte (desde el 7 nov 2026)
 
