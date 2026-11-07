@@ -1,0 +1,2 @@
+Aliados: #839c83 #101831 #e69c31 #deacb4 #6a4a4a #bd8b6a #f6d5b4 #31206a #5aacee #315ac5 #a4eede #399c5a #d53131 #bd6229 #eeeee6 #292929
+Enemigos: #839c83 #291018 #eecd4a #ee8bb4 #6a4a4a #bd8b6a #f6d5b4 #390818 #6a1029 #9c2939 #cd626a #399c5a #3162cd #7b4abd #eeeee6 #292929
