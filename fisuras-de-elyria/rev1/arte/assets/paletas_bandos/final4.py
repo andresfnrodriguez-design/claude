@@ -10,8 +10,8 @@ B={
   'negro castaño_osc castaño_cl rubio vino_osc. rojo_osc. rojo coral rosa verde azul gris plata'),
 'Neutrales':('839c83 201810 3162cd ee8bb4 6a4a48 c08a68 f4d8b8 4a3010 a07018 e0b030 f8eca0 399c5a d53131 7888a0 f0f0e8 282828',
   'negro castaño_osc castaño_cl azul marrón_osc. ocre dorado platino rosa verde rojo gris plata'),
-'Cuarta facción':('839c83 140c20 eecd4a 5aacee 6a4a48 c08a68 f4d8b8 2a1450 6a34b0 a868d8 f0c8e8 399c5a d53131 7888a0 f0f0e8 282828',
-  'negro castaño_osc castaño_cl rubio violeta_osc. púrpura orquídea lila celeste verde rojo gris plata')}
+'Cuarta facción':('839c83 200818 eecd4a 5aacee 6a4a48 c08a68 f4d8b8 6a1a6c c0308c e05898 f8b8d0 399c5a 7b4abd 7888a0 f0f0e8 282828',
+  'negro castaño_osc castaño_cl rubio ciruela fucsia rosa rosa_pálido celeste verde púrpura gris plata')}
 ORD=[1,4,5,2,7,8,9,10,3,11,12,13,14]
 k=np.array(Image.open('/home/claude/azul/kairon_quieto_suroeste_azul_32x32.png')); k[k==3]=10
 def con(s):
