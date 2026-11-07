@@ -1,0 +1,11 @@
+Game Boy Advance Fire Emblem style map sprite on a 32x32 canvas. The character is 16 pixels tall from top of hair to bottom of boots, NEVER taller than 17 pixels, and at most 15 pixels wide, standing at the bottom of the canvas, rest transparent. Same height as the classic Fire Emblem GBA infantry map units.
+
+Pose: the same three-quarter idle stance as the sprite reference, turned slightly to the viewer's left, upright, feet slightly apart, small gap of background between the legs. Calm and alert, no attack. No weapon.
+
+Arms: his left hand is closed in a chunky bronze gauntlet held slightly forward at waist height, the clear focal point, 2 to 3 pixels wide, with exactly one bright gem pixel. The other hand is a loose skin-toned fist near the hip.
+
+Proportions: big head about one third of the height (5 to 6 pixels tall), narrow torso, short thin legs, irregular silhouette. Head and body scaled down together, not just shorter legs. Width comes from the pose and the gauntlet, never from filling with cloth.
+
+Colors, use only this palette (11 colors plus transparent): outline and darkest shadows #282828; short dark hair #282828 with #3C2C58 highlights; long WHITE coat, close to the body, ending at the knees (#F0F0E8 light, #D0C8F0 shadow, #3EA0E8 thin edge on the shadow side); sash at the waist and trim on collar and hem in team blue (#2F5CC8, dark #1E2C6C); light skin #F4D8B8 with #C08A68 shadow; dark trousers and boots #3C2C58 and #6A4A48; bronze gauntlet #C08A68 with #6A4A48 shadow; one bright #9CE4F8 gem pixel on the gauntlet.
+
+Rendering: crisp pixel art, every pixel placed on purpose, no blur, no dithering noise. Flat shading with 2 or 3 tones per material, light from the upper left. 1 pixel #282828 outline around the figure. One dark eye pixel or none, no eyebrows. Head, coat, sash, legs and gauntlet must read clearly at 1x zoom.
