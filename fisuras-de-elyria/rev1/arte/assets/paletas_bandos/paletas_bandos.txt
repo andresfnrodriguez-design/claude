@@ -1,0 +1,4 @@
+Protagonistas (blanco y cian): #839c83 #20394a #4aa4bd #c5e6ee #6a4a4a #bd8b6a #f6d5b4 #396a83 #6ab4c5 #bdeeee #f6ffff #bd2939 #eede62 #7b8b7b #eeeee6 #292929
+Enemigos (vinotinto): #839c83 #291018 #7b394a #deacb4 #6a4a4a #bd8b6a #f6d5b4 #390818 #6a1029 #9c2939 #cd626a #bd2939 #eede62 #7b8b7b #eeeee6 #292929
+Neutrales (amarillo): #839c83 #392910 #a4945a #eee6b4 #6a4a4a #bd8b6a #f6d5b4 #5a4110 #9c7b18 #deb431 #f6e694 #bd2939 #eede62 #7b8b7b #eeeee6 #292929
+Cuarta facción (púrpura): #839c83 #201039 #7b62a4 #decdf6 #6a4a4a #bd8b6a #f6d5b4 #291052 #5a2994 #8b52cd #c59cee #bd2939 #eede62 #7b8b7b #eeeee6 #292929
