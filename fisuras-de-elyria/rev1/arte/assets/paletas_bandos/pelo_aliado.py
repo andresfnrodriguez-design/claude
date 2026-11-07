@@ -5,11 +5,13 @@ p=list(B['Protagonistas (blanco y cian)'])
 p[2]=gba('3c9c5c')   # verde
 # 11 rojo se mantiene
 # 12 rubio se mantiene
+p[9]=gba('f088b8')   # rosa (repetía al 3)
+p[10]=gba('e8843c')  # naranja (repetía al 14)
 p[13]=gba('7c48c0')  # púrpura (reemplaza gris)
-OP=[(1,'azul marino'),(4,'castaño oscuro'),(5,'castaño claro'),(12,'rubio'),(11,'rojo'),
-    (2,'verde'),(13,'púrpura'),(7,'azul acero'),(8,'celeste'),(9,'cian pálido'),
-    (3,'hielo'),(10,'blanco azulado'),(14,'blanco plata'),(6,'rubio fresa')]
-k=np.array(Image.open('/home/claude/azul/kairon_quieto_suroeste_azul_32x32.png'))
+OP=[(1,'azul marino'),(4,'castaño oscuro'),(5,'castaño claro'),(12,'rubio'),(10,'naranja'),
+    (11,'rojo'),(9,'rosa'),(2,'verde'),(13,'púrpura'),(7,'azul acero'),
+    (8,'celeste'),(3,'hielo'),(14,'blanco plata'),(6,'rubio fresa')]
+k=np.array(Image.open('/home/claude/azul/kairon_quieto_suroeste_azul_32x32.png')); k[k==10]=14
 def con(slot):
     a=k.copy()
     for r in range(8,13):
