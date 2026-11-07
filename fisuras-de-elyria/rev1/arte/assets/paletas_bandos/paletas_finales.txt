@@ -1,0 +1,5 @@
+0 fondo | 1 oscuro | 2,3 pelo | 4-6 piel | 7-10 rampa del bando | 11,12 pelo | 13 gris acero | 14 blanco | 15 contorno
+Protagonistas: #839c83 #101831 #e69c31 #deacb4 #6a4a4a #bd8b6a #f6d5b4 #31206a #5aacee #bd419c #a4eede #18736a #d53131 #7b8b9c #eeeee6 #292929
+Enemigos: #839c83 #291018 #eecd4a #ee8bb4 #6a4a4a #bd8b6a #f6d5b4 #390818 #6a1029 #9c2939 #cd626a #399c5a #3162cd #7b8b9c #eeeee6 #292929
+Neutrales: #839c83 #201810 #3162cd #ee8bb4 #6a4a4a #bd8b6a #f6d5b4 #4a3110 #9c7318 #deac31 #f6ee9c #399c5a #d53131 #7b8b9c #eeeee6 #292929
+Cuarta facción: #839c83 #100820 #eecd4a #5aacee #6a4a4a #bd8b6a #f6d5b4 #291052 #6a31ac #a46ad5 #eec5e6 #399c5a #d53131 #7b8b9c #eeeee6 #292929
