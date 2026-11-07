@@ -1,0 +1,5 @@
+Slots 1,3,7,8 bando | 4-6 piel | 2,9-13 pelo fijo | 14 blanco | 15 contorno
+Protagonistas: #839c83 #20394a #eecd4a #c5e6ee #6a4a4a #bd8b6a #f6d5b4 #396a83 #6ab4c5 #ee8bb4 #e68339 #d53131 #399c5a #3162cd #eeeee6 #292929
+Enemigos: #839c83 #291018 #eecd4a #deacb4 #6a4a4a #bd8b6a #f6d5b4 #6a1029 #9c2939 #ee8bb4 #e68339 #d53131 #399c5a #3162cd #eeeee6 #292929
+Neutrales: #839c83 #392910 #eecd4a #f6e694 #6a4a4a #bd8b6a #f6d5b4 #9c7b18 #deb431 #ee8bb4 #e68339 #d53131 #399c5a #3162cd #eeeee6 #292929
+Cuarta facción: #839c83 #201039 #eecd4a #decdf6 #6a4a4a #bd8b6a #f6d5b4 #5a2994 #8b52cd #ee8bb4 #e68339 #d53131 #399c5a #3162cd #eeeee6 #292929
