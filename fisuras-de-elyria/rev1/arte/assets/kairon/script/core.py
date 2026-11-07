@@ -41,14 +41,14 @@ def place(canvas_w, canvas_h, col, m, x, y):
     M[y0:y1,x0:x1]=sm
     return C,M
 
-def outline(C,M,inner=(0,0,0),outer=(255,255,255),do_outer=True):
+def outline(C,M,inner=(0,0,0),outer=(255,255,255),do_outer=True,outer_px=2):
     """Línea interior de 1 px en el borde de la silueta y contorno blanco por fuera."""
     C=C.copy(); M=M.copy()
     er=ndimage.binary_erosion(M,structure=np.ones((3,3)),border_value=0)
     edge=M&~er
     C[edge]=inner
     if do_outer:
-        dil=ndimage.binary_dilation(M,structure=[[0,1,0],[1,1,1],[0,1,0]])
+        dil=ndimage.binary_dilation(M,structure=[[0,1,0],[1,1,1],[0,1,0]],iterations=outer_px)
         ring=dil&~M
         C[ring]=outer; M=M|ring
     return C,M
