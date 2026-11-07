@@ -1,0 +1,9 @@
+Game Boy Advance Fire Emblem style map sprite on a 32x32 canvas; the character itself is only 16 pixels tall and about 12 pixels wide, centered, standing on the lower part of the canvas, rest of the canvas transparent. A young male brawler in a calm standing idle pose, full body from top of hair to boots. Boots and hair fit within a 16 pixel tall area. Upright posture, weight even, feet slightly apart under the shoulders, small gap of background between the legs. Not crouching, no fighting stance, no wide legs.
+
+Arms: his left hand is closed in a chunky bronze gauntlet held at waist height slightly forward, 2 to 3 pixels wide, with exactly one bright cyan pixel as a gem. The other arm hangs relaxed, skin-toned hand 1 pixel. No weapon.
+
+Proportions: head about one third of the total height, 5 to 6 pixels wide; narrow torso; thin legs 2 pixels wide each. Width comes from the pose and the gauntlet, never from filling with cloth.
+
+Colors, max 15 plus transparent: short dark grey hair (#3A3F48, highlight #6B7280); light warm skin (#E8B796, shadow #B97F62); long cream coat ending at the knees, close to the body (#F2E6C8 light, #C9B48E shadow, #8F7A58 edge); maroon sash at the waist and maroon trim on collar and coat hem (#7A2234, dark #4A1220); dark brown trousers (#4A3A33); dark boots (#2E2428); bronze gauntlet (#B8863B, shadow #7A5524); cyan gem (#3FE0E6).
+
+Rendering: crisp pixel art, every pixel placed on purpose, no anti-aliasing blur, no dithering noise. Flat shading with 2 or 3 tones per material, light from the upper left. No black outline around the whole silhouette; use a selective outline in a darker tone of each material, only where shapes meet the background or each other. One dark eye pixel or none, no eyebrows, no mouth detail. Clear readable silhouette where head, cream coat, sash, legs and gauntlet are each distinguishable at 1x zoom.
