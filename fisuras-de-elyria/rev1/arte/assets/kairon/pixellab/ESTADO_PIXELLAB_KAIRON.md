@@ -6,6 +6,10 @@ Léelo entero antes de tocar PixelLab. Resume lo que Andrés probó en la web de
 
 Sprite de mapa de Kairon para FE8 (reemplaza a Ephraim). Infantería, **16 de alto, nunca más de 17**, 14 o 15 de ancho como máximo, con piernas y botas. Paleta azul de aliados con contorno `#282828`. Túnica blanca con ribetes y faja del bando. Las unidades vanilla del mapa miden entre 15 y 17.
 
+## Referencia objetivo de Andrés
+
+`ref_objetivo_hoja_espadachin.png` (captura ampliada x6) y `ref_objetivo_hoja_espadachin_nativo.png` (a 1x). Es el nivel que hay que lograr. Hoja de un espadachín azul en celdas de 32x32, con la figura de unos 14 a 15 px de alto contando una sombra suave bajo los pies, cabeza grande, 2 tonos por color, contorno oscuro y siluetas muy simples. Columnas con quieto, caminata de costado, hacia abajo, hacia arriba y ataque, en 4 cuadros cada una. Úsala como referencia de **tamaño, simplicidad y lectura**, no de colores ni de arma.
+
 ## Lo que funcionó (en la web, lo hizo Andrés)
 
 **Create from Text, modo Pro (Create Character).** Es la única configuración que dio pixel art bueno y con el diseño correcto.
