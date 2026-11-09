@@ -1,6 +1,6 @@
 # Placeholders de personajes, lista maestra
 
-Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada el 9 nov 2026.
+Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada el 9 nov 2026. Se mantienen 46 jugables como placeholders aunque el elenco final pueda recortarse a 22-24.
 
 **Excluyentes.** A Ilias o Petros (ILIAS_LIBRE en M7). B Nuri u Oskar Brask (VASK_ENTREGA en M12). C Phaedra o Lykos (zona rescatada en M21). Máximo 43 por partida.
 
@@ -9,9 +9,9 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 
 | archivo | nombre | estado | clase | ingresa | origen | nota |
 |---|---|---|---|---|---|---|
-| pj_kairon.png | Kairon | canon v3 | Guantelete → Artífice (única) | M1 | Elirio | Protagonista. Categoría 1, derrota si cae |
+| pj_kairon.png | Kairon | canon v3 | Artificiero (única) | M1 | Elirio | Protagonista. Categoría 1, derrota si cae |
 | pj_nemira.png | Nemira | canon v3 | Guardián del Recuerdo | M2 | Elirio | Lisa, B en M27. Se retira herida |
-| pj_orestion.png | Orestion | canon v3 | Sacerdote de la Llama Vieja | M3-M8 invitado | Elirio | Estilo Seth. Jefe en M27 |
+| pj_orestion.png | Orestion | canon v3 | Sacerdote de la Llama Vieja con arma física | M3-M8 invitado | Elirio | Estilo Seth. Mago y guerrero, usa diarios y lanza de la guardia del templo. Jefe en M27 |
 | pj_corina.png | Corina | canon v3 | Sacerdote de la Llama Vieja | M8 (NPC desde M3) | Elirio | Hereda inventario de Orestion |
 | pj_yannis.png | Yannis | canon v3 | Bastión → Coloso | M2 | Elirio | Panadero |
 | pj_elana.png | Elana | canon v3 | Guardia de Chatarra → Bastión Errante | M2 | Elirio | Sale en M16, vuelve en M25 |
@@ -75,7 +75,7 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 | jefe_tilo.png | Tilo | canon v3 | Furia de Cassaria | M6 y M25 jefe | Quebrados | Encabeza a los Quebrados si sobrevive |
 | jefe_dietrich.png | Dietrich | provisional | Andador de Ferannor | M26 jefe | Ferannor | Jefe de guardias del puerto |
 | jefe_maurer.png | Henrike Maurer | canon v3 | Tejedor (Cristalino) | M26 y M27 | Ferannor (Lusse) | Directora, cree en los números |
-| jefe_orestion-vacio.png | Orestion quemado | canon v3 | Sacerdote de la Llama Vieja | M27 jefe | Elirio | Variante de la última barra, ya no reconoce a nadie |
+| jefe_orestion-vacio.png | Orestion quemado | canon v3 | Sacerdote de la Llama Vieja con arma física | M27 jefe | Elirio | Variante de la última barra, ya no reconoce a nadie |
 | jefe_corvin.png | Corvin | provisional | Saqueador | M28 | Saqueadores | Jefe de los saqueadores sueltos |
 | jefe_ismenos.png | Ismenos | canon v3 | Susurrador del Olvido → Heraldo | M13 y M18 | Culto del Lete | Antes Kallion |
 | jefe_oren.png | Oren | canon v3 | Susurrador del Olvido | M18 | Culto del Lete | Estado normal |

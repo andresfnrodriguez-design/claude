@@ -5,7 +5,7 @@ Triángulo cinético: Asta > Filo > Peso > Asta. Neutrales (sin triángulo): Arc
 
 | Clase | Arma base → al promocionar | Skill | Personajes (origen) |
 |---|---|---|---|
-| **Guantelete** → Artífice (única) | Guante (neutral) → *(mismo guante, mejora de kit)* | Bono de Crítico/Evasión al iniciar combate | Kairon (elirio, protagonista) |
+| **Artificiero** (única, antes Guantelete) | Guante (neutral) → *(mismo guante, mejora de kit)* | Bono de Crítico/Evasión al iniciar combate | Kairon (elirio, protagonista) |
 | **Bastión** → Coloso | Peso → + Filo | Pavise (% de reducir a la mitad el daño físico) | Yannis (elirio, campamento) · Marcus (Ferannor, desertor) |
 | **Guardia de Chatarra** → Bastión Errante | Peso (chatarra) → + Asta | Vantage (ataca primero en fase enemiga con HP bajo) | Elana (elirio, campamento) |
 | **Escudo de Kaldholt** → Muralla / Rompehielos | Asta → + Filo | Bono de Defensa en terreno nevado/helado | Halvard (Kaldholt, traidor M30) · Astrid (Kaldholt, defectora) |
@@ -20,7 +20,7 @@ Triángulo cinético: Asta > Filo > Peso > Asta. Neutrales (sin triángulo): Arc
 | **Cazador** → Cazador Mayor | Arco (neutral, única) | Efectivo contra unidades voladoras | Thessa (Kaldholt, documentalista) · Costas (elirio, defensor) · Fenn (elirio, hub tardío M37) |
 | **Mecánico de Batalla** → Ingeniero de Guerra | Herramienta (neutral) → + Peso (hacha de mano) | Repara/restaura a un aliado adyacente (como un bastón) | Voss (Ferannor, desertora) · Livia (Ferannor) |
 | **Tejedor** → Tejedor de Tormentas / Grieta Viviente | Diario (Ritual/Oral/Cristalino) | Rango mínimo 2 — no contraatacable cuerpo a cuerpo | Selene (elirio, camino de riesgo) |
-| **Sacerdote de la Llama Vieja** → Alto Sacerdote | Diario (Ritual/Oral/Cristalino) | Poder (Mt) base alto, sin condición | Orestion (familiar de Kairon, jugable desde M35) |
+| **Sacerdote de la Llama Vieja** → Alto Sacerdote | Diario (Ritual/Oral/Cristalino) | Poder (Mt) base alto, sin condición | Orestion (familiar de Kairon, invitado M3-M8, jefe en M27; mago y guerrero, usa diarios y además un arma física) |
 | **Susurrador del Olvido** → Heraldo del Olvido / Redimido del Lete | Diario (Ritual/Oral/Cristalino) | Silencio (anula habilidad/magia enemiga un turno) | Ingrid → Heraldo del Olvido (Kaldholt) · Doran → Redimido del Lete (ex-culto) |
 | **Guardián del Recuerdo** → Custodio de Recuerdos / Portador de la Carga | Diario (Ritual/Oral/Cristalino) | Renewal (regenera % de HP propio por turno) · Portador de la Carga además absorbe el riesgo de aether de un aliado (requiere ASM a medida) | Demetria, sin promoción (elirio, mentora de Nemira, M3) · Nemira, sin promoción (elirio, cronista, desaparece M10, muerte confirmada M15) · Sael → Portador de la Carga (Ordun) · Ines → Custodio de Recuerdos (Cassaria) · Auria → Custodio de Recuerdos (Cassaria, hub tardío M37) |
 
