@@ -98,8 +98,8 @@ if n_c > 1:
     tam = ndimage.sum(mC, lab_c, range(1, n_c + 1)); mC = lab_c == (int(np.argmax(tam)) + 1)
 ys, xs = np.where(mC); cy0, pies = ys.min(), ys.max()
 if 'cabeza_C' in CFG: cy0 = CFG['cabeza_C'][0]   # y de la coronilla si el arma sobresale por arriba
-# escala común a todo el elenco. Una figura de estatura 1.0 mide 176 px de coronilla a suela, así todos quedan proporcionados entre sí
-esc = 176 * CFG.get('estatura', 1.0) / (pies - cy0)
+# escala común a todo el elenco. Una figura de estatura 1.0 mide 128 px de coronilla a suela y entra entera con los pies, así todos quedan proporcionados entre sí
+esc = 128 * CFG.get('estatura', 1.0) / (pies - cy0)   # figura entera, de coronilla a suela
 cab = mC[cy0:cy0 + max(10, int((pies - cy0) * 0.12))]; cxv = int(np.where(cab.any(0))[0].mean())
 if 'cabeza_C' in CFG and len(CFG['cabeza_C']) > 1: cxv = CFG['cabeza_C'][1]
 Wv, Hv = round(80 / esc), round(144 / esc)
