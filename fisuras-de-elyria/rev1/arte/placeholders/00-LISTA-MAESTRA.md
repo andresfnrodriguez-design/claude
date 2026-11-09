@@ -4,6 +4,8 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 
 **Excluyentes.** A Ilias o Petros (ILIAS_LIBRE en M7). B Nuri u Oskar Brask (VASK_ENTREGA en M12). C Phaedra o Lykos (zona rescatada en M21). Máximo 43 por partida.
 
+**Genéricos.** Una sola versión por clase en los placeholders. El juego final tendrá femenina y masculina, con stats base distintos por género. El Cantor es la única clase solo aliada. Las clases solo enemigas sumarán monstruos y enemigos únicos más adelante.
+
 
 ## Jugables
 
@@ -174,9 +176,9 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 | clase_ala-silente.png | Ala Silente | nueva | promoción de Jinete de Búho Nival | arco corto o dagas, montado en búho y el arma de la promoción | jugable y enemigo |
 | clase_aeronauta.png | Aeronauta | nueva | base | ganchos y objetos, globo de aether | jugable y enemigo |
 | clase_navegante-de-cielo.png | Navegante de Cielo | nueva | promoción de Aeronauta | ganchos y objetos, globo de aether y el arma de la promoción | jugable y enemigo |
-| clase_cantor.png | Cantor | nueva | base | sin arma, canta | jugable y enemigo |
-| clase_voz-de-la-orilla.png | Voz de la Orilla | nueva | promoción de Cantor | sin arma, canta y el arma de la promoción | jugable y enemigo |
-| clase_voz-del-lete.png | Voz del Lete | nueva | promoción de Cantor | sin arma, canta y el arma de la promoción | jugable y enemigo |
+| clase_cantor.png | Cantor | nueva | base | sin arma, canta | solo aliada |
+| clase_voz-de-la-orilla.png | Voz de la Orilla | nueva | promoción de Cantor | sin arma, canta y el arma de la promoción | solo aliada |
+| clase_voz-del-lete.png | Voz del Lete | nueva | promoción de Cantor | sin arma, canta y el arma de la promoción | solo aliada |
 | clase_curandero-de-las-grises.png | Curandero de las Grises | nueva | base | bolsa de hierbas y bastón de caminante | jugable y enemigo |
 | clase_herbolario-mayor.png | Herbolario Mayor | nueva | promoción de Curandero de las Grises | bolsa de hierbas y bastón de caminante y el arma de la promoción | jugable y enemigo |
 | clase_saqueador.png | Saqueador | nueva | solo enemigo | — | Quebrados con palos y antorchas (M2, M3, M6, M28) |

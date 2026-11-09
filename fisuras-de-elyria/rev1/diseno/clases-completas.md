@@ -38,6 +38,10 @@ Salen de comparar el sistema con Radiant Dawn. Sin tercer nivel de promoción. L
 
 **Solo enemigas.** Andador de Ferannor (montura mecánica de pistones, quema aether sin cobrar, R3) y su promoción Andador de Asedio. Además Saqueador, Recolector, Guardia de lente, Matón de Sombra Rota, Vacío y Civil.
 
+**Exclusividad.** Hay clases solo aliadas y clases solo enemigas. Por ahora la única solo aliada es el Cantor. Las solo enemigas incluyen monstruos y enemigos únicos, a definir.
+
+**Género.** El juego final tiene versión femenina y masculina de los genéricos, con diferencias en las estadísticas base por género para variar la jugabilidad. Los placeholders se hacen con una sola versión por clase.
+
 **Tres voladores distintos.** Grifo de choque (lanza, defensa), Búho Nival hostigador (rápido, caza magos) y Aeronauta de apoyo.
 
 **Ladrón.** Lo cubre el Correo de la Diáspora. Sus funciones (robar, abrir, sigilo) quedan por definir.
