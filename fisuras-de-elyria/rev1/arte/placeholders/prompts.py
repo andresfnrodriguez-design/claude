@@ -61,16 +61,26 @@ def slot(n,nombre,clase,origen,nota,i):
     edad=EDAD.get(nombre, f'young {sexo}, around {random.choice([18,20,23,26,29,33])}')
     pelo=random.choice(PELOS) if nombre not in('Kairon',) else 'dark brown'
     a,m=arma(clase)
-    if nombre=='Kairon': return f"{n}. Kairon: young man, around 20, lean. Dark brown hair. Long cream coat, maroon sash tied at the waist, Elyrian clothing underneath. Weapon: {a}."
-    if clase=='NPC': return f"{n}. {nombre}: {edad}. {pelo.capitalize()} hair. {nacion(origen)}. No weapon. {nota}."
-    return f"{n}. {nombre}: {edad}. {pelo.capitalize()} hair. {nacion(origen)}. Weapon: {a}.{(' '+m.capitalize()+'.') if m else ''}"
+    if nombre=='Kairon': return f"CHARACTER {n}. Kairon: young man, around 20, lean. Dark brown hair. Long cream coat, maroon sash tied at the waist, Elyrian clothing underneath. Weapon: {a}."
+    if clase=='NPC': return f"CHARACTER {n}. {nombre}: {edad}. {pelo.capitalize()} hair. {nacion(origen)}. No weapon. {nota}."
+    return f"CHARACTER {n}. {nombre}: {edad}. {pelo.capitalize()} hair. {nacion(origen)}. Weapon: {a}.{(' '+m.capitalize()+'.') if m else ''}"
 def gen_slot(n,clase,i):
     sexo=['man','woman'][i%2]
     a,m=arma(clase)
     return f"{n}. Generic {clase} soldier: {sexo}, around 25, average build, face visible. Hair short, plain brown. Neutral off-white clothing with grey-blue accents so it can be recolored later. Weapon: {a}.{(' '+m.capitalize()+'.') if m else ''}"
+ESTILO2="""Character sheet for a fantasy tactics game (aetherpunk, Greek-inspired world). Use the attached layout image exactly: two characters, CHARACTER 1 on the left half and CHARACTER 2 on the right half. Each character has three panels.
+- Panel A: portrait from the waist up, head and shoulders large, three-quarter view turned toward the right side of the image, face looking right, calm expression. The top of the head sits just below the thin line, never cut. Only the bottom edge cuts the body (at the waist). Same scale as a game dialogue portrait.
+- Panel B: the same character, same outfit, same framing, but turned toward the left side of the image. Redraw it, do not mirror: asymmetric details (scars, hair parting, a gauntlet or weapon on one hand, a pauldron on one shoulder) stay on the same side of the body.
+- Panel C: full body, standing, facing the viewer, neutral relaxed pose, weapon held at the side. Top of the head on the upper thin line, soles of the feet on the lower thin line.
+Rules for everything:
+- Anime/manga illustration, clean dark lineart, flat cel shading with one shadow tone, saturated but not neon colors, dense small details (straps, buckles, tools, gears).
+- The same character must look identical in A, B and C (face, hair, colors, outfit).
+- Solid flat background #A9CBA6 inside every panel. No scenery, no floor shadow.
+- Remove all guide lines, panel borders, labels and text from the final image. Nothing may cross from one panel into another.
+Characters:"""
 lotes=[]
 items=[('pj',n,c,o,no) for _,n,e,c,g,o,no in J]+[('en',n,c,f,no) for _,n,e,c,a,f,no in E]
-for k in range(0,len(items),4): lotes.append(('Personajes',items[k:k+4]))
+for k in range(0,len(items),2): lotes.append(('Personajes',items[k:k+2]))
 vis=set(); clases=[]
 for b,p in C:
     if b not in vis: vis.add(b); clases.append(b)
@@ -90,6 +100,7 @@ for li,(t,grupo) in enumerate(lotes,1):
             if nm=='Civil': lines.append(f"{j}. Generic civilian refugee: woman, around 40, thin, worn southern clothing, holding a sickle. Neutral off-white clothing with grey-blue accents."); continue
             lines.append(f"{j}. Generic {nm}: {sx}, around 25, average build, face visible. Short plain brown hair. Neutral off-white clothing with grey-blue accents so it can be recolored later. Weapon: {a}.{(' '+m.capitalize()+'.') if m else ''}")
     nombres=', '.join((it[1] if t=='Personajes' else it.split(' (')[0]) for it in grupo)
-    out.append(f"===== LOTE {li:02d} · {t} · {nombres} =====\n{ESTILO}\n"+'\n'.join(lines)+'\n')
+    molde='molde_2pj_1344x768.png' if t=='Personajes' else 'molde_4x_1344x768.png'
+    out.append(f"===== LOTE {li:02d} · {t} · {nombres} · molde {molde} =====\n{ESTILO2 if t=='Personajes' else ESTILO}\n"+'\n'.join(lines)+'\n')
 open('lotes_nano_banana.txt','w').write('\n'.join(out))
 print(len(lotes)); print(out[0]); print(out[-1][-600:])
