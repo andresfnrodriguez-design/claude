@@ -25,3 +25,7 @@ Reemplaza la línea Banner Saga del 7 nov. Las 14 referencias de esta carpeta so
 - Autómatas de latón con ropa de trabajo, que encajan con el aetherpunk.
 - Para la corrupción se suma el gólem de piedra blanca con vetas doradas tipo kintsugi y el caballero de jade con filetes dorados.
 - La línea puede ser más suelta y de boceto, como en las piezas de EV Ganin.
+
+## Ajuste tras la prueba de Orestion
+- La inspiración griega no debe ser evidente. Nada de togas, quitones ni meandro como protagonista.
+- El vestuario sigue la mezcla de las referencias, con túnicas y abrigos largos, bordados de filigrana, arabescos y motivos florales, influencias medievales, bizantinas, de Medio Oriente y de Asia oriental.
