@@ -112,21 +112,35 @@ for k, nom in (('Z', 'zoom_240x160'), ('H', 'herido_240x160')):
     b[np.abs(b.astype(int) - np.array(FONDO)).sum(2) < 30] = BG
     piezas[nom] = b
 
+# saturación opcional antes de cuantizar, para dibujos muy apagados
+from PIL import ImageEnhance
+fs = CFG.get('saturacion', 1.0)
+if fs != 1.0:
+    for k in piezas:
+        m = (piezas[k] == np.array(BG)).all(2)
+        e = np.asarray(ImageEnhance.Color(Image.fromarray(piezas[k].astype(np.uint8))).enhance(fs)).copy()
+        e[m] = BG; piezas[k] = e
 # PALETA COMPARTIDA. 13 colores de la figura + oscuro + blanco + fondo en el 0
-todo = np.concatenate([p.reshape(-1, 3) for p in piezas.values()])
-todo = todo[np.abs(todo.astype(int) - np.array(BG)).sum(1) > 20]
-todo = todo[(np.abs(todo.astype(int) - np.array(BLANCO)).sum(1) > 30) & (np.abs(todo.astype(int) - np.array(OSCURO)).sum(1) > 30)]
-muestra = Image.fromarray(todo[np.random.default_rng(1).choice(len(todo), 60000)].reshape(300, 200, 3))
-# oro reservado. 2 slots para los ribetes dorados si el personaje los tiene
+# cada pieza aporta la misma cantidad de muestras, así los primeros planos no se comen la paleta
+rng = np.random.default_rng(1)
+def figura_px(p):
+    x = p.reshape(-1, 3); x = x[np.abs(x.astype(int) - np.array(BG)).sum(1) > 20]
+    x = x[(np.abs(x.astype(int) - np.array(BLANCO)).sum(1) > 30) & (np.abs(x.astype(int) - np.array(OSCURO)).sum(1) > 30)]
+    return x[rng.choice(len(x), 12000)] if len(x) else x
+todo = np.concatenate([figura_px(p) for p in piezas.values()])
 t = todo.astype(int)
-oro = todo[(t[:, 0] > 150) & (t[:, 0] - t[:, 2] > 70) & (t[:, 1] - t[:, 2] > 40)]
-n_oro = 2 if len(oro) > 300 else 0
-cols_oro = []
-if n_oro:
-    mo = Image.fromarray(oro[np.random.default_rng(2).choice(len(oro), 4000)].reshape(40, 100, 3))
-    cols_oro = np.array(mo.quantize(2, method=Image.Quantize.MEDIANCUT, kmeans=3).getpalette()[:6]).reshape(2, 3).tolist()
-q = muestra.quantize(13 - n_oro, method=Image.Quantize.MEDIANCUT, kmeans=3)
-cols = np.array(q.getpalette()[:3 * (13 - n_oro)]).reshape(13 - n_oro, 3).tolist() + cols_oro
+croma = t.max(1) - t.min(1)
+# acentos. Hasta 4 slots para los colores con croma (pelo, tela, oro), si hay suficientes píxeles
+umbral = max(22, min(45, int(np.percentile(croma, 80))))
+sat = todo[croma > umbral]
+n_ac = 4 if len(sat) > 2000 else (2 if len(sat) > 400 else 0)
+cols_ac = []
+if n_ac:
+    ms = Image.fromarray(sat[rng.choice(len(sat), 6000)].reshape(60, 100, 3))
+    cols_ac = np.array(ms.quantize(n_ac, method=Image.Quantize.MEDIANCUT, kmeans=3).getpalette()[:3 * n_ac]).reshape(n_ac, 3).tolist()
+gris = todo[croma <= umbral]
+mg = Image.fromarray(gris[rng.choice(len(gris), 60000)].reshape(300, 200, 3))
+cols = np.array(mg.quantize(13 - n_ac, method=Image.Quantize.MEDIANCUT, kmeans=3).getpalette()[:3 * (13 - n_ac)]).reshape(13 - n_ac, 3).tolist() + cols_ac
 cols = sorted([tuple(int(round(v / 8) * 8 if v < 248 else 248) for v in c) for c in cols], key=lambda c: sum(c))
 pal = [BG, OSCURO] + cols + [BLANCO]
 pal = [tuple(min(248, (v // 8) * 8 if i else v) for v in c) for i, c in enumerate(pal)]
