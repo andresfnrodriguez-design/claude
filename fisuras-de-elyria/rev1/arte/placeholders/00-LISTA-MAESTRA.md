@@ -24,7 +24,7 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 | pj_margit.png | Margit | canon v3 | Mecánico de Batalla → Ingeniero de Guerra | M15 | Lusse | Antes Voss. Abre la matriz |
 | pj_neli.png | Neli | canon v3 | Correo de la Diáspora → Guía de la Diáspora | P3 o M19 | Sombra Rota | Trae el registro de Sombra Rota |
 | pj_halvard.png | Halvard | canon v3 | Escudo de Kaldholt → Muralla de Kaldholt | Rival M11-16, lord M17-23, vuelve M26 | Kaldholt | Deuteragonista B |
-| pj_sten.png | Sten | canon v3 | Deslizador → Vanguardia Alada | M17 | Kaldholt | Compañía de Halvard |
+| pj_sten.png | Sten | canon v3 | Deslizador → Corredor de Cornisa | M17 | Kaldholt | Compañía de Halvard |
 | pj_thessa.png | Thessa | canon v3 | Cazador → Cazador Mayor | M17 | Kaldholt | Lleva el libro de la línea |
 | pj_astrid.png | Astrid | canon v3 | Escudo de Kaldholt → Rompehielos | M17 | Kaldholt |  |
 | pj_ingrid.png | Ingrid | canon v3 | Susurrador del Olvido → Heraldo del Olvido | M18 | Kaldholt | Fiel de Ismenos que se va con Halvard |
@@ -32,7 +32,7 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 | pj_doran.png | Doran | canon v3 | Susurrador del Olvido → Redimido del Lete | P7 o M22 | Ex culto | Gasta recuerdos felices a propósito |
 | pj_rafael.png | Rafael | canon v3 | Artillero → Artillero Pesado | M26 | Cassaria | Guardia contratado que deserta |
 | pj_ilias.png | Ilias | provisional | Filo → Maestro del Filo | P2 | Elirio | Excluyente A. Solo si ILIAS_LIBRE=1 |
-| pj_petros.png | Petros | provisional | Bastión → Coloso | M9 | Elirio (liso) | Excluyente A. Solo si ILIAS_LIBRE=0, NPC del corral en M9 |
+| pj_petros.png | Petros | provisional | Curandero de las Grises → Herbolario Mayor | M9 | Elirio (liso) | Excluyente A. Solo si ILIAS_LIBRE=0, NPC del corral en M9 |
 | pj_nuri.png | Nuri | provisional | Deslizador → Corredor de Tormenta | M19 | Sombra Rota | Excluyente B. Solo si VASK_ENTREGA=0, deserta de Malva |
 | pj_oskar.png | Oskar Brask | provisional | Filo → Sombra | M15 | Kaldholt | Excluyente B. Solo si VASK_ENTREGA≥1, el hermano menor cambia de bando |
 | pj_phaedra.png | Phaedra | provisional | Tejedor → Tejedor de Tormentas | M21 zona A | Elirio (lisa) | Excluyente C. Rescatada en la zona A |
@@ -40,10 +40,10 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 | pj_xylo.png | Xylo | provisional | Explorador → Vigía Mayor | M9 | Elirio | Personaje guía |
 | pj_selene.png | Selene | provisional | Tejedor → Grieta Viviente | M13 | Elirio | Origen nuevo, sin la Orden del Cenit |
 | pj_ianna.png | Ianna | provisional | Correo de la Diáspora → Guía de la Diáspora | M21 | Elirio | Rescatada en la evacuación |
-| pj_bjorn.png | Bjorn | provisional | Filo → Maestro del Filo | M11 | Kaldholt |  |
-| pj_ines.png | Ines | provisional | Guardián del Recuerdo → Custodio de Recuerdos | M14 | Cassaria | Cronista menor |
+| pj_bjorn.png | Bjorn | provisional | Jinete de Alce → Lancero de Escarcha | M11 | Kaldholt | Caballería de la frontera |
+| pj_ines.png | Ines | provisional | Cantor → Voz de la Orilla o Voz del Lete | M13 | Elirio | Canta el lema |
 | pj_paloma.png | Paloma | provisional | Furia de Cassaria → Furia Mayor | P4 | Cassaria | Minera de Velde |
-| pj_teo.png | Teo | provisional | Artillero → Artillero Pesado | M14 | Cassaria |  |
+| pj_teo.png | Teo | provisional | Aeronauta → Navegante de Cielo | M14 | Cassaria | Globo de las minas |
 | pj_marcus.png | Marcus | provisional | Bastión → Coloso | M26 | Ferannor | Desertor del puerto |
 | pj_livia.png | Livia | provisional | Mecánico de Batalla → Ingeniero de Guerra | M20 | Ferannor | Recolectora que se niega a quemar los estantes |
 | pj_greta.png | Greta | provisional | Tejedor → Grieta Viviente | M26 | Lusse | Técnica de tablas |
@@ -51,7 +51,7 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 | pj_zephyr.png | Zephyr | provisional | Correo de la Diáspora → Guía de la Diáspora | M13 | Ordun | Compañero de ruta de Sael |
 | pj_tam.png | Tam | provisional | Filo → Sombra | M16 | Ordun |  |
 | pj_baraz.png | Baraz | provisional | Guardia de Chatarra → Bastión Errante | M16 | Ordun |  |
-| pj_rook.png | Rook | provisional | Deslizador → Corredor de Tormenta | M17 | Elirio | Origen nuevo, sin la Orden del Cenit |
+| pj_rook.png | Rook | provisional | Jinete de Búho Nival → Ala Silente | M17 | Kaldholt | Origen nuevo, sin la Orden del Cenit |
 | pj_myron.png | Myron | provisional | Sacerdote de la Llama Vieja → Alto Sacerdote | M20 | Orden dracónica | Guardián del santuario |
 | pj_fenn.png | Fenn | provisional | Cazador → Cazador Mayor | M25 | Elirio (liso) | Vecino de la hondonada |
 | pj_auria.png | Auria | provisional | Guardián del Recuerdo → Custodio de Recuerdos | M25 | Cassaria | Llega con los de Ardel |
@@ -73,7 +73,7 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 | jefe_brandt.png | Brandt | canon v3 | Escudo de Kaldholt → Muralla | M22 y P6 | Kaldholt | Capitana |
 | jefe_hallstrom.png | Hallstrom | provisional | Escudo de Kaldholt | M24 jefe | Kaldholt | Teniente de la guardia del fuerte |
 | jefe_tilo.png | Tilo | canon v3 | Furia de Cassaria | M6 y M25 jefe | Quebrados | Encabeza a los Quebrados si sobrevive |
-| jefe_dietrich.png | Dietrich | provisional | Bastión → Coloso | M26 jefe | Ferannor | Jefe de guardias del puerto |
+| jefe_dietrich.png | Dietrich | provisional | Andador de Ferannor | M26 jefe | Ferannor | Jefe de guardias del puerto |
 | jefe_maurer.png | Henrike Maurer | canon v3 | Tejedor (Cristalino) | M26 y M27 | Ferannor (Lusse) | Directora, cree en los números |
 | jefe_orestion-vacio.png | Orestion quemado | canon v3 | Sacerdote de la Llama Vieja | M27 jefe | Elirio | Variante de la última barra, ya no reconoce a nadie |
 | jefe_corvin.png | Corvin | provisional | Saqueador | M28 | Saqueadores | Jefe de los saqueadores sueltos |
@@ -126,51 +126,64 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 
 ## Genéricos
 
-| archivo | clase | nivel | arma | uso |
-|---|---|---|---|---|
-| clase_bastion.png | Bastión | base | maza pesada y escudo industrial | jugable y enemigo |
-| clase_coloso.png | Coloso | promoción de Bastión | maza pesada y escudo industrial y el arma de la promoción | jugable y enemigo |
-| clase_guardia-de-chatarra.png | Guardia de Chatarra | base | arma de chatarra y escudo improvisado | jugable y enemigo |
-| clase_bastion-errante.png | Bastión Errante | promoción de Guardia de Chatarra | arma de chatarra y escudo improvisado y el arma de la promoción | jugable y enemigo |
-| clase_escudo-de-kaldholt.png | Escudo de Kaldholt | base | lanza corta y escudo redondo | jugable y enemigo |
-| clase_muralla-de-kaldholt.png | Muralla de Kaldholt | promoción de Escudo de Kaldholt | lanza corta y escudo redondo y el arma de la promoción | jugable y enemigo |
-| clase_rompehielos.png | Rompehielos | promoción de Escudo de Kaldholt | lanza corta y escudo redondo y el arma de la promoción | jugable y enemigo |
-| clase_deslizador.png | Deslizador | base | espada corta | jugable y enemigo |
-| clase_corredor-de-tormenta.png | Corredor de Tormenta | promoción de Deslizador | espada corta y el arma de la promoción | jugable y enemigo |
-| clase_vanguardia-alada.png | Vanguardia Alada | promoción de Deslizador | espada corta y el arma de la promoción | jugable y enemigo |
-| clase_jinete-de-grifo.png | Jinete de Grifo | base | lanza, montado en grifo | jugable y enemigo |
-| clase_senor-del-cielo.png | Señor del Cielo | promoción de Jinete de Grifo | lanza, montado en grifo y el arma de la promoción | jugable y enemigo |
-| clase_explorador.png | Explorador | base | arco ligero | jugable y enemigo |
-| clase_vigia-mayor.png | Vigía Mayor | promoción de Explorador | arco ligero y el arma de la promoción | jugable y enemigo |
-| clase_correo-de-la-diaspora.png | Correo de la Diáspora | base | dagas arrojadizas | jugable y enemigo |
-| clase_guia-de-la-diaspora.png | Guía de la Diáspora | promoción de Correo de la Diáspora | dagas arrojadizas y el arma de la promoción | jugable y enemigo |
-| clase_filo.png | Filo | base | espada | jugable y enemigo |
-| clase_maestro-del-filo.png | Maestro del Filo | promoción de Filo | espada y el arma de la promoción | jugable y enemigo |
-| clase_sombra.png | Sombra | promoción de Filo | espada y el arma de la promoción | jugable y enemigo |
-| clase_custodio-elirio.png | Custodio Elirio | base | glaive ceremonial | jugable y enemigo |
-| clase_guardian-ancestral.png | Guardián Ancestral | promoción de Custodio Elirio | glaive ceremonial y el arma de la promoción | jugable y enemigo |
-| clase_furia-de-cassaria.png | Furia de Cassaria | base | hacha | jugable y enemigo |
-| clase_furia-mayor.png | Furia Mayor | promoción de Furia de Cassaria | hacha y el arma de la promoción | jugable y enemigo |
-| clase_artillero.png | Artillero | base | rifle de chispa | jugable y enemigo |
-| clase_artillero-pesado.png | Artillero Pesado | promoción de Artillero | rifle de chispa y el arma de la promoción | jugable y enemigo |
-| clase_cazador.png | Cazador | base | arco | jugable y enemigo |
-| clase_cazador-mayor.png | Cazador Mayor | promoción de Cazador | arco y el arma de la promoción | jugable y enemigo |
-| clase_mecanico-de-batalla.png | Mecánico de Batalla | base | llave o soplete | jugable y enemigo |
-| clase_ingeniero-de-guerra.png | Ingeniero de Guerra | promoción de Mecánico de Batalla | llave o soplete y el arma de la promoción | jugable y enemigo |
-| clase_tejedor.png | Tejedor | base | foco de aether improvisado | jugable y enemigo |
-| clase_tejedor-de-tormentas.png | Tejedor de Tormentas | promoción de Tejedor | foco de aether improvisado y el arma de la promoción | jugable y enemigo |
-| clase_grieta-viviente.png | Grieta Viviente | promoción de Tejedor | foco de aether improvisado y el arma de la promoción | jugable y enemigo |
-| clase_sacerdote-de-la-llama-vieja.png | Sacerdote de la Llama Vieja | base | lámpara ritual | jugable y enemigo |
-| clase_alto-sacerdote.png | Alto Sacerdote | promoción de Sacerdote de la Llama Vieja | lámpara ritual y el arma de la promoción | jugable y enemigo |
-| clase_susurrador-del-olvido.png | Susurrador del Olvido | base | fragmento de fisura | jugable y enemigo |
-| clase_heraldo-del-olvido.png | Heraldo del Olvido | promoción de Susurrador del Olvido | fragmento de fisura y el arma de la promoción | jugable y enemigo |
-| clase_redimido-del-lete.png | Redimido del Lete | promoción de Susurrador del Olvido | fragmento de fisura y el arma de la promoción | jugable y enemigo |
-| clase_guardian-del-recuerdo.png | Guardián del Recuerdo | base | relicario | jugable y enemigo |
-| clase_custodio-de-recuerdos.png | Custodio de Recuerdos | promoción de Guardián del Recuerdo | relicario y el arma de la promoción | jugable y enemigo |
-| clase_portador-de-la-carga.png | Portador de la Carga | promoción de Guardián del Recuerdo | relicario y el arma de la promoción | jugable y enemigo |
-| clase_saqueador.png | Saqueador | solo enemigo | — | Quebrados con palos y antorchas (M2, M3, M6, M28) |
-| clase_recolector.png | Recolector | solo enemigo | — | Ferannor (M14, M20, M21, P4) |
-| clase_guardia-de-lente.png | Guardia de lente | solo enemigo | — | Ferannor, obedece a las letras (M26, M27) |
-| clase_maton-de-sombra-rota.png | Matón de Sombra Rota | solo enemigo | — | Ballestas y redes (M12, M15, M19) |
-| clase_vacio.png | Vacío | solo enemigo | — | Estado permanente de NPC o jefe |
-| clase_civil.png | Civil | solo enemigo | — | Familias lisas y vecinos de la hondonada (M17, M25) |
+| archivo | clase | estado | nivel | arma | uso |
+|---|---|---|---|---|---|
+| clase_bastion.png | Bastión | v1 | base | maza pesada y escudo industrial | jugable y enemigo |
+| clase_coloso.png | Coloso | v1 | promoción de Bastión | maza pesada y escudo industrial y el arma de la promoción | jugable y enemigo |
+| clase_guardia-de-chatarra.png | Guardia de Chatarra | v1 | base | arma de chatarra y escudo improvisado | jugable y enemigo |
+| clase_bastion-errante.png | Bastión Errante | v1 | promoción de Guardia de Chatarra | arma de chatarra y escudo improvisado y el arma de la promoción | jugable y enemigo |
+| clase_escudo-de-kaldholt.png | Escudo de Kaldholt | v1 | base | lanza corta y escudo redondo | jugable y enemigo |
+| clase_muralla-de-kaldholt.png | Muralla de Kaldholt | v1 | promoción de Escudo de Kaldholt | lanza corta y escudo redondo y el arma de la promoción | jugable y enemigo |
+| clase_rompehielos.png | Rompehielos | v1 | promoción de Escudo de Kaldholt | lanza corta y escudo redondo y el arma de la promoción | jugable y enemigo |
+| clase_deslizador.png | Deslizador | v1 | base | espada corta | jugable y enemigo |
+| clase_corredor-de-tormenta.png | Corredor de Tormenta | v1 | promoción de Deslizador | espada corta y el arma de la promoción | jugable y enemigo |
+| clase_corredor-de-cornisa.png | Corredor de Cornisa | nueva | promoción de Deslizador | espada corta y el arma de la promoción | jugable y enemigo |
+| clase_jinete-de-grifo.png | Jinete de Grifo | v1 | base | lanza, montado en grifo | jugable y enemigo |
+| clase_senor-del-cielo.png | Señor del Cielo | v1 | promoción de Jinete de Grifo | lanza, montado en grifo y el arma de la promoción | jugable y enemigo |
+| clase_explorador.png | Explorador | v1 | base | arco ligero | jugable y enemigo |
+| clase_vigia-mayor.png | Vigía Mayor | v1 | promoción de Explorador | arco ligero y el arma de la promoción | jugable y enemigo |
+| clase_correo-de-la-diaspora.png | Correo de la Diáspora | v1 | base | dagas arrojadizas | jugable y enemigo |
+| clase_guia-de-la-diaspora.png | Guía de la Diáspora | v1 | promoción de Correo de la Diáspora | dagas arrojadizas y el arma de la promoción | jugable y enemigo |
+| clase_filo.png | Filo | v1 | base | espada | jugable y enemigo |
+| clase_maestro-del-filo.png | Maestro del Filo | v1 | promoción de Filo | espada y el arma de la promoción | jugable y enemigo |
+| clase_sombra.png | Sombra | v1 | promoción de Filo | espada y el arma de la promoción | jugable y enemigo |
+| clase_custodio-elirio.png | Custodio Elirio | v1 | base | glaive ceremonial | jugable y enemigo |
+| clase_guardian-ancestral.png | Guardián Ancestral | v1 | promoción de Custodio Elirio | glaive ceremonial y el arma de la promoción | jugable y enemigo |
+| clase_furia-de-cassaria.png | Furia de Cassaria | v1 | base | hacha | jugable y enemigo |
+| clase_furia-mayor.png | Furia Mayor | v1 | promoción de Furia de Cassaria | hacha y el arma de la promoción | jugable y enemigo |
+| clase_artillero.png | Artillero | v1 | base | rifle de chispa | jugable y enemigo |
+| clase_artillero-pesado.png | Artillero Pesado | v1 | promoción de Artillero | rifle de chispa y el arma de la promoción | jugable y enemigo |
+| clase_cazador.png | Cazador | v1 | base | arco | jugable y enemigo |
+| clase_cazador-mayor.png | Cazador Mayor | v1 | promoción de Cazador | arco y el arma de la promoción | jugable y enemigo |
+| clase_mecanico-de-batalla.png | Mecánico de Batalla | v1 | base | llave o soplete | jugable y enemigo |
+| clase_ingeniero-de-guerra.png | Ingeniero de Guerra | v1 | promoción de Mecánico de Batalla | llave o soplete y el arma de la promoción | jugable y enemigo |
+| clase_tejedor.png | Tejedor | v1 | base | foco de aether improvisado | jugable y enemigo |
+| clase_tejedor-de-tormentas.png | Tejedor de Tormentas | v1 | promoción de Tejedor | foco de aether improvisado y el arma de la promoción | jugable y enemigo |
+| clase_grieta-viviente.png | Grieta Viviente | v1 | promoción de Tejedor | foco de aether improvisado y el arma de la promoción | jugable y enemigo |
+| clase_sacerdote-de-la-llama-vieja.png | Sacerdote de la Llama Vieja | v1 | base | lámpara ritual | jugable y enemigo |
+| clase_alto-sacerdote.png | Alto Sacerdote | v1 | promoción de Sacerdote de la Llama Vieja | lámpara ritual y el arma de la promoción | jugable y enemigo |
+| clase_susurrador-del-olvido.png | Susurrador del Olvido | v1 | base | fragmento de fisura | jugable y enemigo |
+| clase_heraldo-del-olvido.png | Heraldo del Olvido | v1 | promoción de Susurrador del Olvido | fragmento de fisura y el arma de la promoción | jugable y enemigo |
+| clase_redimido-del-lete.png | Redimido del Lete | v1 | promoción de Susurrador del Olvido | fragmento de fisura y el arma de la promoción | jugable y enemigo |
+| clase_guardian-del-recuerdo.png | Guardián del Recuerdo | v1 | base | relicario | jugable y enemigo |
+| clase_custodio-de-recuerdos.png | Custodio de Recuerdos | v1 | promoción de Guardián del Recuerdo | relicario y el arma de la promoción | jugable y enemigo |
+| clase_portador-de-la-carga.png | Portador de la Carga | v1 | promoción de Guardián del Recuerdo | relicario y el arma de la promoción | jugable y enemigo |
+| clase_jinete-de-alce.png | Jinete de Alce | nueva | base | lanza, montado en alce | jugable y enemigo |
+| clase_lancero-de-escarcha.png | Lancero de Escarcha | nueva | promoción de Jinete de Alce | lanza, montado en alce y el arma de la promoción | jugable y enemigo |
+| clase_jinete-de-buho-nival.png | Jinete de Búho Nival | nueva | base | arco corto o dagas, montado en búho | jugable y enemigo |
+| clase_ala-silente.png | Ala Silente | nueva | promoción de Jinete de Búho Nival | arco corto o dagas, montado en búho y el arma de la promoción | jugable y enemigo |
+| clase_aeronauta.png | Aeronauta | nueva | base | ganchos y objetos, globo de aether | jugable y enemigo |
+| clase_navegante-de-cielo.png | Navegante de Cielo | nueva | promoción de Aeronauta | ganchos y objetos, globo de aether y el arma de la promoción | jugable y enemigo |
+| clase_cantor.png | Cantor | nueva | base | sin arma, canta | jugable y enemigo |
+| clase_voz-de-la-orilla.png | Voz de la Orilla | nueva | promoción de Cantor | sin arma, canta y el arma de la promoción | jugable y enemigo |
+| clase_voz-del-lete.png | Voz del Lete | nueva | promoción de Cantor | sin arma, canta y el arma de la promoción | jugable y enemigo |
+| clase_curandero-de-las-grises.png | Curandero de las Grises | nueva | base | bolsa de hierbas y bastón de caminante | jugable y enemigo |
+| clase_herbolario-mayor.png | Herbolario Mayor | nueva | promoción de Curandero de las Grises | bolsa de hierbas y bastón de caminante y el arma de la promoción | jugable y enemigo |
+| clase_saqueador.png | Saqueador | nueva | solo enemigo | — | Quebrados con palos y antorchas (M2, M3, M6, M28) |
+| clase_recolector.png | Recolector | nueva | solo enemigo | — | Ferannor (M14, M20, M21, P4) |
+| clase_guardia-de-lente.png | Guardia de lente | nueva | solo enemigo | — | Ferannor, obedece a las letras (M26, M27) |
+| clase_maton-de-sombra-rota.png | Matón de Sombra Rota | nueva | solo enemigo | — | Ballestas y redes (M12, M15, M19) |
+| clase_vacio.png | Vacío | nueva | solo enemigo | — | Estado permanente de NPC o jefe |
+| clase_civil.png | Civil | nueva | solo enemigo | — | Familias lisas y vecinos de la hondonada (M17, M25) |
+| clase_andador-de-ferannor.png | Andador de Ferannor | nueva | solo enemigo | — | Montura mecánica de pistones, quema aether sin cobrar (R3) |
+| clase_andador-de-asedio.png | Andador de Asedio | nueva | solo enemigo | — | Promoción enemiga para el puerto y M27 |
