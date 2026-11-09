@@ -130,17 +130,15 @@ def figura_px(p):
 todo = np.concatenate([figura_px(p) for p in piezas.values()])
 t = todo.astype(int)
 croma = t.max(1) - t.min(1)
-# acentos. Hasta 4 slots para los colores con croma (pelo, tela, oro), si hay suficientes píxeles
-umbral = max(22, min(45, int(np.percentile(croma, 80))))
-sat = todo[croma > umbral]
-n_ac = 4 if len(sat) > 2000 else (2 if len(sat) > 400 else 0)
-cols_ac = []
-if n_ac:
-    ms = Image.fromarray(sat[rng.choice(len(sat), 6000)].reshape(60, 100, 3))
-    cols_ac = np.array(ms.quantize(n_ac, method=Image.Quantize.MEDIANCUT, kmeans=3).getpalette()[:3 * n_ac]).reshape(n_ac, 3).tolist()
-gris = todo[croma <= umbral]
-mg = Image.fromarray(gris[rng.choice(len(gris), 60000)].reshape(300, 200, 3))
-cols = np.array(mg.quantize(13 - n_ac, method=Image.Quantize.MEDIANCUT, kmeans=3).getpalette()[:3 * (13 - n_ac)]).reshape(13 - n_ac, 3).tolist() + cols_ac
+# k-means en espacio Lab, con el croma pesado al doble para que pelo, tela y oro no se pierdan en los grises
+from skimage.color import rgb2lab, lab2rgb
+from sklearn.cluster import KMeans
+lab = rgb2lab((todo.reshape(-1, 1, 3) / 255.0)).reshape(-1, 3)
+peso = CFG.get('peso_croma', 2.0)
+X = lab * np.array([1.0, peso, peso])
+km = KMeans(13, n_init=4, random_state=0).fit(X[rng.choice(len(X), min(len(X), 40000), replace=False)])
+centros = km.cluster_centers_ / np.array([1.0, peso, peso])
+cols = (np.clip(lab2rgb(centros.reshape(-1, 1, 3)).reshape(-1, 3), 0, 1) * 255).round().astype(int).tolist()
 cols = sorted([tuple(int(round(v / 8) * 8 if v < 248 else 248) for v in c) for c in cols], key=lambda c: sum(c))
 pal = [BG, OSCURO] + cols + [BLANCO]
 pal = [tuple(min(248, (v // 8) * 8 if i else v) for v in c) for i, c in enumerate(pal)]
@@ -149,9 +147,10 @@ flat = [v for c in pal for v in c] + list(OSCURO) * 240
 pimg = Image.new('P', (1, 1)); pimg.putpalette(flat)
 
 for nom, arr in piezas.items():
-    im = Image.fromarray(arr.astype(np.uint8)).quantize(palette=pimg, dither=Image.Dither.NONE)
-    # el fondo exacto siempre al índice 0
-    ia = np.asarray(im).copy()
+    palab = rgb2lab((np.array(pal).reshape(-1, 1, 3) / 255.0)).reshape(-1, 3)
+    plab = rgb2lab(arr.astype(np.uint8) / 255.0).reshape(-1, 3)
+    d = ((plab[:, None, :] - palab[None, 1:, :]) * np.array([1.0, 1.4, 1.4])) ** 2
+    ia = (d.sum(2).argmin(1) + 1).reshape(arr.shape[:2]).astype(np.uint8)
     ia[(arr == np.array(BG)).all(2)] = 0
     o = Image.fromarray(ia, 'P'); o.putpalette(flat)
     o.save(f'{OUT}/{PID}_{nom}.png', transparency=0 if False else None)
