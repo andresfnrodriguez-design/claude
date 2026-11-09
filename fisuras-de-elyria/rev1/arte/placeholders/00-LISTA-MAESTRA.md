@@ -4,7 +4,7 @@ Basada en el storyboard v3. Provisional salvo lo marcado canon v3. Actualizada e
 
 **Excluyentes.** A Ilias o Petros (ILIAS_LIBRE en M7). B Nuri u Oskar Brask (VASK_ENTREGA en M12). C Phaedra o Lykos (zona rescatada en M21). Máximo 43 por partida.
 
-**Genéricos.** Una sola versión por clase en los placeholders. El juego final tendrá femenina y masculina, con stats base distintos por género. El Cantor es la única clase solo aliada. Las clases solo enemigas sumarán monstruos y enemigos únicos más adelante.
+**Genéricos.** Una sola versión por clase en los placeholders. El juego final tendrá femenina y masculina, con stats base distintos por género. El Cantor es la única clase solo aliada. Las clases solo enemigas sumarán enemigos únicos y seres de la corrupción del aether más adelante.
 
 
 ## Jugables
