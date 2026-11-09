@@ -17,3 +17,11 @@ Reemplaza la línea Banner Saga del 7 nov. Las 14 referencias de esta carpeta so
 - El ribete dorado sobrevive a 100x112 como líneas de 1 px, así que cada paleta necesita 2 o 3 slots de oro.
 - Los dos colores principales necesitan 3 tonos cada uno.
 - El bloque de estilo de `placeholders/prompts.py` ya está actualizado.
+
+## Segunda tanda (15 a 27)
+- Elenco variado en edad, tono de piel y peinado. Ancianos con barba blanca, mujeres de piel oscura con trenzas, monjes rapados, pelirrojas con rodetes.
+- Túnicas largas con bordado dorado en bordes y paneles centrales, en colores tierra, vino, morado y azul noche.
+- Armaduras de plata u oro con capas de tela encima, a veces con máscara o yelmo que tapa la cara.
+- Autómatas de latón con ropa de trabajo, que encajan con el aetherpunk.
+- Para la corrupción se suma el gólem de piedra blanca con vetas doradas tipo kintsugi y el caballero de jade con filetes dorados.
+- La línea puede ser más suelta y de boceto, como en las piezas de EV Ganin.
