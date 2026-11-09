@@ -72,7 +72,8 @@ if CFG.get('etiquetas'): A = limpiar_etiqueta(A, 40, 360)
 mA = mascara(A)
 ys, xs = np.where(mA); y0 = ys.min()
 cab = mA[y0:y0 + CFG['alto_cabeza_A']]; cx = int(np.where(cab.any(0))[0].mean())
-W = CFG['ancho_escena']; H = round(W * 112 / 100); top = y0 - round(H * 6 / 112)   # 6 = 3 px de margen + 3 px de contorno
+W = round(100 * CFG['cabeza_A'] / 46) if 'cabeza_A' in CFG else CFG['ancho_escena'];   # misma cabeza de 46 px en todos los bustos
+H = round(W * 112 / 100); top = y0 - round(H * 6 / 112)   # 6 = 3 px de margen + 3 px de contorno
 x0 = max(0, min(A.shape[1] - W, cx - W // 2))
 crop = A[max(0, top):max(0, top) + H, x0:x0 + W]; mc = mA[max(0, top):max(0, top) + H, x0:x0 + W]
 t, mm = reducir(a_img(crop, mc), mc, 100, 112)
@@ -97,14 +98,12 @@ if n_c > 1:
     tam = ndimage.sum(mC, lab_c, range(1, n_c + 1)); mC = lab_c == (int(np.argmax(tam)) + 1)
 ys, xs = np.where(mC); cy0, pies = ys.min(), ys.max()
 if 'cabeza_C' in CFG: cy0 = CFG['cabeza_C'][0]   # y de la coronilla si el arma sobresale por arriba
-# corte a media pierna, entre rodilla y tobillo
-corte = cy0 + int((pies - cy0) * CFG.get('corte_estado', 0.80))
-banda = mC[cy0:corte]; cols_b = np.where(banda.any(0))[0]
-x0, x1 = cols_b.min(), cols_b.max() + 1
-# escala para que entre todo el ancho (brazos y arma sin cortar) y el alto hasta el corte, 4 px de margen arriba
-esc = min(78 / (x1 - x0), 140 / (corte - cy0))
+# escala común a todo el elenco. Una figura de estatura 1.0 mide 176 px de coronilla a suela, así todos quedan proporcionados entre sí
+esc = 176 * CFG.get('estatura', 1.0) / (pies - cy0)
+cab = mC[cy0:cy0 + max(10, int((pies - cy0) * 0.12))]; cxv = int(np.where(cab.any(0))[0].mean())
+if 'cabeza_C' in CFG and len(CFG['cabeza_C']) > 1: cxv = CFG['cabeza_C'][1]
 Wv, Hv = round(80 / esc), round(144 / esc)
-cxv = (x0 + x1) // 2; tv = cy0 - round(4 / esc)
+tv = cy0 - round(4 / esc)
 pad = max(Wv, Hv)
 Cp = np.zeros((C.shape[0] + 2 * pad, C.shape[1] + 2 * pad, 3), C.dtype); Cp[:] = FONDO; Cp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = C
 Mp = np.zeros(Cp.shape[:2], bool); Mp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = mC
