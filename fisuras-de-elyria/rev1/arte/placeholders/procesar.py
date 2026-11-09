@@ -15,6 +15,9 @@ os.makedirs(OUT, exist_ok=True)
 BG = (169, 203, 166)          # A9CBA6, índice 0
 OSCURO = (40, 40, 40)          # línea de contorno, igual que el slot 15 de los bandos
 BLANCO = (248, 248, 248)
+# escala común de todo el elenco. Si un personaje nuevo no entra, se achica para TODOS o se regenera su pose, nunca se escala uno solo
+CABEZA_BUSTO = 34    # px de coronilla a mentón en el busto de 112
+ALTURA_ESTADO = 112  # px de coronilla a suela para estatura 1.0 en el estado de 144
 PID = CFG['id']
 FONDO = tuple(CFG.get('fondo_hoja', [167, 199, 160]))
 
@@ -72,11 +75,23 @@ if CFG.get('etiquetas'): A = limpiar_etiqueta(A, 40, 360)
 mA = mascara(A)
 ys, xs = np.where(mA); y0 = ys.min()
 cab = mA[y0:y0 + CFG['alto_cabeza_A']]; cx = int(np.where(cab.any(0))[0].mean())
-W = round(100 * CFG['cabeza_A'] / 46) if 'cabeza_A' in CFG else CFG['ancho_escena'];   # misma cabeza de 46 px en todos los bustos
+W = round(100 * CFG['cabeza_A'] / CABEZA_BUSTO) if 'cabeza_A' in CFG else CFG['ancho_escena'];   # misma cabeza en todos los bustos
 H = round(W * 112 / 100); top = y0 - round(H * 6 / 112)   # 6 = 3 px de margen + 3 px de contorno
-x0 = max(0, min(A.shape[1] - W, cx - W // 2))
-crop = A[max(0, top):max(0, top) + H, x0:x0 + W]; mc = mA[max(0, top):max(0, top) + H, x0:x0 + W]
+# centrado en la silueta del busto (no en la cabeza) y con relleno de fondo si la ventana se sale del panel
+banda = mA[y0:y0 + int(H * 0.89)]; cb = np.where(banda.any(0))[0]; cx = (cb.min() + cb.max()) // 2
+pd = max(W, H)
+Ap = np.zeros((A.shape[0] + 2 * pd, A.shape[1] + 2 * pd, 3), A.dtype); Ap[:] = FONDO; Ap[pd:pd + A.shape[0], pd:pd + A.shape[1]] = A
+Mp_ = np.zeros(Ap.shape[:2], bool); Mp_[pd:pd + A.shape[0], pd:pd + A.shape[1]] = mA
+# el busto tiene que salir por el borde de abajo. Si el panel termina antes, la ventana sube y la cabeza baja un poco
+fondo_fig = ys.max()
+if top + H > fondo_fig + 1: top = fondo_fig + 1 - H
+x0 = pd + cx - W // 2; yt = pd + top
+crop = Ap[yt:yt + H, x0:x0 + W]; mc = Mp_[yt:yt + H, x0:x0 + W]
 t, mm = reducir(a_img(crop, mc), mc, 100, 112)
+ERRORES = []
+if mm[:3].any(): ERRORES.append('escena: la cabeza toca el borde de arriba')
+if not mm[-1].any(): ERRORES.append('escena: el busto no llega al borde de abajo')
+if mm[:-28, 0].any() or mm[:-28, -1].any(): ERRORES.append('escena: cabeza u hombros se cortan por un costado')   # el cuarto de abajo (brazos a la altura de la cintura) puede tocar el borde, como en FE
 esc = contorno(t, mm, 104, 112, 2, 0)
 piezas['escena_104x112'] = esc
 piezas['espejo_104x112'] = esc[:, ::-1].copy()
@@ -99,17 +114,19 @@ if n_c > 1:
 ys, xs = np.where(mC); cy0, pies = ys.min(), ys.max()
 if 'cabeza_C' in CFG: cy0 = CFG['cabeza_C'][0]   # y de la coronilla si el arma sobresale por arriba
 # escala común a todo el elenco. Una figura de estatura 1.0 mide 128 px de coronilla a suela y entra entera con los pies, así todos quedan proporcionados entre sí
-esc = 128 * CFG.get('estatura', 1.0) / (pies - cy0)   # figura entera, de coronilla a suela
-cab = mC[cy0:cy0 + max(10, int((pies - cy0) * 0.12))]; cxv = int(np.where(cab.any(0))[0].mean())
-if 'cabeza_C' in CFG and len(CFG['cabeza_C']) > 1: cxv = CFG['cabeza_C'][1]
+esc = ALTURA_ESTADO * CFG.get('estatura', 1.0) / (pies - cy0)   # figura entera, de coronilla a suela
+cxv = (xs.min() + xs.max()) // 2   # centrado en la silueta completa
 Wv, Hv = round(80 / esc), round(144 / esc)
-tv = cy0 - round(4 / esc)
+tv = min(cy0, ys.min()) - round(4 / esc)   # 4 px de margen sobre lo más alto (cabeza o arma)
 pad = max(Wv, Hv)
 Cp = np.zeros((C.shape[0] + 2 * pad, C.shape[1] + 2 * pad, 3), C.dtype); Cp[:] = FONDO; Cp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = C
 Mp = np.zeros(Cp.shape[:2], bool); Mp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = mC
 ex = pad + cxv - Wv // 2; ey = pad + tv
 ecrop = Cp[ey:ey + Hv, ex:ex + Wv]; emc = Mp[ey:ey + Hv, ex:ex + Wv]
-t, _ = reducir(a_img(ecrop, emc), emc, 80, 144)
+t, me = reducir(a_img(ecrop, emc), emc, 80, 144)
+if me[:3].any(): ERRORES.append('estado: la cabeza o el arma tocan el borde de arriba')
+if me[:, 0].any() or me[:, -1].any(): ERRORES.append('estado: la figura se corta por un costado')
+if me[-1].any(): ERRORES.append('estado: los pies tocan el borde de abajo')
 est = np.zeros((152, 88, 3), np.uint8); est[:] = BG; est[4:148, 8:88] = t
 piezas['estado_88x152'] = est
 
@@ -170,3 +187,8 @@ for nom, arr in piezas.items():
 with open(f'{OUT}/{PID}.pal', 'w', newline='\r\n') as f:
     f.write('JASC-PAL\n0100\n16\n' + ''.join(f'{r} {g} {b}\n' for r, g, b in pal))
 print('paleta', ' '.join('%02x%02x%02x' % c for c in pal))
+
+if ERRORES:
+    print('NO ENTREGAR. ' + ' | '.join(ERRORES))
+    sys.exit(1)
+print('OK, todo entra en sus recuadros a escala común')
