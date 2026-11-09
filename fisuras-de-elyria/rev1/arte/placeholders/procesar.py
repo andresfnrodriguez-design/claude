@@ -91,12 +91,25 @@ piezas['mini_32x32'] = t
 C = cargar('C')
 if CFG.get('etiquetas'): C = limpiar_etiqueta(C, 34, 200)
 mC = mascara(C)
-ys, xs = np.where(mC); cy0 = ys.min()
-cab = mC[cy0:cy0 + CFG['alto_cabeza_C']]; ccx = int(np.where(cab.any(0))[0].mean())
-if 'cabeza_C' in CFG: cy0, ccx = CFG['cabeza_C']   # [y de la coronilla, x del centro] si el arma sobresale por arriba
-alto = CFG['alto_estado']; ancho = round(alto * 80 / 144); top = max(0, cy0 - 8)
-ex = max(0, min(C.shape[1] - ancho, ccx - ancho // 2))
-ecrop = C[top:top + alto, ex:ex + ancho]; emc = mC[top:top + alto, ex:ex + ancho]
+# figura principal = componente conexa más grande (descarta restos de otros paneles)
+lab_c, n_c = ndimage.label(mC)
+if n_c > 1:
+    tam = ndimage.sum(mC, lab_c, range(1, n_c + 1)); mC = lab_c == (int(np.argmax(tam)) + 1)
+ys, xs = np.where(mC); cy0, pies = ys.min(), ys.max()
+if 'cabeza_C' in CFG: cy0 = CFG['cabeza_C'][0]   # y de la coronilla si el arma sobresale por arriba
+# corte a media pierna, entre rodilla y tobillo
+corte = cy0 + int((pies - cy0) * CFG.get('corte_estado', 0.80))
+banda = mC[cy0:corte]; cols_b = np.where(banda.any(0))[0]
+x0, x1 = cols_b.min(), cols_b.max() + 1
+# escala para que entre todo el ancho (brazos y arma sin cortar) y el alto hasta el corte, 4 px de margen arriba
+esc = min(78 / (x1 - x0), 140 / (corte - cy0))
+Wv, Hv = round(80 / esc), round(144 / esc)
+cxv = (x0 + x1) // 2; tv = cy0 - round(4 / esc)
+pad = max(Wv, Hv)
+Cp = np.zeros((C.shape[0] + 2 * pad, C.shape[1] + 2 * pad, 3), C.dtype); Cp[:] = FONDO; Cp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = C
+Mp = np.zeros(Cp.shape[:2], bool); Mp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = mC
+ex = pad + cxv - Wv // 2; ey = pad + tv
+ecrop = Cp[ey:ey + Hv, ex:ex + Wv]; emc = Mp[ey:ey + Hv, ex:ex + Wv]
 t, _ = reducir(a_img(ecrop, emc), emc, 80, 144)
 est = np.zeros((152, 88, 3), np.uint8); est[:] = BG; est[4:148, 8:88] = t
 piezas['estado_88x152'] = est
