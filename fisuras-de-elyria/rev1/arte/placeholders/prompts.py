@@ -6,7 +6,7 @@ Rules for every character, no exceptions:
 - Full body, standing, facing the viewer, relaxed neutral pose, arms slightly away from the body, weapon held at the side.
 - Top of the head touches the upper line and the soles of the feet touch the lower line of its column. Same height for adults; children and elderly may be shorter but feet stay on the lower line.
 - Head clearly visible and not covered, unless the description says helmet or hood.
-- Anime/manga illustration, clean dark lineart, flat cel shading with one shadow tone, saturated but not neon colors, dense small details (straps, buckles, tools, gears).
+- Style: Illustrated character art with thin, clean, even-weight lineart, dark but not pure black, and few interior lines. Flat colors with soft one- or two-tone shading, no anime shine, no strong gradients. Muted earthy palette (greys, browns, slate blue, cream) with a single saturated accent color per character. Realistic proportions, 7 to 8 heads tall, adult faces with character, age and life marks, defined noses and cheekbones, no anime style, no big eyes. Heavy layered fabrics with fine Greek patterns (meanders, Greek key, rosettes) and aetherpunk details in bronze, leather and aether crystal (gears, rivets, flasks).
 - Solid flat background #A9CBA6 everywhere. No scenery, no shadows on the floor, no text, no numbers, no guide lines in the final image.
 - Characters do not touch or overlap each other and stay inside their own column.
 - Same art style, line weight and lighting in all 4 columns.
@@ -71,18 +71,17 @@ def gen_slot(n,clase,i):
     sexo=['man','woman'][i%2]
     a,m=arma(clase)
     return f"{n}. Generic {clase} soldier: {sexo}, around 25, average build, face visible. Hair short, plain brown. Neutral off-white clothing with grey-blue accents so it can be recolored later. Weapon: {a}.{(' '+m.capitalize()+'.') if m else ''}"
-ESTILO2="""Character sheet for a fantasy tactics game (aetherpunk, Greek-inspired world). Use the attached layout image exactly: ONE character drawn in six panels, A to F.
-- Panel A: dialogue portrait from the waist up, three-quarter view turned toward the right side of the image, calm expression. Top of the head just below the thin line, never cut. Only the bottom edge cuts the body, at the waist.
+ESTILO2="""Character sheet for a fantasy tactics game (aetherpunk, Greek-inspired world). Use the attached layout image exactly: ONE character drawn in five panels, A, B, C, Z and H. Draw only inside the boxes.
+- Panel A: dialogue portrait from the waist up, three-quarter bust turned toward the right side of the image, firm calm gaze. Top of the head just below the thin line, never cut, no part of the head or shoulders cut at the sides. Only the bottom edge cuts the body, at the waist.
 - Panel B: same as A, same framing, turned toward the left side of the image. Redraw it, do not mirror: asymmetric details (scars, hair parting, a gauntlet or weapon on one hand, a pauldron on one shoulder) stay on the same side of the body.
-- Panel C: full body, standing, facing the viewer, neutral pose, weapon at the side. Head on the upper line of the panel, feet on the lower line.
-- Panel D: mini portrait, square close-up of the face and a bit of the neck, facing the viewer, the face fills most of the panel.
-- Panel E: status screen portrait, full body, a pose and expression that show the personality described below, holding or using the weapon in a characteristic way. Head on the upper line, feet on the lower line.
-- Panel F: the same status portrait as E, same framing, but wounded: torn and dirty clothes, bandages or scratches, exhausted or pained expression, still standing. No gore.
+- Panel C: full body, standing, facing the viewer, neutral pose, weapon at the side. Head on the upper thin line, soles of the feet on the lower thin line, nothing cut.
+- Panel Z: a big close-up of the face for the background of the status menu. The face fills a large part of the box. Free pose, gesture and camera angle that show the personality described below; face and body may be tilted or leaning, not centered. Hair, hands, weapon and shoulders may run off the edges. Keep eyes and mouth in the left two thirds of the box.
+- Panel H: exactly the same image as Z (same pose, framing, lighting, clothes), only the expression changes to pain, discomfort or sadness according to the personality. No blood, no cuts, no bandages, no marks.
 Rules for everything:
-- Anime/manga illustration, clean dark lineart, flat cel shading with one shadow tone, saturated but not neon colors, dense small details (straps, buckles, tools, gears).
-- The character must look identical in all six panels (face, hair, colors, outfit).
-- Solid flat background #A9CBA6 inside every panel. No scenery, no floor shadow.
-- Remove all guide lines, panel borders, labels and text from the final image. Nothing may cross from one panel into another.
+- Style: Illustrated character art with thin, clean, even-weight lineart, dark but not pure black, and few interior lines. Flat colors with soft one- or two-tone shading, no anime shine, no strong gradients. Muted earthy palette (greys, browns, slate blue, cream) with a single saturated accent color per character. Realistic proportions, 7 to 8 heads tall, adult faces with character, age and life marks, defined noses and cheekbones, no anime style, no big eyes. Heavy layered fabrics with fine Greek patterns (meanders, Greek key, rosettes) and aetherpunk details in bronze, leather and aether crystal (gears, rivets, flasks).
+- The character must look identical in all panels (face, hair, colors, outfit).
+- Solid flat background #A9CBA6 inside every box. No scenery, no floor shadow.
+- Remove all guide lines, box borders, labels and text from the final image. Nothing may cross from one box into another.
 Character:"""
 lotes=[]
 items=[('pj',n,c,o,no) for _,n,e,c,g,o,no in J]+[('en',n,c,f,no) for _,n,e,c,a,f,no in E]
