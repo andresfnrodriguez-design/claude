@@ -1,0 +1,22 @@
+PixelLab · Image to pixel art · modo Pro · 4 hojas, cada una con su prompt
+
+Configuración para las 4
+- Faithful mode apagado
+- Reference Init Strength cerca del 75 %
+- Output Scale ÷4 (el output está en el nombre de cada archivo, después de "sale")
+- Color palette: archivista_paleta_pixellab.png, Max colours 16
+
+Base común (va al final de los 4 prompts)
+Clean GBA Fire Emblem portrait style: a continuous 1 pixel black outline around every figure and around the main shapes (hair, face, cape, hands, book), flat colors with 2 or 3 shading tones per material, crisp pixels, no anti-aliasing, no dithering, no noise, no gradients, no blur. Flat solid green background, unchanged. Keep the black box borders exactly where they are. No text, no new objects.
+
+1) archivista_pro1_960x464_sale_240x116.png
+Convert this exact image to pixel art without redesigning or moving anything. Three boxes: a waist-up portrait facing right, the same waist-up portrait facing left, and a small face icon. Same character in all three: rose-pink short hair, brown skin with freckles on the cheeks and nose, brown eyes, teal hooded short cape with gold trim, cream long sleeves, amber glowing locket on a chain. Keep the same position, size and framing in each box. + base común
+
+2) archivista_pro2_752x640_sale_188x160.png
+Convert this exact image to pixel art without redesigning or moving anything. Two boxes: the tall one has the full-body character standing, holding a spear in one hand and a brown leather book chained at her hip, feet visible; the wide one has a small full-body battle stance facing left with a glowing open book. Same character: rose-pink short hair, brown skin with freckles, teal hooded short cape with gold trim over a cream and teal robe, amber locket. Keep the same position, size and pose. + base común
+
+3) archivista_zoom_728x488_sale_182x122.png
+Convert this exact image to pixel art without redesigning or moving anything. Big close-up of the face, determined expression, rose-pink short hair, brown skin, many small freckles on the cheeks and nose, brown eyes, teal hood with gold trim and cream collar. Keep the same framing and expression. + base común
+
+4) archivista_herido_728x488_sale_182x122.png
+Convert this exact image to pixel art without redesigning or moving anything. The same big close-up of the face, sad and hurt expression with lips slightly open, rose-pink short hair, brown skin, many small freckles on the cheeks and nose, brown eyes, teal hood with gold trim and cream collar. Keep the same framing and expression. + base común
