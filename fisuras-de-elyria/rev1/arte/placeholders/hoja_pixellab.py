@@ -45,7 +45,7 @@ def fondo_exacto(im):
 def armar(D):
     cfg = json.load(open(f'{D}/config.json')); pid = cfg['id']
     os.makedirs(f'{D}/pixellab', exist_ok=True)
-    if not os.path.exists(f'{D}/out/{pid}_espejo_fuente.png'): sys.exit('NO ENTREGAR. falta el espejo real (panel B)')
+    if not os.path.exists(f'{D}/out/{pid}_espejo_fuente.png'): print('AVISO. falta el espejo real (panel B), su recuadro queda vacío. No se voltea la escena')
     for hoja, ((W, H), cajas) in HOJAS.items():
         lienzo = Image.new('RGB', (W * S, H * S), BG); d = ImageDraw.Draw(lienzo)
         for k, (x, y, w, h) in cajas.items():
