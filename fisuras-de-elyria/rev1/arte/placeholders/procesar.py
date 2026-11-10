@@ -174,14 +174,14 @@ if os.path.exists(f'{RAW}/F.png'):
 else:
     print('AVISO. combate: falta raw/F.png')
 
-# ZOOM y HERIDO. Primer plano de 120x80, media pantalla de GBA
-for k, nom in (('Z', 'zoom_120x80'), ('H', 'herido_120x80')):
+# ZOOM y HERIDO. Primer plano de 180x120 (3/4 de la pantalla de GBA)
+for k, nom in (('Z', 'zoom_180x120'), ('H', 'herido_180x120')):
     a = cargar(k)
     y_a = CFG['zoom_y']; ww = a.shape[1] - 8; hh = round(ww / 1.5)
     if y_a + hh > a.shape[0] - 4: hh = a.shape[0] - 4 - y_a; ww = round(hh * 1.5)
     y_b = y_a + hh; xa = (a.shape[1] - ww) // 2
     fz = Image.fromarray(a[y_a:y_b, xa:xa + ww].astype(np.uint8)); fz.save(f'{OUT}/{PID}_{nom.split("_")[0]}_fuente.png')
-    img = fz.resize((120, 80), Image.LANCZOS)
+    img = fz.resize((180, 120), Image.LANCZOS)
     b = np.asarray(img).copy()
     b[np.abs(b.astype(int) - np.array(FONDO)).sum(2) < 30] = BG
     piezas[nom] = b

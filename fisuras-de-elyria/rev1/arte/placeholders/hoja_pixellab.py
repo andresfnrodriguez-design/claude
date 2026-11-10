@@ -21,14 +21,14 @@ S = 4  # escala de la hoja fuente respecto de la salida
 # PixelLab entrega como máximo 288x184, así que van 3 hojas. Recuadros a escala final (x, y, w, h)
 # con marco negro de 1 px por fuera y 1 px de separación
 HOJAS = {
-    'todo':   ((290, 258), {
-        'zoom':    (1, 1, 120, 80),
-        'herido':  (124, 1, 120, 80),
-        'escena':  (1, 85, 100, 112),
-        'espejo':  (104, 85, 100, 112),
-        'estado':  (207, 85, 80, 144),
-        'mini':    (35, 200, 32, 32),
-        'combate': (104, 200, 80, 56),
+    'todo':   ((372, 270), {
+        'zoom':    (1, 1, 180, 120),
+        'herido':  (184, 1, 180, 120),
+        'escena':  (1, 125, 100, 112),
+        'espejo':  (104, 125, 100, 112),
+        'estado':  (207, 125, 80, 144),
+        'mini':    (290, 125, 32, 32),
+        'combate': (290, 160, 80, 56),
     }),
     'cuerpo': ((288, 184), {
         'escena':  (1, 1, 100, 112),
@@ -37,7 +37,8 @@ HOJAS = {
         'mini':    (35, 116, 32, 32),   # centrado bajo la escena
         'combate': (104, 116, 80, 56),
     }),
-    'caras':  ((245, 82), {'zoom': (1, 1, 120, 80), 'herido': (124, 1, 120, 80)}),
+    'zoom':   ((182, 122), {'zoom':   (1, 1, 180, 120)}),
+    'herido': ((182, 122), {'herido': (1, 1, 180, 120)}),
 }
 
 def fondo_exacto(im):
@@ -92,9 +93,9 @@ def cortar(D, *salidas):
         im = Image.open(salida).convert('RGB')
         nombre = os.path.basename(salida)
         hoja = next((h for h in HOJAS if h in nombre), None)
-        if hoja is None and abs(im.width / im.height - 290 / 258) < 0.02: hoja = 'todo'
+        if hoja is None and abs(im.width / im.height - 372 / 270) < 0.02: hoja = 'todo'
         if hoja is None:   # por tamaño: 288x184 es cuerpo, 242x162 es zoom o herido según el orden
-            hoja = 'cuerpo' if abs(im.width / im.height - 288 / 184) < 0.02 else 'caras'
+            hoja = 'cuerpo' if abs(im.width / im.height - 288 / 184) < 0.02 else ('zoom' if not any(t[0] == 'zoom' for t in trabajos) else 'herido')
         (W, H), cajas = HOJAS[hoja]
         if im.size != (W, H):
             if abs(im.width / im.height - W / H) > 0.02: sys.exit(f'NO ENTREGAR. {nombre} mide {im.size}, se esperaba {W}x{H}')
