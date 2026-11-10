@@ -1,0 +1,10 @@
+PixelLab · Image to pixel art · Additional instructions (usar el mismo texto en las 3 hojas)
+
+Convert this exact image to pixel art. Do not redesign, do not move, add or remove anything. Keep every figure in the same position, size, pose and framing inside its black box. Keep the black box borders exactly where they are. Keep the same face, expression, hair, clothes, colors, book and amber locket. Keep the freckles on the cheeks and nose. Clean GBA Fire Emblem portrait style: a continuous 1 pixel black outline around every figure and around the main shapes (hair, face, clothes, hands, book), flat colors with 2 or 3 shading tones per material, crisp pixels, no anti-aliasing, no dithering, no noise, no gradients, no blur. Flat solid green background, unchanged. No text, no new objects.
+
+Configuración
+- Modo: Pro
+- Faithful mode: apagado
+- Reference Init Strength: alto, cerca del 75 %
+- Output Scale: ÷4 (cuerpo 288×184, zoom y herido 242×162)
+- Color palette: archivista_paleta_pixellab.png, Max colours 16
