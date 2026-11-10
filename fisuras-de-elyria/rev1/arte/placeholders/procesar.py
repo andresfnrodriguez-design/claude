@@ -70,32 +70,39 @@ def contorno(t, mm, lienzo_w, lienzo_h, ox, oy):
 piezas = {}
 
 # ESCENA y ESPEJO. Busto A, cabeza de unos 52 px en 112 como Eirika, 3 px de margen arriba
-A = cargar('A')
-if CFG.get('etiquetas'): A = limpiar_etiqueta(A, 40, 360)
-mA = mascara(A)
-ys, xs = np.where(mA); y0 = ys.min()
-cab = mA[y0:y0 + CFG['alto_cabeza_A']]; cx = int(np.where(cab.any(0))[0].mean())
-W = round(100 * CFG['cabeza_A'] / CABEZA_BUSTO) if 'cabeza_A' in CFG else CFG['ancho_escena'];   # misma cabeza en todos los bustos
-H = round(W * 112 / 100); top = y0 - round(H * 6 / 112)   # 6 = 3 px de margen + 3 px de contorno
-# centrado en la silueta del busto (no en la cabeza) y con relleno de fondo si la ventana se sale del panel
-banda = mA[y0:y0 + int(H * 0.89)]; cb = np.where(banda.any(0))[0]; cx = (cb.min() + cb.max()) // 2
-pd = max(W, H)
-Ap = np.zeros((A.shape[0] + 2 * pd, A.shape[1] + 2 * pd, 3), A.dtype); Ap[:] = FONDO; Ap[pd:pd + A.shape[0], pd:pd + A.shape[1]] = A
-Mp_ = np.zeros(Ap.shape[:2], bool); Mp_[pd:pd + A.shape[0], pd:pd + A.shape[1]] = mA
-# el busto tiene que salir por el borde de abajo. Si el panel termina antes, la ventana sube y la cabeza baja un poco
-fondo_fig = ys.max()
-if top + H > fondo_fig + 1: top = fondo_fig + 1 - H
-x0 = pd + cx - W // 2; yt = pd + top
-crop = Ap[yt:yt + H, x0:x0 + W]; mc = Mp_[yt:yt + H, x0:x0 + W]
-t, mm = reducir(a_img(crop, mc), mc, 100, 112)
-a_img(crop, mc).save(f'{OUT}/{PID}_escena_fuente.png')   # busto encuadrado antes de reducir, para PixelLab
 ERRORES = []
-if mm[:3].any(): ERRORES.append('escena: la cabeza toca el borde de arriba')
-if not mm[-1].any(): ERRORES.append('escena: el busto no llega al borde de abajo')
-if mm[:-28, 0].any() or mm[:-28, -1].any(): ERRORES.append('escena: cabeza u hombros se cortan por un costado')   # el cuarto de abajo (brazos a la altura de la cintura) puede tocar el borde, como en FE
-esc = contorno(t, mm, 104, 112, 2, 0)
-piezas['escena_104x112'] = esc
-piezas['espejo_104x112'] = esc[:, ::-1].copy()
+def busto(k, cabeza, nom):
+    A = cargar(k)
+    if CFG.get('etiquetas'): A = limpiar_etiqueta(A, 40, 360)
+    mA = mascara(A)
+    ys, xs = np.where(mA); y0 = ys.min()
+    W = round(100 * cabeza / CABEZA_BUSTO)   # misma cabeza en todos los bustos
+    H = round(W * 112 / 100); top = y0 - round(H * 6 / 112)   # 6 = 3 px de margen + 3 px de contorno
+    # centrado en la silueta del busto (no en la cabeza) y con relleno de fondo si la ventana se sale del panel
+    banda = mA[y0:y0 + int(H * 0.89)]; cb = np.where(banda.any(0))[0]; cx = (cb.min() + cb.max()) // 2
+    pd = max(W, H)
+    Ap = np.zeros((A.shape[0] + 2 * pd, A.shape[1] + 2 * pd, 3), A.dtype); Ap[:] = FONDO; Ap[pd:pd + A.shape[0], pd:pd + A.shape[1]] = A
+    Mp_ = np.zeros(Ap.shape[:2], bool); Mp_[pd:pd + A.shape[0], pd:pd + A.shape[1]] = mA
+    # el busto tiene que salir por el borde de abajo. Si el panel termina antes, la ventana sube y la cabeza baja un poco
+    fondo_fig = ys.max()
+    if top + H > fondo_fig + 1: top = fondo_fig + 1 - H
+    x0 = pd + cx - W // 2; yt = pd + top
+    crop = Ap[yt:yt + H, x0:x0 + W]; mc = Mp_[yt:yt + H, x0:x0 + W]
+    t, mm = reducir(a_img(crop, mc), mc, 100, 112)
+    a_img(crop, mc).save(f'{OUT}/{PID}_{nom}_fuente.png')   # busto encuadrado antes de reducir, para PixelLab
+    if mm[:3].any(): ERRORES.append(f'{nom}: la cabeza toca el borde de arriba')
+    if not mm[-1].any(): ERRORES.append(f'{nom}: el busto no llega al borde de abajo')
+    if mm[:-28, 0].any() or mm[:-28, -1].any(): ERRORES.append(f'{nom}: cabeza u hombros se cortan por un costado')   # el cuarto de abajo puede tocar el borde, como en FE
+    piezas[f'{nom}_104x112'] = contorno(t, mm, 104, 112, 2, 0)
+    return A, mA, y0, cx
+
+A, mA, y0, cx = busto('A', CFG['cabeza_A'], 'escena')
+# ESPEJO real. Panel B (mirando a la izquierda, redibujado), mismo encuadre y misma escala de cabeza
+if os.path.exists(f'{RAW}/B.png'):
+    busto('B', CFG.get('cabeza_B', CFG['cabeza_A']), 'espejo')
+else:
+    piezas['espejo_104x112'] = piezas['escena_104x112'][:, ::-1].copy()
+    print('AVISO. espejo: falta raw/B.png, se usó la escena espejada')
 
 # MINI. Cara lo más grande posible, corte en los hombros, sin borde blanco
 lado = CFG['mini'][0]; my = y0 + CFG['mini'][1]
@@ -132,6 +139,31 @@ if me[:, 0].any() or me[:, -1].any(): ERRORES.append('estado: la figura se corta
 if me[-1].any(): ERRORES.append('estado: los pies tocan el borde de abajo')
 est = np.zeros((152, 88, 3), np.uint8); est[:] = BG; est[4:148, 8:88] = t
 piezas['estado_88x152'] = est
+
+# COMBATE. Panel F (cuerpo entero en guardia, mirando a la izquierda). 33 px de coronilla a suela para estatura 1.0,
+# en un recuadro de 80x56 con la suela en y=52, para la animación de batalla
+ALTURA_COMBATE = 33
+if os.path.exists(f'{RAW}/F.png'):
+    F = cargar('F'); mF = mascara(F)
+    lab_f, n_f = ndimage.label(mF)
+    if n_f > 1:
+        tam = ndimage.sum(mF, lab_f, range(1, n_f + 1)); mF = lab_f == (int(np.argmax(tam)) + 1)
+    ys, xs = np.where(mF); fy0, fpies = ys.min(), ys.max()
+    if 'cabeza_F' in CFG: fy0 = CFG['cabeza_F']
+    escf = ALTURA_COMBATE * CFG.get('estatura', 1.0) / (fpies - fy0)
+    Wf, Hf = round(80 / escf), round(56 / escf)
+    cxf = (xs.min() + xs.max()) // 2
+    padf = max(Wf, Hf)
+    Fp = np.zeros((F.shape[0] + 2 * padf, F.shape[1] + 2 * padf, 3), F.dtype); Fp[:] = FONDO; Fp[padf:padf + F.shape[0], padf:padf + F.shape[1]] = F
+    Mf = np.zeros(Fp.shape[:2], bool); Mf[padf:padf + F.shape[0], padf:padf + F.shape[1]] = mF
+    fx = padf + cxf - Wf // 2; fy = padf + fpies - round(52 / escf)
+    fcrop = Fp[fy:fy + Hf, fx:fx + Wf]; fmc = Mf[fy:fy + Hf, fx:fx + Wf]
+    a_img(fcrop, fmc).save(f'{OUT}/{PID}_combate_fuente.png')
+    t, mf = reducir(a_img(fcrop, fmc), fmc, 80, 56)
+    if mf[:2].any() or mf[:, 0].any() or mf[:, -1].any(): ERRORES.append('combate: la figura toca un borde')
+    piezas['combate_80x56'] = t
+else:
+    print('AVISO. combate: falta raw/F.png')
 
 # ZOOM y HERIDO. Primer plano 240x160, se corta por debajo de la etiqueta
 for k, nom in (('Z', 'zoom_240x160'), ('H', 'herido_240x160')):

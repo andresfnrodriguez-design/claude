@@ -1,0 +1,6 @@
+Battle pose for a fantasy tactics game (aetherpunk fantasy world). Use the attached layout image exactly. Draw {N} from earlier in this chat, identical face, hair, outfit, colors and weapon.
+- ONE full-body figure in panel F, in a ready battle stance, three-quarter view turned toward the LEFT side of the image, as if facing an enemy on the left. Knees slightly bent, weapon ready ({W}). Compact pose, weapon and limbs close to the body, nothing reaches the box edges, a clear margin all around.
+- Top of the head on the upper thin line, soles of the feet on the lower thin line, nothing cut.
+- Same style as the character sheet: polished fantasy concept art, clean lineart, cel shading.
+- Solid flat background #A9CBA6. No scenery, no floor shadow.
+- Remove all guide lines, box borders, labels and text from the final image.

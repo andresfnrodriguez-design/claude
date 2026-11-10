@@ -10,6 +10,8 @@ Cortar: python3 hoja_pixellab.py cortar carpeta_personaje salida_pixellab.png
         Espera la salida de 504x328, corta cada recuadro por coordenadas, pone el fondo exacto,
         mapea a la paleta de 16 colores, agrega el contorno y escribe carpeta/pixellab/out/.
 
+Arriba zoom y herido de 240x160. Abajo escena 100x112, estado 80x144, mini 32x32, espejo 100x112 (panel B,
+mirando a la izquierda) y combate 80x56 (cuerpo entero de unos 33 px por estatura, mirando a la izquierda).
 Cada recuadro tiene un marco negro de 1 px (a escala final) por fuera y 5 px de fondo entre recuadros.
 El marco no es parte de la pieza, se descarta al cortar."""
 import sys, os, json, numpy as np
@@ -26,6 +28,8 @@ CAJAS = {
     'escena': (6, 178, 100, 112),
     'estado': (118, 178, 80, 144),
     'mini':   (210, 178, 32, 32),
+    'espejo': (254, 178, 100, 112),
+    'combate': (366, 178, 80, 56),
 }
 
 def fondo_exacto(im):
@@ -43,7 +47,9 @@ def armar(D):
     os.makedirs(f'{D}/pixellab', exist_ok=True)
     lienzo = Image.new('RGB', (W * S, H * S), BG); d = ImageDraw.Draw(lienzo)
     for k, (x, y, w, h) in CAJAS.items():
-        src = Image.open(f'{D}/out/{pid}_{k}_fuente.png').convert('RGB')
+        f = f'{D}/out/{pid}_{k}_fuente.png'
+        if not os.path.exists(f): print('AVISO. falta', f); continue
+        src = Image.open(f).convert('RGB')
         if k in ('zoom', 'herido'): src, _ = fondo_exacto(src)
         lienzo.paste(src.resize((w * S, h * S), Image.LANCZOS), (x * S, y * S))
         # marco negro de 1 px final (4 px fuente) por fuera del recuadro
@@ -77,20 +83,24 @@ def cortar(D, salida):
         o = Image.fromarray(np.ascontiguousarray(idx), 'P'); o.putpalette(flat); o.save(f'{out}/{pid}_{nom}.png')
     cruz = ndimage.generate_binary_structure(2, 1)
     for k, (x, y, w, h) in CAJAS.items():
+        if not os.path.exists(f'{D}/out/{pid}_{k}_fuente.png'): continue
         pieza, fig = fondo_exacto(im.crop((x, y, x + w, y + h)))
         idx = indexar(np.asarray(pieza).astype(int), fig)
-        if k == 'escena':
-            if fig[:3].any(): errores.append('escena: la cabeza toca el borde de arriba')
-            if not fig[-1].any(): errores.append('escena: el busto no llega al borde de abajo')
+        if k in ('escena', 'espejo'):
+            if fig[:3].any(): errores.append(f'{k}: la cabeza toca el borde de arriba')
+            if not fig[-1].any(): errores.append(f'{k}: el busto no llega al borde de abajo')
             L = np.zeros((112, 104), np.uint8); M = np.zeros((112, 104), bool)
             L[:, 2:102] = idx; M[:, 2:102] = fig
             d1 = ndimage.binary_dilation(M, cruz, 1); d3 = ndimage.binary_dilation(M, cruz, 3)
             L[d3 & ~d1] = 15; L[d1 & ~M] = 1
-            guardar(L, 'escena_104x112'); guardar(L[:, ::-1], 'espejo_104x112')
+            guardar(L, f'{k}_104x112')
         elif k == 'estado':
             if fig[:3].any() or fig[:, 0].any() or fig[:, -1].any() or fig[-1].any(): errores.append('estado: la figura toca un borde')
             E = np.zeros((152, 88), np.uint8); E[4:148, 8:88] = idx
             guardar(E, 'estado_88x152')
+        elif k == 'combate':
+            if fig[:, 0].any() or fig[:, -1].any() or fig[:2].any(): errores.append('combate: la figura toca un borde')
+            guardar(idx, 'combate_80x56')
         else:
             guardar(idx, f'{k}_{w}x{h}')
     with open(f'{out}/{pid}.pal', 'w', newline='\r\n') as f:
