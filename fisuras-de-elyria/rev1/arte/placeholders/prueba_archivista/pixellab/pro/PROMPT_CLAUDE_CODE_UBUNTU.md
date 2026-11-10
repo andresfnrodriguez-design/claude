@@ -8,7 +8,20 @@ Trabajo en **Fisuras de Elyria**. En este Claude Code ya está conectado el MCP 
 2. Lista las herramientas del MCP de PixelLab y dime cuál convierte una imagen a pixel art aceptando **ancho y alto exactos** (y si acepta paleta, descripción e init strength). Si la de "pro" no acepta tamaño, usa la que sí lo acepta.
 3. Consulta el saldo, dime cuántas generaciones gasta cada llamada y el total de las 4, confirma que no haya otra tanda en curso y **espera mi visto bueno**. Una sola tanda por aprobación.
 
-## Las 4 llamadas
+
+## Opción de una sola generación (probar primero)
+
+Según la API v2 de PixelLab, `POST /image-to-pixelart-pro` **decide el tamaño solo** (no acepta output_size), así que con Pro no se puede fijar. En cambio `POST /image-to-pixelart` acepta `output_size` exacto hasta **512 × 512**, junto con `init_image_strength` (0 a 999), `text_guidance_scale` y `fixer` (modo fiel). Por eso la hoja única completa entra en **una sola llamada**:
+
+- Entrada: `prueba_archivista/archivista_hoja_combinada.png` (1568 × 1128).
+- `image_size` 1568 × 1128, `output_size` **392 × 282**.
+- Probar `init_image_strength` alrededor de 700, `fixer` apagado y `text_guidance_scale` 8. Si queda borroso, bajar `init_image_strength`; si cambia el diseño, subirlo.
+- Guardar como `salidas/archivista_todo_pixel.png` y cortarla con
+  `python3 hoja_pixellab.py cortar prueba_archivista prueba_archivista/pixellab/pro/salidas/archivista_todo_pixel.png`
+
+Si esa herramienta existe en el MCP, úsala por MCP; si no, usa el cliente de Python `pixellab` con el token en la variable de entorno `PIXELLAB_API_TOKEN` (nunca escrito en el código ni en el chat). Antes de llamar, dime el costo y espera mi visto bueno. Si el resultado no sirve, recién ahí pasamos a las 4 hojas de abajo.
+
+## Las 4 llamadas (si la de una sola no sirve)
 
 | Archivo de entrada | Salida exacta |
 |---|---|
