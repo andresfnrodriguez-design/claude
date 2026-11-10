@@ -88,6 +88,7 @@ if top + H > fondo_fig + 1: top = fondo_fig + 1 - H
 x0 = pd + cx - W // 2; yt = pd + top
 crop = Ap[yt:yt + H, x0:x0 + W]; mc = Mp_[yt:yt + H, x0:x0 + W]
 t, mm = reducir(a_img(crop, mc), mc, 100, 112)
+a_img(crop, mc).save(f'{OUT}/{PID}_escena_fuente.png')   # busto encuadrado antes de reducir, para PixelLab
 ERRORES = []
 if mm[:3].any(): ERRORES.append('escena: la cabeza toca el borde de arriba')
 if not mm[-1].any(): ERRORES.append('escena: el busto no llega al borde de abajo')
@@ -102,6 +103,7 @@ mx = max(0, cx - lado // 2 + CFG['mini'][2])
 mcrop = A[my:my + lado, mx:mx + lado]; mmc = mA[my:my + lado, mx:mx + lado]
 t, _ = reducir(a_img(mcrop, mmc), mmc, 32, 32)
 piezas['mini_32x32'] = t
+a_img(mcrop, mmc).save(f'{OUT}/{PID}_mini_fuente.png')
 
 # ESTADO. Cuerpo C, cabeza de unos 30 px en 144, corte a media pierna. Va en 88x152 con la figura en x=8 y=4
 C = cargar('C')
@@ -124,6 +126,7 @@ Mp = np.zeros(Cp.shape[:2], bool); Mp[pad:pad + C.shape[0], pad:pad + C.shape[1]
 ex = pad + cxv - Wv // 2; ey = pad + tv
 ecrop = Cp[ey:ey + Hv, ex:ex + Wv]; emc = Mp[ey:ey + Hv, ex:ex + Wv]
 t, me = reducir(a_img(ecrop, emc), emc, 80, 144)
+a_img(ecrop, emc).save(f'{OUT}/{PID}_estado_fuente.png')
 if me[:3].any(): ERRORES.append('estado: la cabeza o el arma tocan el borde de arriba')
 if me[:, 0].any() or me[:, -1].any(): ERRORES.append('estado: la figura se corta por un costado')
 if me[-1].any(): ERRORES.append('estado: los pies tocan el borde de abajo')
@@ -136,7 +139,8 @@ for k, nom in (('Z', 'zoom_240x160'), ('H', 'herido_240x160')):
     y_a = CFG['zoom_y']; ww = a.shape[1] - 8; hh = round(ww / 1.5)
     if y_a + hh > a.shape[0] - 4: hh = a.shape[0] - 4 - y_a; ww = round(hh * 1.5)
     y_b = y_a + hh; xa = (a.shape[1] - ww) // 2
-    img = Image.fromarray(a[y_a:y_b, xa:xa + ww].astype(np.uint8)).resize((240, 160), Image.LANCZOS)
+    fz = Image.fromarray(a[y_a:y_b, xa:xa + ww].astype(np.uint8)); fz.save(f'{OUT}/{PID}_{nom.split("_")[0]}_fuente.png')
+    img = fz.resize((240, 160), Image.LANCZOS)
     b = np.asarray(img).copy()
     b[np.abs(b.astype(int) - np.array(FONDO)).sum(2) < 30] = BG
     piezas[nom] = b
