@@ -17,7 +17,7 @@ OSCURO = (40, 40, 40)          # línea de contorno, igual que el slot 15 de los
 BLANCO = (248, 248, 248)
 # escala común de todo el elenco. Si un personaje nuevo no entra, se achica para TODOS o se regenera su pose, nunca se escala uno solo
 CABEZA_BUSTO = 34    # px de coronilla a mentón en el busto de 112
-ALTURA_ESTADO = 112  # px de coronilla a suela para estatura 1.0 en el estado de 144
+ALTURA_ESTADO = 140  # px de coronilla a suela para estatura 1.0 en el estado de 156
 PID = CFG['id']
 FONDO = tuple(CFG.get('fondo_hoja', [167, 199, 160]))
 
@@ -134,20 +134,21 @@ if 'cabeza_C' in CFG: cy0 = CFG['cabeza_C'][0]   # y de la coronilla si el arma 
 # escala común a todo el elenco. Una figura de estatura 1.0 mide 128 px de coronilla a suela y entra entera con los pies, así todos quedan proporcionados entre sí
 esc = ALTURA_ESTADO * CFG.get('estatura', 1.0) / (pies - cy0)   # figura entera, de coronilla a suela
 cxv = (xs.min() + xs.max()) // 2   # centrado en la silueta completa
-Wv, Hv = round(80 / esc), round(144 / esc)
+Wv, Hv = round(100 / esc), round(156 / esc)
 tv = min(cy0, ys.min()) - round(4 / esc)   # 4 px de margen sobre lo más alto (cabeza o arma)
+if tv + Hv < pies + round(3 / esc): tv = pies + round(3 / esc) - Hv   # los pies mandan: siempre 3 px de piso abajo
 pad = max(Wv, Hv)
 Cp = np.zeros((C.shape[0] + 2 * pad, C.shape[1] + 2 * pad, 3), C.dtype); Cp[:] = FONDO; Cp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = C
 Mp = np.zeros(Cp.shape[:2], bool); Mp[pad:pad + C.shape[0], pad:pad + C.shape[1]] = mC
 ex = pad + cxv - Wv // 2; ey = pad + tv
 ecrop = Cp[ey:ey + Hv, ex:ex + Wv]; emc = Mp[ey:ey + Hv, ex:ex + Wv]
-t, me = reducir(a_img(ecrop, emc), emc, 80, 144)
+t, me = reducir(a_img(ecrop, emc), emc, 100, 156)
 a_img(ecrop, emc).save(f'{OUT}/{PID}_estado_fuente.png')
 if me[:3].any(): ERRORES.append('estado: la cabeza o el arma tocan el borde de arriba')
 if me[:, 0].any() or me[:, -1].any(): ERRORES.append('estado: la figura se corta por un costado')
 if me[-1].any(): ERRORES.append('estado: los pies tocan el borde de abajo')
-est = np.zeros((152, 88, 3), np.uint8); est[:] = BG; est[4:148, 8:88] = t
-piezas['estado_88x152'] = est
+est = np.zeros((160, 108, 3), np.uint8); est[:] = BG; est[2:158, 8:108] = t
+piezas['estado_108x160'] = est
 
 # COMBATE. Panel F (cuerpo entero en guardia, mirando a la izquierda). 33 px de coronilla a suela para estatura 1.0,
 # en un recuadro de 80x56 con la suela en y=52, para la animación de batalla

@@ -21,22 +21,22 @@ S = 4  # escala de la hoja fuente respecto de la salida
 # PixelLab entrega como máximo 288x184, así que van 3 hojas. Recuadros a escala final (x, y, w, h)
 # con marco negro de 1 px por fuera y 1 px de separación
 HOJAS = {
-    'todo':   ((372, 270), {
+    'todo':   ((392, 282), {
         'zoom':    (1, 1, 180, 120),
         'herido':  (184, 1, 180, 120),
         'escena':  (1, 125, 100, 112),
         'espejo':  (104, 125, 100, 112),
-        'estado':  (207, 125, 80, 144),
-        'mini':    (290, 125, 32, 32),
-        'combate': (290, 160, 80, 56),
+        'estado':  (207, 125, 100, 156),
+        'mini':    (310, 125, 32, 32),
+        'combate': (310, 160, 80, 56),
     }),
     'cuerpo': ((288, 184), {
         'escena':  (1, 1, 100, 112),
         'espejo':  (104, 1, 100, 112),
-        'estado':  (207, 1, 80, 144),
         'mini':    (35, 116, 32, 32),   # centrado bajo la escena
         'combate': (104, 116, 80, 56),
     }),
+    'estado': ((102, 158), {'estado': (1, 1, 100, 156)}),
     'zoom':   ((182, 122), {'zoom':   (1, 1, 180, 120)}),
     'herido': ((182, 122), {'herido': (1, 1, 180, 120)}),
 }
@@ -93,9 +93,9 @@ def cortar(D, *salidas):
         im = Image.open(salida).convert('RGB')
         nombre = os.path.basename(salida)
         hoja = next((h for h in HOJAS if h in nombre), None)
-        if hoja is None and abs(im.width / im.height - 372 / 270) < 0.02: hoja = 'todo'
+        if hoja is None and abs(im.width / im.height - 392 / 282) < 0.02: hoja = 'todo'
         if hoja is None:   # por tamaño: 288x184 es cuerpo, 242x162 es zoom o herido según el orden
-            hoja = 'cuerpo' if abs(im.width / im.height - 288 / 184) < 0.02 else ('zoom' if not any(t[0] == 'zoom' for t in trabajos) else 'herido')
+            hoja = 'cuerpo' if abs(im.width / im.height - 288 / 184) < 0.02 else 'estado' if abs(im.width / im.height - 102 / 158) < 0.03 else ('zoom' if not any(t[0] == 'zoom' for t in trabajos) else 'herido')
         (W, H), cajas = HOJAS[hoja]
         if im.size != (W, H):
             if abs(im.width / im.height - W / H) > 0.02: sys.exit(f'NO ENTREGAR. {nombre} mide {im.size}, se esperaba {W}x{H}')
@@ -116,8 +116,8 @@ def cortar(D, *salidas):
             guardar(L, f'{k}_104x112')
         elif k == 'estado':
             if fig[:3].any() or fig[:, 0].any() or fig[:, -1].any() or fig[-1].any(): errores.append('estado: la figura toca un borde')
-            E = np.zeros((152, 88), np.uint8); E[4:148, 8:88] = idx
-            guardar(E, 'estado_88x152')
+            E = np.zeros((160, 108), np.uint8); E[2:158, 8:108] = idx
+            guardar(E, 'estado_108x160')
         elif k == 'combate':
             if fig[:, 0].any() or fig[:, -1].any() or fig[:2].any(): errores.append('combate: la figura toca un borde')
             guardar(idx, 'combate_80x56')
