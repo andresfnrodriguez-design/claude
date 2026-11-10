@@ -1,35 +1,35 @@
 #!/usr/bin/env python3
-"""Una sola imagen para PixelLab con todos los encuadres, y el corte de vuelta.
+"""Hojas para PixelLab con los encuadres marcados, y el corte de vuelta.
+PixelLab entrega como máximo 288x184, así que son 3 hojas por personaje, todas con Output Scale ÷4.
 
 Armar:  python3 hoja_pixellab.py armar carpeta_personaje
-        Lee carpeta/out/{id}_*_fuente.png (los deja procesar.py) y escribe
-        carpeta/pixellab/{id}_hoja_pixellab_2016x1312.png  -> subir a PixelLab con Output Scale ÷4
-        carpeta/pixellab/{id}_paleta_pixellab.png          -> subir en Color palette, Max colours 16
+        carpeta/pixellab/{id}_cuerpo_1152x736_sale_288x184.png   escena, espejo, estado, mini y combate
+        carpeta/pixellab/{id}_zoom_968x648_sale_242x162.png      zoom
+        carpeta/pixellab/{id}_herido_968x648_sale_242x162.png    herido
+        carpeta/pixellab/{id}_paleta_pixellab.png                para Color palette, Max colours 16
 
-Cortar: python3 hoja_pixellab.py cortar carpeta_personaje salida_pixellab.png
-        Espera la salida de 504x328, corta cada recuadro por coordenadas, pone el fondo exacto,
-        mapea a la paleta de 16 colores, agrega el contorno y escribe carpeta/pixellab/out/.
+Cortar: python3 hoja_pixellab.py cortar carpeta_personaje salida_cuerpo.png salida_zoom.png salida_herido.png
+        (en ese orden, o con cuerpo/zoom/herido en el nombre del archivo)
 
-Arriba zoom y herido de 240x160. Abajo escena 100x112, estado 80x144, mini 32x32, espejo 100x112 (panel B,
-mirando a la izquierda) y combate 80x56 (cuerpo entero de unos 33 px por estatura, mirando a la izquierda).
-Cada recuadro tiene un marco negro de 1 px (a escala final) por fuera y 5 px de fondo entre recuadros.
-El marco no es parte de la pieza, se descarta al cortar."""
+Cada recuadro tiene un marco negro de 1 px (a escala final) por fuera, que se descarta al cortar."""
 import sys, os, json, numpy as np
 from PIL import Image, ImageDraw
 from scipy import ndimage
 
 BG, OSCURO, BLANCO, NEGRO = (169, 203, 166), (40, 40, 40), (248, 248, 248), (0, 0, 0)
 S = 4  # escala de la hoja fuente respecto de la salida
-W, H = 504, 328
-# recuadros a escala final (x, y, w, h), dentro del lienzo de 504x328
-CAJAS = {
-    'zoom':   (6, 6, 240, 160),
-    'herido': (258, 6, 240, 160),
-    'escena': (6, 178, 100, 112),
-    'estado': (118, 178, 80, 144),
-    'mini':   (210, 178, 32, 32),
-    'espejo': (254, 178, 100, 112),
-    'combate': (366, 178, 80, 56),
+# PixelLab entrega como máximo 288x184, así que van 3 hojas. Recuadros a escala final (x, y, w, h)
+# con marco negro de 1 px por fuera y 1 px de separación
+HOJAS = {
+    'cuerpo': ((288, 184), {
+        'escena':  (1, 1, 100, 112),
+        'espejo':  (104, 1, 100, 112),
+        'estado':  (207, 1, 80, 144),
+        'mini':    (1, 116, 32, 32),
+        'combate': (104, 116, 80, 56),
+    }),
+    'zoom':   ((242, 162), {'zoom':   (1, 1, 240, 160)}),
+    'herido': ((242, 162), {'herido': (1, 1, 240, 160)}),
 }
 
 def fondo_exacto(im):
@@ -45,32 +45,27 @@ def fondo_exacto(im):
 def armar(D):
     cfg = json.load(open(f'{D}/config.json')); pid = cfg['id']
     os.makedirs(f'{D}/pixellab', exist_ok=True)
-    lienzo = Image.new('RGB', (W * S, H * S), BG); d = ImageDraw.Draw(lienzo)
-    for k, (x, y, w, h) in CAJAS.items():
-        f = f'{D}/out/{pid}_{k}_fuente.png'
-        if not os.path.exists(f):
-            if k == 'espejo': sys.exit('NO ENTREGAR. falta el espejo real (panel B)')
-            print('AVISO. falta', f); continue
-        src = Image.open(f).convert('RGB')
-        if k in ('zoom', 'herido'): src, _ = fondo_exacto(src)
-        lienzo.paste(src.resize((w * S, h * S), Image.LANCZOS), (x * S, y * S))
-        # marco negro de 1 px final (4 px fuente) por fuera del recuadro
-        d.rectangle([x * S - S, y * S - S, (x + w) * S + S - 1, (y + h) * S + S - 1], outline=NEGRO, width=S)
-    lienzo.save(f'{D}/pixellab/{pid}_hoja_pixellab_{W * S}x{H * S}.png')
-    # paleta: los 16 colores de procesar.py en una tira, para Color palette de PixelLab
+    if not os.path.exists(f'{D}/out/{pid}_espejo_fuente.png'): sys.exit('NO ENTREGAR. falta el espejo real (panel B)')
+    for hoja, ((W, H), cajas) in HOJAS.items():
+        lienzo = Image.new('RGB', (W * S, H * S), BG); d = ImageDraw.Draw(lienzo)
+        for k, (x, y, w, h) in cajas.items():
+            f = f'{D}/out/{pid}_{k}_fuente.png'
+            if not os.path.exists(f): print('AVISO. falta', f, '(el recuadro queda vacío)')
+            else:
+                src = Image.open(f).convert('RGB')
+                if k in ('zoom', 'herido'): src, _ = fondo_exacto(src)
+                lienzo.paste(src.resize((w * S, h * S), Image.LANCZOS), (x * S, y * S))
+            d.rectangle([x * S - S, y * S - S, (x + w) * S + S - 1, (y + h) * S + S - 1], outline=NEGRO, width=S)
+        lienzo.save(f'{D}/pixellab/{pid}_{hoja}_{W * S}x{H * S}_sale_{W}x{H}.png')
     pal = [tuple(map(int, l.split())) for l in open(f'{D}/out/{pid}.pal').read().split('\n')[3:] if l.strip()]
     tira = Image.new('RGB', (16 * 8, 8))
     for i, c in enumerate(pal): tira.paste(c, (i * 8, 0, i * 8 + 8, 8))
     tira.save(f'{D}/pixellab/{pid}_paleta_pixellab.png')
-    print('listo', f'{D}/pixellab/{pid}_hoja_pixellab_{W * S}x{H * S}.png', 'y', f'{pid}_paleta_pixellab.png')
+    print('listo, 3 hojas y la paleta en', f'{D}/pixellab/')
 
-def cortar(D, salida):
+def cortar(D, *salidas):
     cfg = json.load(open(f'{D}/config.json')); pid = cfg['id']
     out = f'{D}/pixellab/out'; os.makedirs(out, exist_ok=True)
-    im = Image.open(salida).convert('RGB')
-    if im.size != (W, H):
-        if abs(im.width / im.height - W / H) > 0.01: sys.exit(f'NO ENTREGAR. La salida mide {im.size}, se esperaba {W}x{H}')
-        im = im.resize((W, H), Image.NEAREST)
     pal = [tuple(map(int, l.split())) for l in open(f'{D}/out/{pid}.pal').read().split('\n')[3:] if l.strip()]
     from skimage.color import rgb2lab
     palab = rgb2lab(np.array(pal[1:]).reshape(-1, 1, 3) / 255.0).reshape(-1, 3)
@@ -84,7 +79,20 @@ def cortar(D, salida):
     def guardar(idx, nom):
         o = Image.fromarray(np.ascontiguousarray(idx), 'P'); o.putpalette(flat); o.save(f'{out}/{pid}_{nom}.png')
     cruz = ndimage.generate_binary_structure(2, 1)
-    for k, (x, y, w, h) in CAJAS.items():
+    trabajos = []
+    for i, salida in enumerate(salidas):
+        im = Image.open(salida).convert('RGB')
+        nombre = os.path.basename(salida)
+        hoja = next((h for h in HOJAS if h in nombre), None)
+        if hoja is None:   # por tamaño: 288x184 es cuerpo, 242x162 es zoom o herido según el orden
+            hoja = 'cuerpo' if abs(im.width / im.height - 288 / 184) < 0.02 else ('zoom' if not any(t[0] == 'zoom' for t in trabajos) else 'herido')
+        (W, H), cajas = HOJAS[hoja]
+        if im.size != (W, H):
+            if abs(im.width / im.height - W / H) > 0.02: sys.exit(f'NO ENTREGAR. {nombre} mide {im.size}, se esperaba {W}x{H}')
+            im = im.resize((W, H), Image.NEAREST)
+        trabajos.append((hoja, im, cajas))
+    for hoja, im, cajas in trabajos:
+      for k, (x, y, w, h) in cajas.items():
         if not os.path.exists(f'{D}/out/{pid}_{k}_fuente.png'): continue
         pieza, fig = fondo_exacto(im.crop((x, y, x + w, y + h)))
         idx = indexar(np.asarray(pieza).astype(int), fig)
@@ -112,4 +120,4 @@ def cortar(D, salida):
 
 if __name__ == '__main__':
     if sys.argv[1] == 'armar': armar(sys.argv[2])
-    elif sys.argv[1] == 'cortar': cortar(sys.argv[2], sys.argv[3])
+    elif sys.argv[1] == 'cortar': cortar(sys.argv[2], *sys.argv[3:])
