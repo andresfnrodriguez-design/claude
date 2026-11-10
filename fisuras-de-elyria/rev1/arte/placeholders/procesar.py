@@ -104,11 +104,19 @@ else:
     piezas['espejo_104x112'] = piezas['escena_104x112'][:, ::-1].copy()
     print('AVISO. espejo: falta raw/B.png, se usó la escena espejada')
 
-# MINI. Cara lo más grande posible, corte en los hombros, sin borde blanco
-lado = CFG['mini'][0]; my = y0 + CFG['mini'][1]
-mx = max(0, cx - lado // 2 + CFG['mini'][2])
-mcrop = A[my:my + lado, mx:mx + lado]; mmc = mA[my:my + lado, mx:mx + lado]
-t, _ = reducir(a_img(mcrop, mmc), mmc, 32, 32)
+# MINI. Cabeza entera y centrada, unos 22 px de coronilla a mentón en 32, con un poco de hombros
+cabA = CFG['cabeza_A']; lado = round(cabA * 32 / 22)
+banda = mA[y0 + int(cabA * 0.3): y0 + int(cabA * 0.75)]
+cols = np.where(banda.any(0))[0]
+hcx = int(np.where(banda)[1].mean()) if len(cols) else cx
+hcx += CFG.get('mini_dx', round(lado * 0.12))   # el busto A mira a la derecha, la cara queda corrida a ese lado
+pdm = lado
+Am = np.zeros((A.shape[0] + 2 * pdm, A.shape[1] + 2 * pdm, 3), A.dtype); Am[:] = FONDO; Am[pdm:pdm + A.shape[0], pdm:pdm + A.shape[1]] = A
+Mm = np.zeros(Am.shape[:2], bool); Mm[pdm:pdm + A.shape[0], pdm:pdm + A.shape[1]] = mA
+my = pdm + y0 - round(lado * 2 / 32); mx = pdm + hcx - lado // 2
+mcrop = Am[my:my + lado, mx:mx + lado]; mmc = Mm[my:my + lado, mx:mx + lado]
+t, mmini = reducir(a_img(mcrop, mmc), mmc, 32, 32)
+if mmini[0].any(): ERRORES.append('mini: la cabeza toca el borde de arriba')
 piezas['mini_32x32'] = t
 a_img(mcrop, mmc).save(f'{OUT}/{PID}_mini_fuente.png')
 
