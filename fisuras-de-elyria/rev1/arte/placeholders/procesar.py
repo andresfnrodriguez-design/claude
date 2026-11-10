@@ -101,8 +101,8 @@ A, mA, y0, cx = busto('A', CFG['cabeza_A'], 'escena')
 if os.path.exists(f'{RAW}/B.png'):
     busto('B', CFG.get('cabeza_B', CFG['cabeza_A']), 'espejo')
 else:
-    piezas['espejo_104x112'] = piezas['escena_104x112'][:, ::-1].copy()
-    print('AVISO. espejo: falta raw/B.png, se usó la escena espejada')
+    # nunca se entrega la escena volteada como espejo. Sin panel B no hay espejo
+    ERRORES.append('espejo: falta raw/B.png (busto redibujado mirando a la izquierda). No se voltea la escena')
 
 # MINI. Cabeza entera y centrada, unos 22 px de coronilla a mentón en 32, con un poco de hombros
 cabA = CFG['cabeza_A']; lado = round(cabA * 32 / 22)

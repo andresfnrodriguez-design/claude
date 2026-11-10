@@ -3,7 +3,7 @@
 Uso: python3 pixellab_post.py entrada.png id carpeta_salida
 Toma el busto de 100x112 que devuelve PixelLab, pone el fondo exacto #A9CBA6, reduce a 16 colores
 (fondo en el índice 0, oscuro, 13 de la figura, blanco), agrega el contorno de 1 px oscuro + 2 px blanco
-y guarda escena y espejo de 104x112 indexados, más la paleta .pal."""
+y guarda la escena de 104x112 indexada. El espejo se procesa aparte desde su propio busto, más la paleta .pal."""
 import sys, os, numpy as np
 from PIL import Image
 from scipy import ndimage
@@ -61,7 +61,8 @@ d1 = ndimage.binary_dilation(M, cruz, 1); d3 = ndimage.binary_dilation(M, cruz, 
 L[d3 & ~d1] = 15; L[d1 & ~M] = 1
 
 flat = [v for c in pal for v in c] + [0] * (768 - 48)
-for nom, arr in (('escena_104x112', L), ('espejo_104x112', L[:, ::-1])):
+# el espejo real sale de otro busto (panel B), nunca se voltea la escena. Para el espejo, correr de nuevo con el busto B e id_espejo
+for nom, arr in (('escena_104x112', L),):
     o = Image.fromarray(np.ascontiguousarray(arr), 'P'); o.putpalette(flat)
     o.save(f'{dst}/{pid}_{nom}.png')
 with open(f'{dst}/{pid}_escena.pal', 'w', newline='\r\n') as f:

@@ -48,7 +48,9 @@ def armar(D):
     lienzo = Image.new('RGB', (W * S, H * S), BG); d = ImageDraw.Draw(lienzo)
     for k, (x, y, w, h) in CAJAS.items():
         f = f'{D}/out/{pid}_{k}_fuente.png'
-        if not os.path.exists(f): print('AVISO. falta', f); continue
+        if not os.path.exists(f):
+            if k == 'espejo': sys.exit('NO ENTREGAR. falta el espejo real (panel B)')
+            print('AVISO. falta', f); continue
         src = Image.open(f).convert('RGB')
         if k in ('zoom', 'herido'): src, _ = fondo_exacto(src)
         lienzo.paste(src.resize((w * S, h * S), Image.LANCZOS), (x * S, y * S))
