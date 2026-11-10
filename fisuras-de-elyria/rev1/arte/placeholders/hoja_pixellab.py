@@ -28,6 +28,15 @@ HOJAS = {
         'mini':    (35, 116, 32, 32),   # centrado bajo la escena
         'combate': (104, 116, 80, 56),
     }),
+    'todo':   ((486, 348), {
+        'zoom':    (1, 1, 240, 160),
+        'herido':  (244, 1, 240, 160),
+        'escena':  (1, 165, 100, 112),
+        'espejo':  (104, 165, 100, 112),
+        'estado':  (207, 165, 80, 144),
+        'mini':    (35, 280, 32, 32),
+        'combate': (104, 280, 80, 56),
+    }),
     'zoom':   ((242, 162), {'zoom':   (1, 1, 240, 160)}),
     'herido': ((242, 162), {'herido': (1, 1, 240, 160)}),
 }
@@ -84,6 +93,7 @@ def cortar(D, *salidas):
         im = Image.open(salida).convert('RGB')
         nombre = os.path.basename(salida)
         hoja = next((h for h in HOJAS if h in nombre), None)
+        if hoja is None and abs(im.width / im.height - 486 / 348) < 0.02: hoja = 'todo'
         if hoja is None:   # por tamaño: 288x184 es cuerpo, 242x162 es zoom o herido según el orden
             hoja = 'cuerpo' if abs(im.width / im.height - 288 / 184) < 0.02 else ('zoom' if not any(t[0] == 'zoom' for t in trabajos) else 'herido')
         (W, H), cajas = HOJAS[hoja]
