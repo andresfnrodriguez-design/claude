@@ -106,10 +106,11 @@ else:
 
 # MINI. Cabeza entera y centrada, unos 22 px de coronilla a mentón en 32, con un poco de hombros
 cabA = CFG['cabeza_A']; lado = round(cabA * 32 / 22)
-banda = mA[y0 + int(cabA * 0.3): y0 + int(cabA * 0.75)]
-cols = np.where(banda.any(0))[0]
-hcx = int(np.where(banda)[1].mean()) if len(cols) else cx
-hcx += CFG.get('mini_dx', round(lado * 0.12))   # el busto A mira a la derecha, la cara queda corrida a ese lado
+# centro = mitad del ancho del cráneo a la altura de la frente
+cab_m = mA[y0 + int(cabA * 0.12): y0 + int(cabA * 0.35)]   # altura de la frente: ancho del cráneo, sin hombros ni carcaj
+cols = np.where(cab_m.any(0))[0]
+hcx = (cols.min() + cols.max()) // 2 if len(cols) else cx
+hcx += CFG.get('mini_dx', 0)
 pdm = lado
 Am = np.zeros((A.shape[0] + 2 * pdm, A.shape[1] + 2 * pdm, 3), A.dtype); Am[:] = FONDO; Am[pdm:pdm + A.shape[0], pdm:pdm + A.shape[1]] = A
 Mm = np.zeros(Am.shape[:2], bool); Mm[pdm:pdm + A.shape[0], pdm:pdm + A.shape[1]] = mA
