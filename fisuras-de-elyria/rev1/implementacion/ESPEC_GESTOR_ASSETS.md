@@ -117,6 +117,17 @@ Un asset con errores puede guardarse igual, pero queda en estado "pixel art" has
 - Botón para reproducir el sonido de voz.
 - Vista del retrato con fondo transparente y con el fondo verde.
 
+### Vista Game Boy
+
+Pantalla de 240x160 que muestra el arte como se vería en la GBA, siempre en escala entera (x1 a x6) y sin suavizado.
+
+- **Escenas.** Diálogo con dos retratos de escena (uno a cada lado, el de la izquierda con su espejo) y el cuadro de texto encima. Pantalla de estado con el retrato de 108x160. Ventana de unidad en el mapa con el mini retrato. Combate con dos figuras de 80x56 enfrentadas. Primer plano con el zoom y el herido. Las posiciones salen de la decompilación en `~/fireemblem8u` cuando existan, y si no se aproximan a FE8 y se anotan en `estandar.json`.
+- **Color real.** Cada canal se redondea a múltiplos de 8 (color de 15 bits) y #A9CBA6 se vuelve transparente.
+- **Tipo de pantalla.** Interruptor entre GBA original (colores más apagados y oscuros) y GBA SP o emulador (colores directos).
+- **Rejilla de píxeles** opcional, para ver cada píxel de la GBA.
+- Selector de personaje y de versión, para comparar dos personajes lado a lado en la misma escena.
+- Botón para guardar una captura en PNG.
+
 ## Conversiones
 
 Herramientas para preparar el arte desde el generador de imágenes.
